@@ -77,8 +77,8 @@ const icons = {
 const NAV_ITEMS = [
   { to: '/',             icon: icons.home,      label: 'Home',                  end: true },
   { to: '/about',        icon: icons.user,      label: 'About Me' },
-  { to: '/coa-learning', icon: icons.book,      label: 'COA Learning' },
-  { to: '/assignment-1', icon: icons.clipboard, label: 'Assignment 1' },
+  { to: '/coa',          icon: icons.book,      label: 'COA Learning' },
+  { to: '/assignment',   icon: icons.clipboard, label: 'Assignment 1' },
   { to: '/gallery',      icon: icons.trophy,    label: 'Gallery & Achievements' },
   { to: '/github',       icon: icons.github,    label: 'GitHub' },
 ];
@@ -125,8 +125,15 @@ export default function FloatingNav() {
     return () => document.removeEventListener('keydown', handleKey);
   }, []);
 
-  // Check if COA-related path is active (for highlighting the book icon)
-  const isCoaPath = location.pathname.startsWith('/coa-learning');
+  // Check if COA-related or Assignment-related paths are active
+  const isCoaPath = location.pathname.startsWith('/coa');
+  const isAssignmentPath = location.pathname.startsWith('/assignment');
+
+  const checkIsActive = (to, isActive) => {
+    if (to === '/coa') return isCoaPath;
+    if (to === '/assignment') return isAssignmentPath;
+    return isActive;
+  };
 
   return (
     <nav
@@ -144,7 +151,7 @@ export default function FloatingNav() {
               role="menuitem"
               aria-label={item.label}
               className={({ isActive }) => {
-                const active = item.to === '/coa-learning' ? isCoaPath : isActive;
+                const active = checkIsActive(item.to, isActive);
                 return `floating-nav-link ${active ? 'active' : ''}`;
               }}
             >
@@ -242,7 +249,7 @@ export default function FloatingNav() {
                 end={item.end || false}
                 role="menuitem"
                 className={({ isActive }) => {
-                  const active = item.to === '/coa-learning' ? isCoaPath : isActive;
+                  const active = checkIsActive(item.to, isActive);
                   return `floating-nav-mobile-link ${active ? 'active' : ''}`;
                 }}
               >

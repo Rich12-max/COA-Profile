@@ -27,15 +27,24 @@ export default function App() {
           <Route path="/about" element={<AboutMePage />} />
           
           {/* COA Learning Routes */}
+          <Route path="/coa" element={<CoaLearningPage />} />
           <Route path="/coa-learning" element={<CoaLearningPage />} />
+          <Route path="/coa/number-system" element={<NumberConverterPage />} />
+          <Route path="/coa/number-converter" element={<NumberConverterPage />} />
           <Route path="/coa-learning/number-converter" element={<NumberConverterPage />} />
+          <Route path="/coa/set-associative" element={<SetAssociativePage />} />
           <Route path="/coa-learning/set-associative" element={<SetAssociativePage />} />
+          <Route path="/coa/set-associative/0-way" element={<ZeroWaySetPage />} />
           <Route path="/coa-learning/set-associative/0-way" element={<ZeroWaySetPage />} />
+          <Route path="/coa/set-associative/1-way" element={<OneWaySetPage />} />
           <Route path="/coa-learning/set-associative/1-way" element={<OneWaySetPage />} />
+          <Route path="/coa/set-associative/2-way" element={<TwoWaySetPage />} />
           <Route path="/coa-learning/set-associative/2-way" element={<TwoWaySetPage />} />
+          <Route path="/coa/set-associative/3-way" element={<ThreeWaySetPage />} />
           <Route path="/coa-learning/set-associative/3-way" element={<ThreeWaySetPage />} />
 
           {/* Academic & Portfolio Routes */}
+          <Route path="/assignment" element={<Assignment1Page />} />
           <Route path="/assignment-1" element={<Assignment1Page />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/github" element={<GitHubProjectsPage />} />
