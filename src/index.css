@@ -2868,48 +2868,58 @@ p {
 }
 
 /* ==========================================================================
-   About Me Page - Editorial Portfolio & Identity Design System
-   Minimal editorial portfolio + soft technology aesthetic
+   About Me Page - Soft Editorial × Modern Technology × Personal Scrapbook
+   Artistic, Calm, Sophisticated, Highly Memorable
    ========================================================================== */
 
 .about-page-wrapper {
-  max-width: 1100px;
+  max-width: 1040px;
   margin: 0 auto;
   position: relative;
+  padding: 0 var(--space-md);
 }
 
-/* ── Ambient Soft Background Blur Shapes ────────────────────────────── */
+/* ── Subtle Background Ambient Texture & Blooms ───────────────────────── */
 .about-ambient-glow {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(90px);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.45;
+  opacity: 0.55;
 }
 
 .about-glow-1 {
-  top: -40px;
-  right: 5%;
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(circle, var(--accent-lavender-light), transparent 70%);
+  top: -50px;
+  right: 2%;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(196, 181, 253, 0.22), transparent 70%); /* subtle lavender */
 }
 
 .about-glow-2 {
-  top: 300px;
-  left: -40px;
-  width: 280px;
-  height: 280px;
-  background: radial-gradient(circle, var(--accent-sage-light), transparent 70%);
+  top: 400px;
+  left: -60px;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, rgba(167, 243, 208, 0.20), transparent 70%); /* soft sage */
 }
 
-/* ── Hero Section (Two-Column Side-by-Side) ─────────────────────────── */
+.about-glow-3 {
+  top: 1100px;
+  right: -50px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(254, 205, 211, 0.20), transparent 70%); /* dusty blush */
+}
+
+/* ── 1. Hero / Intro ─────────────────────────────────────────────────── */
 .about-hero-section {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   gap: var(--space-3xl);
   align-items: center;
+  margin-top: var(--space-md);
   margin-bottom: var(--space-3xl);
   position: relative;
   z-index: 1;
@@ -2920,61 +2930,61 @@ p {
   flex-direction: column;
 }
 
-.about-hero-tag {
+.about-hero-label {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--primary);
   margin-bottom: var(--space-md);
   font-weight: 600;
 }
 
-.about-hero-tag-dot {
-  width: 6px;
-  height: 6px;
+.about-hero-label-dot {
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background-color: var(--primary);
 }
 
 .about-hero-title {
   font-family: var(--font-serif);
-  font-size: clamp(2.6rem, 5vw, 3.8rem);
+  font-size: clamp(2.8rem, 5.5vw, 4.2rem);
   font-weight: 500;
-  line-height: 1.1;
+  line-height: 1.08;
   color: var(--text-main);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   margin-bottom: var(--space-md);
 }
 
 .about-hero-subtitle {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   line-height: 1.5;
   color: var(--text-main);
   font-weight: 500;
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
   max-width: 540px;
 }
 
 .about-hero-bio {
   font-size: 0.95rem;
-  line-height: 1.7;
+  line-height: 1.75;
   color: var(--text-muted);
-  max-width: 520px;
+  max-width: 500px;
   margin-bottom: var(--space-xl);
 }
 
-.about-hero-actions {
+.about-hero-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-md);
   align-items: center;
 }
 
-/* ── Right Column: Centerpiece Layered Photo Frame ─────────────────── */
+/* ── 2. Layered Artistic Photo Frame ─────────────────────────────────── */
 .about-photo-centerpiece {
   display: flex;
   justify-content: center;
@@ -2985,22 +2995,27 @@ p {
 .about-photo-stage {
   position: relative;
   width: 100%;
-  max-width: 320px;
+  max-width: 310px;
   margin: 0 auto;
 }
 
-/* Layer 1: Back abstract offset rounded shape */
-.about-photo-back-shape {
+/* Abstract back offset shape */
+.about-photo-back-offset {
   position: absolute;
-  inset: -14px -14px 14px 14px;
+  inset: -12px -12px 12px 12px;
   border-radius: 28px;
-  background: linear-gradient(135deg, var(--bg-subtle) 0%, rgba(239, 246, 255, 0.6) 100%);
+  background: linear-gradient(135deg, var(--bg-subtle) 0%, rgba(243, 232, 255, 0.5) 100%);
   border: 1px dashed var(--border-color);
   z-index: 1;
   pointer-events: none;
+  transition: transform 0.4s ease;
 }
 
-/* Layer 2: Middle decorative border frame */
+.about-photo-stage:hover .about-photo-back-offset {
+  transform: translate(-3px, 3px);
+}
+
+/* Main frame */
 .about-photo-frame {
   position: relative;
   z-index: 2;
@@ -3008,7 +3023,7 @@ p {
   overflow: hidden;
   background-color: var(--bg-surface);
   border: 1.5px solid var(--border-color);
-  box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.1), 0 4px 12px -2px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.1), 0 2px 8px -2px rgba(15, 23, 42, 0.05);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
   aspect-ratio: 4 / 5;
 }
@@ -3025,151 +3040,115 @@ p {
   object-fit: cover;
   object-position: center 15%;
   display: block;
+  transition: transform 0.5s ease;
 }
 
-/* Layer 3: Floating labels & subtle technological accents */
-.about-float-chip {
+.about-photo-frame:hover .about-photo-img {
+  transform: scale(1.02);
+}
+
+/* Floating Badges & Scrapbook annotations */
+.about-scrap-chip {
   position: absolute;
   z-index: 3;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border-color);
   border-radius: 9999px;
-  padding: 5px 12px;
+  padding: 4px 12px;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   color: var(--text-main);
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
   pointer-events: none;
-  animation: gentleFloat 5s ease-in-out infinite alternate;
+  transition: transform 0.3s ease;
 }
 
-[data-theme="dark"] .about-float-chip,
-[data-theme="monokai"] .about-float-chip,
-[data-theme="tokyo"] .about-float-chip,
-[data-theme="cyberpunk"] .about-float-chip {
-  background: rgba(15, 23, 42, 0.85);
+[data-theme="dark"] .about-scrap-chip,
+[data-theme="monokai"] .about-scrap-chip,
+[data-theme="tokyo"] .about-scrap-chip,
+[data-theme="cyberpunk"] .about-scrap-chip {
+  background: rgba(15, 23, 42, 0.88);
   border-color: rgba(255, 255, 255, 0.15);
   color: #ffffff;
 }
 
-.about-chip-top-left {
+.about-scrap-chip-tl {
   top: -12px;
-  left: -14px;
-  animation-delay: 0s;
+  left: -12px;
 }
 
-.about-chip-bottom-right {
-  bottom: -10px;
-  right: -12px;
-  animation-delay: 1.5s;
-}
-
-.about-chip-side {
-  bottom: 38%;
+.about-scrap-chip-tr {
+  top: 18px;
   right: -24px;
-  animation-delay: 0.8s;
 }
 
-.about-sparkle-icon {
+.about-scrap-chip-br {
+  bottom: -10px;
+  right: -10px;
+}
+
+.about-status-learning {
+  position: absolute;
+  bottom: 35%;
+  left: -20px;
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  border-radius: 9999px;
+  padding: 4px 11px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-main);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="dark"] .about-status-learning,
+[data-theme="monokai"] .about-status-learning,
+[data-theme="tokyo"] .about-status-learning,
+[data-theme="cyberpunk"] .about-status-learning {
+  background: rgba(15, 23, 42, 0.88);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.about-learning-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-sage);
+  box-shadow: 0 0 6px var(--accent-sage);
+}
+
+.about-scrap-sparkle {
   position: absolute;
   z-index: 3;
   color: var(--accent-lavender);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   pointer-events: none;
-  animation: gentlePulse 3.5s ease-in-out infinite;
 }
 
-.about-sparkle-1 {
-  top: 15px;
-  right: -18px;
-}
-
-.about-sparkle-2 {
-  bottom: 20px;
-  left: -20px;
-  color: var(--accent-sage);
-  animation-delay: 1.2s;
-}
-
-.about-binary-accent {
+.about-scrap-binary {
   position: absolute;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.6875rem;
   color: var(--text-light);
   letter-spacing: 0.08em;
-  opacity: 0.6;
+  opacity: 0.65;
   z-index: 3;
   pointer-events: none;
 }
 
-.about-binary-1 {
-  top: 40px;
-  left: -28px;
-}
-
-.about-binary-2 {
-  bottom: 60px;
-  right: -30px;
-}
-
-@keyframes gentleFloat {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-5px); }
-}
-
-@keyframes gentlePulse {
-  0%, 100% { opacity: 0.4; transform: scale(0.95); }
-  50% { opacity: 1; transform: scale(1.08); }
-}
-
-/* ── 4. Horizontal Personal Identity Strip ──────────────────────────── */
-.about-identity-strip {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-md);
-  padding: 1rem 1.75rem;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xs);
-  margin-bottom: var(--space-3xl);
-  font-size: 0.85rem;
-  position: relative;
-  z-index: 1;
-}
-
-.about-identity-col {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.about-identity-col .identity-label {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-light);
-}
-
-.about-identity-col .identity-val {
-  font-weight: 600;
-  color: var(--text-main);
-}
-
-.about-identity-divider {
-  width: 1px;
-  height: 24px;
-  background-color: var(--border-color);
-}
-
-/* ── 5. "A Little About Me" Section ─────────────────────────────────── */
-.about-quote-container {
+/* ── 3. "A Little About Me" Section ─────────────────────────────────── */
+.about-editorial-quote-box {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
@@ -3180,132 +3159,178 @@ p {
   z-index: 1;
 }
 
-.about-quote-watermark {
-  position: absolute;
-  right: 2rem;
-  top: 0.5rem;
-  font-family: var(--font-serif);
-  font-size: 8rem;
-  color: var(--text-light);
-  opacity: 0.08;
-  line-height: 1;
-  pointer-events: none;
-  user-select: none;
-}
-
-.about-quote-header-tag {
+.about-editorial-label {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-light);
   margin-bottom: var(--space-sm);
 }
 
-.about-quote-heading {
+.about-editorial-large-quote {
   font-family: var(--font-serif);
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-size: clamp(1.8rem, 3.6vw, 2.5rem);
   font-style: italic;
   font-weight: 500;
   color: var(--text-main);
-  margin-bottom: var(--space-sm);
-  line-height: 1.3;
+  line-height: 1.25;
+  margin-bottom: var(--space-md);
 }
 
-.about-quote-body {
+.about-editorial-body {
   font-size: 1rem;
-  line-height: 1.7;
+  line-height: 1.8;
   color: var(--text-muted);
-  max-width: 720px;
-  margin: 0;
+  max-width: 760px;
+  margin-bottom: var(--space-lg);
 }
 
-/* ── Section Header (Editorial) ─────────────────────────────────────── */
-.about-section-header {
-  margin-bottom: var(--space-xl);
-  position: relative;
-  z-index: 1;
-}
-
-.about-section-label {
+.about-editorial-handwriting {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
   color: var(--primary);
-  margin-bottom: 0.25rem;
-  display: block;
-  font-weight: 600;
+  opacity: 0.85;
 }
 
-.about-section-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-main);
-  letter-spacing: -0.015em;
-  margin: 0;
-}
-
-/* ── 6. "What I Like Building" 2x2 Layout ───────────────────────────── */
-.about-building-grid {
+/* ── 4. Asymmetric Scrapbook Identity Cards ─────────────────────────── */
+.about-scrapbook-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-md);
   margin-bottom: var(--space-3xl);
   position: relative;
   z-index: 1;
 }
 
-.about-building-card {
+.about-scrap-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1.3rem 1.5rem;
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.about-building-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--primary-border);
-  box-shadow: var(--shadow-sm);
-}
-
-.about-building-top {
+  padding: 1.4rem 1.25rem;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-sm);
+  flex-direction: column;
 }
 
-.about-building-num {
+/* Subtle asymmetric rotation for the personal scrapbook look */
+.about-scrap-card-1 { transform: rotate(-1.2deg); }
+.about-scrap-card-2 { transform: rotate(0.9deg) translateY(4px); }
+.about-scrap-card-3 { transform: rotate(-0.8deg); }
+.about-scrap-card-4 { transform: rotate(1.1deg) translateY(2px); }
+
+.about-scrap-card:hover {
+  transform: rotate(0deg) translateY(-4px) !important;
+  border-color: var(--primary-border);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.about-scrap-tag {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--text-light);
-  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
 }
 
-.about-building-icon {
-  font-size: 1.25rem;
-}
-
-.about-building-name {
-  font-size: 1.05rem;
+.about-scrap-lead {
+  font-size: 0.8125rem;
   font-weight: 700;
-  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary);
   margin-bottom: 0.35rem;
 }
 
-.about-building-desc {
-  font-size: 0.875rem;
-  line-height: 1.55;
-  color: var(--text-muted);
+.about-scrap-content {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--text-main);
   margin: 0;
 }
 
-/* ── 7. Technical Skills Toolbox ────────────────────────────────────── */
-.about-toolbox-container {
+/* ── 5. "What I Like Building" Vertical List ────────────────────────── */
+.about-section-container {
+  margin-bottom: var(--space-3xl);
+  position: relative;
+  z-index: 1;
+}
+
+.about-section-heading-clean {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: var(--space-md);
+  font-weight: 600;
+}
+
+.about-building-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border-color);
+}
+
+.about-building-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  text-decoration: none;
+  color: var(--text-main);
+  transition: background-color 0.2s ease, padding-left 0.2s ease, border-color 0.2s ease;
+  border-radius: var(--radius-sm);
+}
+
+.about-building-item:hover {
+  background-color: var(--bg-subtle);
+  padding-left: 1.25rem;
+  padding-right: 0.5rem;
+}
+
+.about-building-left-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.about-building-index {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-light);
+  letter-spacing: 0.05em;
+  transition: color 0.2s ease;
+}
+
+.about-building-item:hover .about-building-index {
+  color: var(--primary);
+}
+
+.about-building-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.about-building-arrow {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.about-building-item:hover .about-building-arrow {
+  color: var(--primary);
+  transform: translate(3px, -3px);
+}
+
+/* ── 6. My Toolbox (Subtle & Premium) ───────────────────────────────── */
+.about-toolbox-panel {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
@@ -3315,39 +3340,39 @@ p {
   z-index: 1;
 }
 
-.about-toolbox-grid {
+.about-toolbox-categories {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: var(--space-lg);
 }
 
-.about-toolbox-category {
+.about-toolbox-category-col {
   display: flex;
   flex-direction: column;
 }
 
-.about-toolbox-cat-name {
+.about-toolbox-header {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  text-transform: uppercase;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--text-light);
   font-weight: 700;
-  margin-bottom: 0.55rem;
+  margin-bottom: 0.6rem;
 }
 
-.about-toolbox-pills {
+.about-toolbox-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
 
-.about-tool-pill {
+.about-minimal-pill {
   display: inline-flex;
   align-items: center;
   font-size: 0.8125rem;
   font-weight: 500;
-  padding: 0.35rem 0.75rem;
+  padding: 0.35rem 0.8rem;
   border-radius: 9999px;
   background-color: var(--bg-subtle);
   border: 1px solid var(--border-color);
@@ -3355,61 +3380,66 @@ p {
   transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.about-tool-pill:hover {
+.about-minimal-pill:hover {
   transform: translateY(-2px);
   border-color: var(--primary);
-  background-color: var(--primary-light);
+  background-color: var(--bg-surface);
   color: var(--primary);
 }
 
-/* ── 8. Currently Exploring Flow ────────────────────────────────────── */
-.about-exploring-container {
-  background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-subtle) 100%);
+/* ── 7. "Currently Exploring" Horizontal Flow ───────────────────────── */
+.about-exploring-banner {
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-xl);
+  padding: 1.4rem 1.8rem;
   margin-bottom: var(--space-3xl);
   position: relative;
   z-index: 1;
 }
 
-.about-exploring-flow {
+.about-exploring-lead {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--text-main);
+  margin-bottom: 0.85rem;
+}
+
+.about-exploring-chips-wrap {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.6rem;
-  margin-top: 0.75rem;
+  gap: 0.65rem;
 }
 
-.about-exploring-node {
+.about-exploring-chip {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--text-main);
-  padding: 0.35rem 0.8rem;
-  background: var(--bg-surface);
+  padding: 0.4rem 0.95rem;
+  background: var(--bg-subtle);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-xs);
+  border-radius: var(--radius-md);
+  transition: transform 0.2s ease;
 }
 
-.about-exploring-connector {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  color: var(--primary);
-  opacity: 0.7;
+.about-exploring-chip:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
 }
 
-.about-pulse-dot {
+.about-chip-connector-dot {
   width: 4px;
   height: 4px;
   border-radius: 50%;
   background-color: var(--primary);
-  animation: gentlePulse 2s infinite ease-in-out;
+  opacity: 0.6;
 }
 
-/* ── 9 & 10. Education & Developer Journey ─────────────────────────── */
-.about-timelines-grid {
+/* ── 8 & 9. Education & Journey Timelines ───────────────────────────── */
+.about-dual-timelines {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-xl);
@@ -3418,20 +3448,20 @@ p {
   z-index: 1;
 }
 
-.about-timeline-card {
+.about-timeline-card-box {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
   padding: var(--space-xl);
 }
 
-.about-timeline-track {
+.about-vertical-track {
   position: relative;
-  padding-left: 1.5rem;
-  margin-top: var(--space-md);
+  padding-left: 1.6rem;
+  margin-top: var(--space-lg);
 }
 
-.about-timeline-track::before {
+.about-vertical-track::before {
   content: '';
   position: absolute;
   left: 6px;
@@ -3441,18 +3471,18 @@ p {
   background-color: var(--border-color);
 }
 
-.about-timeline-entry {
+.about-track-node {
   position: relative;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.6rem;
 }
 
-.about-timeline-entry:last-child {
+.about-track-node:last-child {
   margin-bottom: 0;
 }
 
-.about-timeline-dot {
+.about-track-dot {
   position: absolute;
-  left: -1.5rem;
+  left: -1.6rem;
   top: 4px;
   width: 13px;
   height: 13px;
@@ -3462,141 +3492,290 @@ p {
   box-shadow: 0 0 0 2px var(--bg-surface);
 }
 
-.about-timeline-date {
+.about-track-year {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
   color: var(--primary);
   letter-spacing: 0.05em;
   margin-bottom: 2px;
 }
 
-.about-timeline-title {
-  font-size: 0.9375rem;
+.about-track-title {
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--text-main);
-  line-height: 1.35;
-}
-
-.about-timeline-subtitle {
-  font-size: 0.8125rem;
-  color: var(--text-muted);
-  margin-top: 2px;
   line-height: 1.4;
 }
 
-.about-timeline-meta {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-light);
-  margin-top: 4px;
+.about-track-sub {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+  line-height: 1.45;
 }
 
-/* ── 11, 12, 13. Spotlight, Milestones & Beyond Code ───────────────── */
-.about-spotlight-section {
-  background-color: var(--bg-surface);
+/* ── 10. Achievement Spotlight ───────────────────────────────────────── */
+.about-achievement-spotlight {
+  background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(254, 243, 199, 0.35) 100%);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
-  padding: var(--space-xl);
+  padding: var(--space-2xl);
   margin-bottom: var(--space-3xl);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.about-spotlight-watermark {
+  position: absolute;
+  right: 2rem;
+  bottom: -0.5rem;
+  font-family: var(--font-mono);
+  font-size: 7.5rem;
+  font-weight: 800;
+  color: var(--text-light);
+  opacity: 0.06;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.about-spotlight-header-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-amber);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.about-spotlight-title-row {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.about-spotlight-institution {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+  font-weight: 500;
+}
+
+.about-spotlight-caption {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  font-style: italic;
+  max-width: 600px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── 11. Certifications (Learning Milestones) ────────────────────────── */
+.about-milestones-section {
+  margin-bottom: var(--space-3xl);
   position: relative;
   z-index: 1;
 }
 
-.about-highlight-box {
-  background: linear-gradient(135deg, var(--bg-subtle) 0%, rgba(254, 243, 199, 0.4) 100%);
-  border: 1px solid var(--border-color);
-  border-left: 3px solid var(--accent-amber);
-  border-radius: var(--radius-md);
-  padding: 1rem 1.25rem;
-}
-
-.about-milestones-row {
+.about-cert-cards-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--space-md);
 }
 
-.about-milestone-pill {
-  background-color: var(--bg-subtle);
+.about-cert-card {
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 0.85rem 1rem;
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.4rem;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-.about-milestone-pill:hover {
+.about-cert-card:hover {
   transform: translateY(-2px);
   border-color: var(--primary-border);
 }
 
-.about-beyond-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.about-beyond-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+.about-cert-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
   background-color: var(--bg-subtle);
   border: 1px solid var(--border-color);
-  border-radius: 9999px;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.about-cert-code {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.about-cert-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
   color: var(--text-main);
-  transition: transform 0.2s ease;
+  margin-top: 1px;
 }
 
-.about-beyond-tag:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent-lavender);
-}
-
-/* ── 14 & 15. Connect & Ending Statement ───────────────────────────── */
-.about-ending-container {
-  text-align: center;
-  padding: var(--space-3xl) var(--space-xl);
-  background: linear-gradient(180deg, transparent 0%, var(--bg-subtle) 100%);
+/* ── 12. Beyond Code (Organic Editorial Words) ───────────────────────── */
+.about-beyond-panel {
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-2xl);
-  margin-bottom: var(--space-xl);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  margin-bottom: var(--space-3xl);
   position: relative;
   z-index: 1;
 }
 
-.about-ending-statement {
+.about-beyond-words-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.about-beyond-word-item {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease;
+}
+
+.about-beyond-word-item:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-lavender);
+}
+
+.about-beyond-primary-word {
   font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.25rem;
+}
+
+.about-beyond-desc-editorial {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* ── 13. Personal Web Presence ───────────────────────────────────────── */
+.about-web-presence-section {
+  margin-bottom: var(--space-3xl);
+  position: relative;
+  z-index: 1;
+}
+
+.about-web-presence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.about-web-presence-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: var(--text-main);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.about-web-presence-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+
+.about-web-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.about-web-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--bg-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+}
+
+.about-web-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.about-web-handle {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-light);
+  margin-top: 1px;
+}
+
+/* ── 14. Beautiful Ending Statement ──────────────────────────────────── */
+.about-ending-artistic-box {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-xl);
+  margin-bottom: var(--space-2xl);
+  position: relative;
+  z-index: 1;
+}
+
+.about-ending-three-lines {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 4vw, 2.75rem);
   font-weight: 500;
   font-style: italic;
   color: var(--text-main);
-  margin-bottom: 0.5rem;
+  line-height: 1.35;
+  margin-bottom: var(--space-md);
 }
 
-.about-ending-sub {
+.about-ending-substatement {
   font-size: 1.05rem;
   color: var(--text-muted);
   margin-bottom: var(--space-xl);
 }
 
-.about-connect-buttons {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: var(--space-md);
-  margin-bottom: var(--space-xl);
-}
-
-/* ── Responsive Rules for Editorial About Me ───────────────────────── */
+/* ── 15 & 16. Scroll Reveal & Responsive Media Queries ───────────────── */
 @media (max-width: 900px) {
   .about-hero-section {
     grid-template-columns: 1fr;
@@ -3608,43 +3787,59 @@ p {
     align-items: center;
   }
 
-  .about-hero-actions {
+  .about-hero-buttons {
     justify-content: center;
   }
 
-  .about-building-grid {
+  .about-scrapbook-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-dual-timelines {
     grid-template-columns: 1fr;
   }
 
-  .about-timelines-grid {
+  .about-beyond-words-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-web-presence-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 640px) {
   .about-hero-title {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
   }
 
   .about-photo-stage {
     max-width: 250px;
   }
 
-  .about-identity-strip {
-    flex-direction: column;
-    align-items: flex-start;
+  .about-scrapbook-grid {
+    grid-template-columns: 1fr;
   }
 
-  .about-identity-divider {
-    display: none;
+  .about-scrap-card-1,
+  .about-scrap-card-2,
+  .about-scrap-card-3,
+  .about-scrap-card-4 {
+    transform: none !important;
+  }
+
+  .about-beyond-words-grid {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .about-float-chip,
-  .about-sparkle-icon,
-  .about-pulse-dot {
-    animation: none !important;
+  .about-scrap-card,
+  .about-photo-back-offset,
+  .about-minimal-pill,
+  .about-exploring-chip {
+    transition: none !important;
+    transform: none !important;
   }
 }
 
