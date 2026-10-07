@@ -3843,5 +3843,768 @@ p {
   }
 }
 
+/* ==========================================================================
+   COA Learning Laboratory - Interactive Architecture Styles
+   Editorial technology laboratory × soft academic interface
+   ========================================================================== */
+
+.coa-hub-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ── Hero & Stylized Architecture Diagram ────────────────────────────── */
+.coa-hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: var(--space-2xl);
+  align-items: center;
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.coa-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+}
+
+.coa-hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 4.5vw, 3.6rem);
+  font-weight: 500;
+  line-height: 1.12;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-md);
+}
+
+.coa-hero-subheading {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 540px;
+  margin-bottom: var(--space-xl);
+}
+
+.coa-hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+/* Stylized Architecture Diagram */
+.coa-arch-visual-stage {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 16px 36px -12px rgba(15, 23, 42, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.coa-arch-diagram-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.coa-block-cpu,
+.coa-block-mem,
+.coa-block-storage {
+  width: 100%;
+  max-width: 250px;
+  background-color: var(--bg-subtle);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  text-align: center;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.coa-block-cpu:hover,
+.coa-block-mem:hover,
+.coa-block-storage:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+
+.coa-block-cpu {
+  border-color: rgba(37, 99, 235, 0.35);
+  background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(239, 246, 255, 0.5) 100%);
+}
+
+.coa-block-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.04em;
+}
+
+.coa-block-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.coa-bus-line-vertical {
+  width: 2px;
+  height: 24px;
+  background-color: var(--border-color);
+  position: relative;
+}
+
+.coa-bus-data-pulse {
+  position: absolute;
+  top: 0;
+  left: -2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  box-shadow: 0 0 6px var(--primary);
+  animation: dataBusMove 2.2s infinite ease-in-out;
+}
+
+@keyframes dataBusMove {
+  0% { top: 0; opacity: 0; }
+  25% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { top: 18px; opacity: 0; }
+}
+
+/* ── Sticky Sub-Navigation Bar ───────────────────────────────────────── */
+.coa-category-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  margin-bottom: var(--space-2xl);
+  position: sticky;
+  top: 1rem;
+  z-index: 10;
+}
+
+[data-theme="dark"] .coa-category-bar,
+[data-theme="monokai"] .coa-category-bar,
+[data-theme="tokyo"] .coa-category-bar,
+[data-theme="cyberpunk"] .coa-category-bar {
+  background: rgba(15, 23, 42, 0.88);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.coa-nav-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-light);
+  padding: 0 0.5rem;
+}
+
+.coa-nav-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.coa-nav-btn:hover {
+  color: var(--text-main);
+  background-color: var(--bg-subtle);
+  border-color: var(--border-color);
+}
+
+.coa-nav-btn.active {
+  background-color: var(--primary-light);
+  border-color: var(--primary-border);
+  color: var(--primary);
+}
+
+/* ── Four Visual Cards: Explore the Architecture ────────────────────── */
+.coa-arch-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+  margin-bottom: var(--space-3xl);
+}
+
+.coa-arch-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.coa-arch-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary-border);
+  box-shadow: 0 12px 28px -8px rgba(15, 23, 42, 0.08);
+}
+
+.coa-arch-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xs);
+}
+
+.coa-arch-card-badge {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--primary);
+  background-color: var(--primary-light);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.coa-arch-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.4rem;
+}
+
+.coa-arch-card-desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: var(--space-md);
+}
+
+.coa-arch-visual-box {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  margin-bottom: var(--space-lg);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+/* ── Interactive Number System Lab Panel ────────────────────────────── */
+.coa-converter-lab-panel {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  margin-bottom: var(--space-3xl);
+}
+
+.coa-lab-header {
+  margin-bottom: var(--space-xl);
+}
+
+.coa-lab-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.coa-lab-heading {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.015em;
+  margin-bottom: 0.35rem;
+}
+
+.coa-lab-desc {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+}
+
+.coa-base-tab-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: var(--space-md);
+}
+
+.coa-base-tab-btn {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.coa-base-tab-btn.selected {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+.coa-result-billboard {
+  background: linear-gradient(135deg, var(--bg-subtle) 0%, rgba(239, 246, 255, 0.4) 100%);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  margin-top: var(--space-lg);
+}
+
+.coa-result-num {
+  font-family: var(--font-mono);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  color: var(--primary);
+  word-break: break-all;
+  letter-spacing: 0.02em;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.coa-step-box {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-top: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--text-main);
+}
+
+/* ── Interactive Cache Mapping Lab Panel ────────────────────────────── */
+.coa-cache-lab-panel {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  margin-bottom: var(--space-3xl);
+}
+
+.coa-cache-ways-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: var(--space-lg);
+}
+
+.coa-cache-way-btn {
+  flex: 1;
+  min-width: 140px;
+  background-color: var(--bg-subtle);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.coa-cache-way-btn.active {
+  background-color: var(--bg-surface);
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+}
+
+.coa-way-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+
+.coa-way-sub {
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+
+/* Address Breakdown Segmented Bar */
+.coa-breakdown-bar {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr;
+  gap: 3px;
+  background-color: var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.coa-breakdown-segment {
+  background-color: var(--bg-surface);
+  padding: 0.85rem 1rem;
+  text-align: center;
+}
+
+.coa-segment-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+  margin-bottom: 2px;
+}
+
+.coa-segment-val {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* Cache Set vs Memory Visual Diagram */
+.coa-cache-visual-arena {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.coa-arena-col-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: var(--space-sm);
+}
+
+.coa-arena-block-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.coa-arena-block-row {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.coa-arena-block-row.highlighted {
+  border-color: var(--primary);
+  background-color: var(--primary-light);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* ── Concept Notes (Expandable Accordion) ────────────────────────────── */
+.coa-concepts-container {
+  margin-bottom: var(--space-3xl);
+}
+
+.coa-accordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.coa-accordion-item {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.coa-accordion-item.open {
+  border-color: var(--primary-border);
+}
+
+.coa-accordion-trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  text-align: left;
+  cursor: pointer;
+}
+
+.coa-accordion-content {
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+/* ── Cache Hit vs Miss Visual ────────────────────────────────────────── */
+.coa-hit-miss-panel {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  margin-bottom: var(--space-3xl);
+}
+
+.coa-hit-miss-switch {
+  display: inline-flex;
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 9999px;
+  padding: 3px;
+  margin-bottom: var(--space-lg);
+}
+
+.coa-hit-miss-btn {
+  background: transparent;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.4rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-muted);
+}
+
+.coa-hit-miss-btn.active.hit {
+  background-color: var(--accent-sage);
+  color: #ffffff;
+}
+
+.coa-hit-miss-btn.active.miss {
+  background-color: var(--accent-amber);
+  color: #ffffff;
+}
+
+/* ── Memory Hierarchy Tier Pyramid ───────────────────────────────────── */
+.coa-hierarchy-panel {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  margin-bottom: var(--space-3xl);
+}
+
+.coa-hierarchy-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-2xl);
+  align-items: center;
+}
+
+.coa-pyramid-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.coa-tier-bar {
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.25rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease;
+}
+
+.coa-tier-bar:hover {
+  transform: scale(1.02);
+}
+
+.coa-tier-registers {
+  width: 45%;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(37, 99, 235, 0.05));
+  border-color: rgba(37, 99, 235, 0.4);
+}
+
+.coa-tier-cache {
+  width: 65%;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.coa-tier-ram {
+  width: 85%;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.coa-tier-storage {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
+/* ── Quick Knowledge Check Quiz ──────────────────────────────────────── */
+.coa-quiz-panel {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  margin-bottom: var(--space-3xl);
+}
+
+.coa-quiz-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.coa-quiz-option-btn {
+  background-color: var(--bg-subtle);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.coa-quiz-option-btn:hover {
+  border-color: var(--primary);
+  background-color: var(--bg-surface);
+}
+
+.coa-quiz-option-btn.correct {
+  border-color: var(--accent-sage);
+  background-color: var(--accent-sage-light);
+  color: var(--accent-sage);
+}
+
+.coa-quiz-option-btn.wrong {
+  border-color: var(--accent-red);
+  background-color: var(--accent-red-light);
+  color: var(--accent-red);
+}
+
+/* ── Footer Call to Action ───────────────────────────────────────────── */
+.coa-footer-cta {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-xl);
+  background: linear-gradient(180deg, transparent 0%, var(--bg-subtle) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-2xl);
+  margin-bottom: var(--space-2xl);
+}
+
+.coa-footer-cta-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--text-main);
+  margin-bottom: 0.4rem;
+}
+
+.coa-footer-cta-sub {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-xl);
+}
+
+/* ── Media Queries for COA Hub ───────────────────────────────────────── */
+@media (max-width: 900px) {
+  .coa-hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .coa-hero-subheading {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .coa-hero-buttons {
+    justify-content: center;
+  }
+
+  .coa-arch-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .coa-cache-visual-arena {
+    grid-template-columns: 1fr;
+  }
+
+  .coa-hierarchy-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .coa-quiz-options-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .coa-hero-title {
+    font-size: 2.2rem;
+  }
+
+  .coa-category-bar {
+    display: none; /* simplifies mobile scrolling */
+  }
+
+  .coa-breakdown-bar {
+    grid-template-columns: 1fr;
+  }
+}
+
+
 
 
