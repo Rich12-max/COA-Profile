@@ -7,7 +7,6 @@ import { calculateCacheMapping } from '../services/cacheSimulator';
 export default function CoaLearningPage() {
   const fromBaseId = useId();
   const toBaseId = useId();
-  const cacheMappingModeId = useId();
 
   // Active category navigation tab
   const [activeTab, setActiveTab] = useState('overview');
@@ -43,45 +42,45 @@ export default function CoaLearningPage() {
   };
 
   // --- Cache Mapping Lab State ---
-  const [cacheWays, setCacheWays] = useState(1); // 0, 1, 2, 3
   const [cacheAddress, setCacheAddress] = useState('0x7FFF04A8');
   const [cacheSize, setCacheSize] = useState(1024);
   const [blockSize, setBlockSize] = useState(64);
-  const [cacheResult, setCacheResult] = useState(() => {
+  const [cacheResults, setCacheResults] = useState(() => {
     try {
-      return calculateCacheMapping({
-        ways: 1,
-        cache_size_bytes: 1024,
-        block_size_bytes: 64,
-        address_bits: 32,
-        memory_address: '0x7FFF04A8'
-      });
+      return {
+        0: calculateCacheMapping({ ways: 0, cache_size_bytes: 1024, block_size_bytes: 64, address_bits: 32, memory_address: '0x7FFF04A8' }),
+        1: calculateCacheMapping({ ways: 1, cache_size_bytes: 1024, block_size_bytes: 64, address_bits: 32, memory_address: '0x7FFF04A8' }),
+        2: calculateCacheMapping({ ways: 2, cache_size_bytes: 1024, block_size_bytes: 64, address_bits: 32, memory_address: '0x7FFF04A8' }),
+        3: calculateCacheMapping({ ways: 3, cache_size_bytes: 1024, block_size_bytes: 64, address_bits: 32, memory_address: '0x7FFF04A8' })
+      };
     } catch {
       return null;
     }
   });
   const [cacheError, setCacheError] = useState(null);
 
-  const handleSimulateCache = (waysVal = cacheWays) => {
-    try {
-      setCacheError(null);
-      const res = calculateCacheMapping({
-        ways: waysVal,
-        cache_size_bytes: Number(cacheSize),
-        block_size_bytes: Number(blockSize),
-        address_bits: 32,
-        memory_address: cacheAddress
-      });
-      setCacheResult(res);
-    } catch (err) {
-      setCacheError(err.message || 'Cache simulation parameter error.');
-      setCacheResult(null);
-    }
+  const getMemoryBlockNumber = (res) => {
+    if (!res) return '0';
+    const clean = res.test_address.replace(/^0x/i, '');
+    const addrVal = parseInt(clean, 16);
+    return isNaN(addrVal) ? '0' : Math.floor(addrVal / res.block_size_bytes);
   };
 
-  const selectWays = (w) => {
-    setCacheWays(w);
-    handleSimulateCache(w);
+  const handleCalculateAllMappings = (e) => {
+    if (e) e.preventDefault();
+    try {
+      setCacheError(null);
+      const cSize = Number(cacheSize);
+      const bSize = Number(blockSize);
+      const res0 = calculateCacheMapping({ ways: 0, cache_size_bytes: cSize, block_size_bytes: bSize, address_bits: 32, memory_address: cacheAddress });
+      const res1 = calculateCacheMapping({ ways: 1, cache_size_bytes: cSize, block_size_bytes: bSize, address_bits: 32, memory_address: cacheAddress });
+      const res2 = calculateCacheMapping({ ways: 2, cache_size_bytes: cSize, block_size_bytes: bSize, address_bits: 32, memory_address: cacheAddress });
+      const res3 = calculateCacheMapping({ ways: 3, cache_size_bytes: cSize, block_size_bytes: bSize, address_bits: 32, memory_address: cacheAddress });
+      setCacheResults({ 0: res0, 1: res1, 2: res2, 3: res3 });
+    } catch (err) {
+      setCacheError(err.message || 'Cache simulation parameter error.');
+      setCacheResults(null);
+    }
   };
 
   // --- Cache Hit vs Miss Interactive Visual State ---
@@ -607,362 +606,199 @@ export default function CoaLearningPage() {
           )}
         </section>
 
-        {/* ── 6. CACHE MAPPING LABORATORY (MAIN ATTRACTION) ── */}
+        {/* ── 6. CACHE MAPPING SECTION (STREAMLINED 4-WAY COMPARISON) ── */}
         <section id="cache-lab" className="coa-cache-lab-panel" aria-labelledby="cache-lab-heading">
-          <div className="coa-lab-header">
-            <div className="coa-lab-eyebrow">INTERACTIVE HARDWARE SIMULATOR &bull; LIVE PLACEMENT</div>
-            <h2 id="cache-lab-heading" className="coa-lab-heading">CACHE MAPPING LAB</h2>
-            <p className="coa-lab-desc">
-              See exactly where a memory block goes. Simulate line placement across Direct Mapped, 2-Way, 3-Way, and Fully Associative cache hierarchies.
-            </p>
+          <div className="coa-lab-header" style={{ marginBottom: '1.5rem' }}>
+            <h2 id="cache-lab-heading" className="coa-lab-heading" style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>
+              CACHE MAPPING
+            </h2>
           </div>
 
-          {/* Mode Selector: 0-Way, 1-Way, 2-Way, 3-Way */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <label htmlFor={cacheMappingModeId} style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-light)', marginBottom: '0.5rem' }}>
-              SELECT MAPPING MODE
-            </label>
-            <div id={cacheMappingModeId} className="coa-cache-ways-selector">
-              <button
-                type="button"
-                className={`coa-cache-way-btn ${cacheWays === 0 ? 'active' : ''}`}
-                onClick={() => selectWays(0)}
-              >
-                <div className="coa-way-title">0-Way Set</div>
-                <div className="coa-way-sub">Fully Associative Pool</div>
-              </button>
+          <form onSubmit={handleCalculateAllMappings}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.25rem', marginBottom: '1.25rem' }}>
+              <div>
+                <label htmlFor="cache-input-addr" style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-light)', marginBottom: '0.4rem' }}>
+                  Memory Address
+                </label>
+                <input
+                  id="cache-input-addr"
+                  type="text"
+                  value={cacheAddress}
+                  onChange={(e) => setCacheAddress(e.target.value)}
+                  placeholder="0x7FFF04A8"
+                  style={{
+                    width: '100%',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.95rem',
+                    padding: '0.65rem 0.85rem',
+                    borderRadius: 'var(--radius-sm)',
+                    border: '1.5px solid var(--border-color)',
+                    backgroundColor: 'var(--bg-subtle)',
+                    color: 'var(--text-main)'
+                  }}
+                />
+              </div>
 
-              <button
-                type="button"
-                className={`coa-cache-way-btn ${cacheWays === 1 ? 'active' : ''}`}
-                onClick={() => selectWays(1)}
-              >
-                <div className="coa-way-title">1-Way Set</div>
-                <div className="coa-way-sub">Direct Mapping (1 Line/Set)</div>
-              </button>
+              <div>
+                <label htmlFor="cache-size-select" style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-light)', marginBottom: '0.4rem' }}>
+                  Cache Size
+                </label>
+                <select
+                  id="cache-size-select"
+                  value={cacheSize}
+                  onChange={(e) => setCacheSize(Number(e.target.value))}
+                  style={{
+                    width: '100%',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.95rem',
+                    padding: '0.65rem 0.85rem',
+                    borderRadius: 'var(--radius-sm)',
+                    border: '1.5px solid var(--border-color)',
+                    backgroundColor: 'var(--bg-subtle)',
+                    color: 'var(--text-main)'
+                  }}
+                >
+                  <option value={512}>512 Bytes</option>
+                  <option value={1024}>1024 Bytes (1 KB)</option>
+                  <option value={2048}>2048 Bytes (2 KB)</option>
+                  <option value={4096}>4096 Bytes (4 KB)</option>
+                </select>
+              </div>
 
-              <button
-                type="button"
-                className={`coa-cache-way-btn ${cacheWays === 2 ? 'active' : ''}`}
-                onClick={() => selectWays(2)}
-              >
-                <div className="coa-way-title">2-Way Set</div>
-                <div className="coa-way-sub">2 Lines per Set (Dual-Way)</div>
-              </button>
-
-              <button
-                type="button"
-                className={`coa-cache-way-btn ${cacheWays === 3 ? 'active' : ''}`}
-                onClick={() => selectWays(3)}
-              >
-                <div className="coa-way-title">3-Way Set</div>
-                <div className="coa-way-sub">3 Lines per Set (Tri-Way)</div>
-              </button>
-            </div>
-          </div>
-
-          {/* Associativity Mode Visual Comparison Explainer (Requirement 10) */}
-          <div style={{ backgroundColor: 'var(--bg-subtle)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '0.85rem 1.25rem', marginBottom: '1.5rem', fontSize: '0.8125rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
-              <strong style={{ color: 'var(--text-main)' }}>
-                {cacheWays === 0 && '0-Way: Fully Associative Organization'}
-                {cacheWays === 1 && '1-Way: Direct Mapped Organization'}
-                {cacheWays === 2 && '2-Way Set Associative Organization'}
-                {cacheWays === 3 && '3-Way Set Associative Organization'}
-              </strong>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--primary)' }}>
-                {cacheWays === 0 ? 'SET 0 &rarr; [ ALL BLOCKS POOL ]' :
-                 cacheWays === 1 ? 'SET 0 &rarr; [ BLOCK ]' :
-                 cacheWays === 2 ? 'SET 0 &rarr; [ BLOCK ][ BLOCK ]' :
-                 'SET 0 &rarr; [ BLOCK ][ BLOCK ][ BLOCK ]'}
-              </span>
-            </div>
-            <p style={{ margin: 0, color: 'var(--text-muted)', lineHeight: 1.5 }}>
-              {cacheWays === 0 && 'In 0-Way / Fully Associative mode, there are no set boundaries. Any memory block can be stored in any available cache line, eliminating conflict misses at the expense of parallel tag comparators.'}
-              {cacheWays === 1 && 'In 1-Way (Direct Mapping), each set holds exactly 1 block. Memory block X always maps to Set (X mod Total Sets). Fastest lookup and lowest hardware cost, but prone to conflict misses.'}
-              {cacheWays === 2 && 'In 2-Way Set Associative, each set contains two lines. Two different memory blocks mapping to the same set can coexist without displacing each other, cutting conflict misses.'}
-              {cacheWays === 3 && 'In 3-Way Set Associative, each set accommodates three parallel lines evaluated simultaneously by tri-way comparators, as utilized in specialized DSP and accelerator caches.'}
-            </p>
-          </div>
-
-          {/* Simulator Controls Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
-            <div>
-              <label htmlFor="cache-input-addr" style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-light)', marginBottom: '0.4rem' }}>
-                MEMORY ADDRESS (HEX / DEC)
-              </label>
-              <input
-                id="cache-input-addr"
-                type="text"
-                value={cacheAddress}
-                onChange={(e) => setCacheAddress(e.target.value)}
-                style={{
-                  width: '100%',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.95rem',
-                  padding: '0.65rem 0.85rem',
-                  borderRadius: 'var(--radius-sm)',
-                  border: '1.5px solid var(--border-color)',
-                  backgroundColor: 'var(--bg-subtle)',
-                  color: 'var(--text-main)'
-                }}
-              />
+              <div>
+                <label htmlFor="block-size-select" style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-light)', marginBottom: '0.4rem' }}>
+                  Block Size
+                </label>
+                <select
+                  id="block-size-select"
+                  value={blockSize}
+                  onChange={(e) => setBlockSize(Number(e.target.value))}
+                  style={{
+                    width: '100%',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.95rem',
+                    padding: '0.65rem 0.85rem',
+                    borderRadius: 'var(--radius-sm)',
+                    border: '1.5px solid var(--border-color)',
+                    backgroundColor: 'var(--bg-subtle)',
+                    color: 'var(--text-main)'
+                  }}
+                >
+                  <option value={16}>16 Bytes</option>
+                  <option value={32}>32 Bytes</option>
+                  <option value={64}>64 Bytes</option>
+                  <option value={128}>128 Bytes</option>
+                </select>
+              </div>
             </div>
 
-            <div>
-              <label htmlFor="cache-size-select" style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-light)', marginBottom: '0.4rem' }}>
-                CACHE SIZE (BYTES)
-              </label>
-              <select
-                id="cache-size-select"
-                value={cacheSize}
-                onChange={(e) => setCacheSize(Number(e.target.value))}
-                style={{
-                  width: '100%',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.95rem',
-                  padding: '0.65rem 0.85rem',
-                  borderRadius: 'var(--radius-sm)',
-                  border: '1.5px solid var(--border-color)',
-                  backgroundColor: 'var(--bg-subtle)',
-                  color: 'var(--text-main)'
-                }}
-              >
-                <option value={512}>512 Bytes</option>
-                <option value={1024}>1024 Bytes (1 KB)</option>
-                <option value={2048}>2048 Bytes (2 KB)</option>
-                <option value={4096}>4096 Bytes (4 KB)</option>
-              </select>
-            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{ padding: '0.75rem 1.75rem', fontWeight: 600, marginBottom: '1.5rem' }}
+            >
+              Calculate Mapping &rarr;
+            </button>
+          </form>
 
-            <div>
-              <label htmlFor="block-size-select" style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-light)', marginBottom: '0.4rem' }}>
-                BLOCK SIZE (BYTES)
-              </label>
-              <select
-                id="block-size-select"
-                value={blockSize}
-                onChange={(e) => setBlockSize(Number(e.target.value))}
-                style={{
-                  width: '100%',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.95rem',
-                  padding: '0.65rem 0.85rem',
-                  borderRadius: 'var(--radius-sm)',
-                  border: '1.5px solid var(--border-color)',
-                  backgroundColor: 'var(--bg-subtle)',
-                  color: 'var(--text-main)'
-                }}
-              >
-                <option value={16}>16 Bytes</option>
-                <option value={32}>32 Bytes</option>
-                <option value={64}>64 Bytes</option>
-                <option value={128}>128 Bytes</option>
-              </select>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => handleSimulateCache()}
-            className="btn btn-primary"
-            style={{ width: '100%', padding: '0.75rem', fontWeight: 600, marginBottom: '1.5rem' }}
-          >
-            Run Cache Mapping Simulation &rarr;
-          </button>
-
-          {/* Simulation Error */}
           {cacheError && (
             <div style={{ padding: '0.85rem 1rem', backgroundColor: 'var(--accent-red-light)', color: 'var(--accent-red)', border: '1px solid var(--accent-red)', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', fontSize: '0.875rem', fontFamily: 'var(--font-mono)' }}>
               &times; {cacheError}
             </div>
           )}
 
-          {/* ── 8. SHOW THE ADDRESS BREAKDOWN (TAG, SET, OFFSET) ── */}
-          {cacheResult && (
-            <>
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-light)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                    ADDRESS BREAKDOWN (32-BIT PHYSICAL BUS)
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--primary)' }}>
-                    Query: {cacheResult.test_address}
-                  </span>
-                </div>
-
-                <div className="coa-breakdown-bar">
-                  <div className="coa-breakdown-segment">
-                    <div className="coa-segment-tag">TAG ({cacheResult.bit_breakdown.tag_bits} BITS)</div>
-                    <div className="coa-segment-val">{cacheResult.bit_breakdown.tag_hex}</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-light)', marginTop: '2px', wordBreak: 'break-all' }}>
-                      {cacheResult.bit_breakdown.tag_bin}
-                    </div>
-                  </div>
-
-                  <div className="coa-breakdown-segment">
-                    <div className="coa-segment-tag">SET ({cacheResult.bit_breakdown.set_index_bits} BITS)</div>
-                    <div className="coa-segment-val">
-                      {cacheWays === 0 ? 'N/A (Pool)' : `Set ${cacheResult.bit_breakdown.set_index_dec}`}
-                    </div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-light)', marginTop: '2px' }}>
-                      {cacheWays === 0 ? '0 bits used' : cacheResult.bit_breakdown.set_index_bin}
-                    </div>
-                  </div>
-
-                  <div className="coa-breakdown-segment">
-                    <div className="coa-segment-tag">OFFSET ({cacheResult.bit_breakdown.offset_bits} BITS)</div>
-                    <div className="coa-segment-val">Offset {cacheResult.bit_breakdown.offset_dec}</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-light)', marginTop: '2px' }}>
-                      {cacheResult.bit_breakdown.offset_bin}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Educational Breakdown Explanation */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', backgroundColor: 'var(--bg-subtle)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', marginBottom: '1.5rem', fontSize: '0.8125rem' }}>
-                  <div>
-                    <strong style={{ color: 'var(--primary)', display: 'block', marginBottom: '2px' }}>TAG</strong>
-                    <span style={{ color: 'var(--text-muted)' }}>Identifies the unique memory block to verify hit candidate match.</span>
-                  </div>
-                  <div>
-                    <strong style={{ color: 'var(--primary)', display: 'block', marginBottom: '2px' }}>SET</strong>
-                    <span style={{ color: 'var(--text-muted)' }}>Determines which cache set or index group is selected.</span>
-                  </div>
-                  <div>
-                    <strong style={{ color: 'var(--primary)', display: 'block', marginBottom: '2px' }}>OFFSET</strong>
-                    <span style={{ color: 'var(--text-muted)' }}>Identifies the exact byte location inside the 64-byte block.</span>
-                  </div>
-                </div>
+          {cacheResults && cacheResults[0] && cacheResults[1] && cacheResults[2] && cacheResults[3] && (
+            <div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: '0.75rem', textAlign: 'center' }}>
+                CACHE MAPPING RESULTS
               </div>
 
-              {/* ── 7. MAKE CACHE MAPPING VISUAL (MAIN MEMORY & CACHE SETS) ── */}
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-light)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                    HARDWARE PLACEMENT VISUALIZATION
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--primary)' }}>
-                    Memory Block &rarr; Set &rarr; Cache Line
-                  </span>
-                </div>
-
-                <div className="coa-cache-visual-arena">
-                  {/* Column 1: Main Memory Blocks */}
-                  <div>
-                    <div className="coa-arena-col-title">MAIN MEMORY BLOCKS</div>
-                    <div className="coa-arena-block-list">
-                      {[
-                        { block: '0000', label: 'Block 0x0000', addr: '0x00000000' },
-                        { block: '0001', label: 'Block 0x0001', addr: '0x00000040' },
-                        {
-                          block: '0010',
-                          label: `Block Target (${Math.floor(parseInt(cacheAddress.replace(/^0x/i, ''), 16) / blockSize) || 45})`,
-                          addr: cacheAddress,
-                          active: true
-                        },
-                        { block: '0011', label: 'Block 0x0011', addr: '0x000000C0' },
-                        { block: '0100', label: 'Block 0x0100', addr: '0x00000100' }
-                      ].map((mb, i) => (
-                        <div key={i} className={`coa-arena-block-row ${mb.active ? 'highlighted' : ''}`}>
-                          <span>{mb.block} &bull; {mb.label}</span>
-                          <span style={{ fontSize: '0.7rem', color: mb.active ? 'var(--primary)' : 'var(--text-light)' }}>
-                            {mb.active ? 'MAPS &rarr;' : 'DRAM'}
-                          </span>
-                        </div>
-                      ))}
+              <div className="coa-results-quad-grid">
+                {/* 0-WAY */}
+                <div className="coa-quad-card">
+                  <div className="coa-quad-header">
+                    <div className="coa-quad-badge">0-WAY</div>
+                    <div className="coa-quad-sub">Fully Associative</div>
+                  </div>
+                  <div className="coa-quad-body">
+                    <div className="coa-quad-row">
+                      <span className="coa-quad-label">Memory Block</span>
+                      <span className="coa-quad-val">{getMemoryBlockNumber(cacheResults[0])}</span>
+                    </div>
+                    <div className="coa-quad-row">
+                      <span className="coa-quad-label">Location / Placed At</span>
+                      <span className="coa-quad-val">Any available line in cache pool</span>
                     </div>
                   </div>
+                </div>
 
-                  {/* Column 2: Cache Sets */}
-                  <div>
-                    <div className="coa-arena-col-title">CACHE DIRECTORY SETS</div>
-                    <div className="coa-arena-block-list">
-                      {cacheResult.cache_table_preview.slice(0, 4).map((setRow) => {
-                        const isTarget = setRow.set_index === cacheResult.bit_breakdown.set_index_dec;
-                        return (
-                          <div key={setRow.set_index} className={`coa-arena-block-row ${isTarget ? 'highlighted' : ''}`}>
-                            <div>
-                              <strong>SET {setRow.set_index}</strong>
-                              <span style={{ fontSize: '0.7rem', marginLeft: '6px', color: 'var(--text-light)' }}>
-                                ({cacheWays === 0 ? 'Pool' : `${setRow.blocks.length} Way(s)`})
-                              </span>
-                            </div>
-                            <div style={{ display: 'flex', gap: '4px' }}>
-                              {setRow.blocks.map((blk, bi) => (
-                                <span
-                                  key={bi}
-                                  style={{
-                                    fontSize: '0.65rem',
-                                    padding: '2px 5px',
-                                    borderRadius: '3px',
-                                    border: '1px solid var(--border-color)',
-                                    background: isTarget && bi === 0 ? 'var(--primary)' : 'var(--bg-subtle)',
-                                    color: isTarget && bi === 0 ? '#ffffff' : 'var(--text-main)',
-                                    fontFamily: 'var(--font-mono)'
-                                  }}
-                                >
-                                  {blk.tag}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      })}
+                {/* 1-WAY */}
+                <div className="coa-quad-card">
+                  <div className="coa-quad-header">
+                    <div className="coa-quad-badge">1-WAY</div>
+                    <div className="coa-quad-sub">Direct Mapping</div>
+                  </div>
+                  <div className="coa-quad-body">
+                    <div className="coa-quad-row">
+                      <span className="coa-quad-label">Memory Block</span>
+                      <span className="coa-quad-val">{getMemoryBlockNumber(cacheResults[1])}</span>
+                    </div>
+                    <div className="coa-quad-row">
+                      <span className="coa-quad-label">Set</span>
+                      <span className="coa-quad-val">Set {cacheResults[1].bit_breakdown.set_index_dec}</span>
+                    </div>
+                    <div className="coa-quad-row">
+                      <span className="coa-quad-label">Cache Line</span>
+                      <span className="coa-quad-val">Line {cacheResults[1].bit_breakdown.set_index_dec}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2-WAY */}
+                <div className="coa-quad-card">
+                  <div className="coa-quad-header">
+                    <div className="coa-quad-badge">2-WAY</div>
+                    <div className="coa-quad-sub">2-Way Set Associative</div>
+                  </div>
+                  <div className="coa-quad-body">
+                    <div className="coa-quad-row">
+                      <span className="coa-quad-label">Memory Block</span>
+                      <span className="coa-quad-val">{getMemoryBlockNumber(cacheResults[2])}</span>
+                    </div>
+                    <div className="coa-quad-row">
+                      <span className="coa-quad-label">Set</span>
+                      <span className="coa-quad-val">Set {cacheResults[2].bit_breakdown.set_index_dec}</span>
+                    </div>
+                    <div className="coa-quad-row">
+                      <span className="coa-quad-label">Possible Line</span>
+                      <span className="coa-quad-val">Line 0 or Line 1 in Set {cacheResults[2].bit_breakdown.set_index_dec}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3-WAY */}
+                <div className="coa-quad-card">
+                  <div className="coa-quad-header">
+                    <div className="coa-quad-badge">3-WAY</div>
+                    <div className="coa-quad-sub">3-Way Set Associative</div>
+                  </div>
+                  <div className="coa-quad-body">
+                    <div className="coa-quad-row">
+                      <span className="coa-quad-label">Memory Block</span>
+                      <span className="coa-quad-val">{getMemoryBlockNumber(cacheResults[3])}</span>
+                    </div>
+                    <div className="coa-quad-row">
+                      <span className="coa-quad-label">Set</span>
+                      <span className="coa-quad-val">Set {cacheResults[3].bit_breakdown.set_index_dec}</span>
+                    </div>
+                    <div className="coa-quad-row">
+                      <span className="coa-quad-label">Possible Line</span>
+                      <span className="coa-quad-val">Line 0, 1, or 2 in Set {cacheResults[3].bit_breakdown.set_index_dec}</span>
                     </div>
                   </div>
                 </div>
               </div>
-
-              {/* ── 9. MAPPING RESULT PANEL ── */}
-              <div style={{ backgroundColor: 'var(--bg-surface)', border: '1.5px solid var(--border-color)', borderRadius: 'var(--radius-lg)', padding: '1.25rem 1.5rem', marginBottom: '1.5rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--primary)' }}>
-                    MAPPING RESULT
-                  </span>
-                  <span style={{ fontSize: '0.8125rem', color: 'var(--accent-sage)', fontWeight: 700 }}>
-                    &check; Mapping Successful
-                  </span>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem', fontFamily: 'var(--font-mono)', fontSize: '0.875rem' }}>
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-light)', textTransform: 'uppercase' }}>Memory Address</div>
-                    <strong>{cacheResult.test_address}</strong>
-                  </div>
-                  <span style={{ color: 'var(--text-light)' }}>&rarr;</span>
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-light)', textTransform: 'uppercase' }}>Memory Block</div>
-                    <strong>{Math.floor(parseInt(cacheAddress.replace(/^0x/i, ''), 16) / blockSize) || 45}</strong>
-                  </div>
-                  <span style={{ color: 'var(--text-light)' }}>&rarr;</span>
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-light)', textTransform: 'uppercase' }}>Cache Set</div>
-                    <strong>{cacheWays === 0 ? '0 (Unified Pool)' : cacheResult.bit_breakdown.set_index_dec}</strong>
-                  </div>
-                  <span style={{ color: 'var(--text-light)' }}>&rarr;</span>
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-light)', textTransform: 'uppercase' }}>Target Line</div>
-                    <strong>Line 0 in Set</strong>
-                  </div>
-                </div>
-              </div>
-
-              {/* ── 11. “WHAT JUST HAPPENED?” EDUCATIONAL EXPLANATION ── */}
-              <div style={{ backgroundColor: 'var(--bg-subtle)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)', padding: '1.25rem 1.5rem' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, color: 'var(--primary)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.35rem' }}>
-                  WHAT JUST HAPPENED?
-                </div>
-                <p style={{ fontSize: '0.9375rem', color: 'var(--text-main)', lineHeight: 1.6, marginBottom: '0.75rem' }}>
-                  The memory address was divided into its <strong>TAG</strong> ({cacheResult.bit_breakdown.tag_bits} bits), <strong>SET</strong> ({cacheResult.bit_breakdown.set_index_bits} bits), and <strong>OFFSET</strong> ({cacheResult.bit_breakdown.offset_bits} bits) components. The SET value determined where the block could be placed in cache.
-                </p>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', color: 'var(--text-muted)', borderLeft: '2px solid var(--primary)', paddingLeft: '1rem' }}>
-                  <div>Associativity: <strong>{cacheResult.associativity_name}</strong></div>
-                  <div>Cache Lines: <strong>{cacheResult.total_lines} lines</strong> &bull; Total Sets: <strong>{cacheResult.number_of_sets} sets</strong></div>
-                  <div>Status: <strong>{cacheResult.hit_miss_analysis.simulated_lookup} ({cacheResult.hit_miss_analysis.comparator_checks})</strong></div>
-                </div>
-              </div>
-            </>
+            </div>
           )}
         </section>
 

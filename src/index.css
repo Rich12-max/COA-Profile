@@ -4595,16 +4595,95 @@ p {
   .coa-hero-title {
     font-size: 2.2rem;
   }
-
   .coa-category-bar {
-    display: none; /* simplifies mobile scrolling */
-  }
-
-  .coa-breakdown-bar {
-    grid-template-columns: 1fr;
+    display: none;
   }
 }
 
+/* ── 4-Way Cache Mapping Comparison Cards ───────────────────────────── */
+.coa-results-quad-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
 
+.coa-quad-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem 1.25rem;
+  box-shadow: 0 4px 16px -4px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
 
+.coa-quad-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary-border);
+  box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.08);
+}
 
+.coa-quad-header {
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.coa-quad-badge {
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.1;
+  margin-bottom: 0.2rem;
+}
+
+.coa-quad-sub {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.coa-quad-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex-grow: 1;
+}
+
+.coa-quad-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.coa-quad-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+}
+
+.coa-quad-val {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text-main);
+  word-break: break-word;
+}
+
+@media (max-width: 992px) {
+  .coa-results-quad-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .coa-results-quad-grid {
+    grid-template-columns: 1fr;
+  }
+}
