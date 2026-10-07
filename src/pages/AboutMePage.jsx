@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import profilePhoto from "../assets/profile/profile-photo.jpg";
 import Breadcrumb from '../components/Breadcrumb';
 
@@ -9,18 +8,14 @@ export default function AboutMePage() {
       <div className="container">
         <Breadcrumb items={[{ label: 'About Me', to: '/about' }]} />
 
-        {/* Profile Hero Card (Two-Column Layout with Real Photo & COA Accents) */}
+        {/* Profile Hero Card */}
         <div className="profile-card" style={{ marginBottom: 'var(--space-2xl)' }}>
           
-          {/* Left Column: Photo & Architectural Accents */}
+          {/* Left Column: Photo & Frame Styling */}
           <div className="profile-photo-column">
             <div className="profile-photo-wrapper">
-              {/* COA Subtle Technical Corner Accents */}
               <div className="photo-coa-corner-tl" aria-hidden="true" />
               <div className="photo-coa-corner-br" aria-hidden="true" />
-              
-              {/* Subtle Binary Badge removed per user request */}
-
 
               <div className="profile-photo-frame">
                 <img 
@@ -31,7 +26,7 @@ export default function AboutMePage() {
                 />
               </div>
 
-              {/* Status / Architecture Chip Tag */}
+              {/* Status Chip */}
               <div className="photo-coa-accent-bl" aria-label="Student profile status">
                 <span className="status-dot" />
                 <span>CU &bull; CSE Portfolio</span>
@@ -50,7 +45,7 @@ export default function AboutMePage() {
                 Chandigarh University
               </span>
               <span className="badge badge-teal">B.E. CSE</span>
-              <span className="badge badge-amber">COA Learner</span>
+              <span className="badge badge-amber">Artificial Intelligence</span>
             </div>
 
             <h1 className="profile-name">Richa Sharma</h1>
@@ -64,10 +59,10 @@ export default function AboutMePage() {
             </div>
             
             <p className="profile-bio">
-              Highly motivated undergraduate engineering student with a strong passion for low-level systems programming, computer architecture, digital logic, and memory hierarchy optimization. Currently maintaining academic excellence and developing interactive simulators for Computer Organization &amp; Architecture.
+              Computer Science &amp; Engineering student specializing in Artificial Intelligence, with an interest in software development, problem-solving, and building practical technology solutions. I enjoy exploring programming, databases, web development, and AI while continuously improving my technical skills through projects and hands-on learning.
             </p>
 
-            {/* Quick Academic Highlights */}
+            {/* Academic Highlights */}
             <div className="profile-highlights">
               <div className="profile-highlight-item">
                 <span className="profile-highlight-label">Degree &amp; Major</span>
@@ -75,14 +70,11 @@ export default function AboutMePage() {
               </div>
               <div className="profile-highlight-item">
                 <span className="profile-highlight-label">Core Specialization</span>
-                <span className="profile-highlight-value">Computer Systems &amp; Architecture</span>
-              </div>
-              <div className="profile-highlight-item">
-                <span className="profile-highlight-label">Key Competencies</span>
-                <span className="profile-highlight-value">Cache Simulation, Digital Logic, Assembly</span>
+                <span className="profile-highlight-value">Artificial Intelligence</span>
               </div>
             </div>
 
+            {/* Social Links */}
             <div className="profile-social-buttons">
               <a href="https://github.com/Rich12-max" className="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -96,28 +88,19 @@ export default function AboutMePage() {
                 </svg>
                 LinkedIn Profile
               </a>
-              <Link to="/assignment-1" className="btn btn-secondary">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                  <line x1="16" y1="13" x2="8" y2="13"/>
-                  <line x1="16" y1="17" x2="8" y2="17"/>
-                </svg>
-                View Coursework
-              </Link>
             </div>
 
             <div className="profile-meta-footer">
-              <span>Student ID: <strong style={{ color: 'var(--text-main)' }}>[Student ID]</strong></span>
+              <span>Student ID: <strong style={{ color: 'var(--text-main)' }}>25BAI10049</strong></span>
               <span>&bull;</span>
-              <span>Batch: <strong style={{ color: 'var(--text-main)' }}>2023 &ndash; 2027</strong></span>
+              <span>Batch: <strong style={{ color: 'var(--text-main)' }}>2025 &ndash; 2029</strong></span>
               <span>&bull;</span>
               <span>Campus: <strong style={{ color: 'var(--text-main)' }}>Chandigarh University</strong></span>
             </div>
           </div>
         </div>
 
-        {/* Education & Skills Grid */}
+        {/* Education & Technical Skills Grid */}
         <div className="grid-2">
           {/* Education */}
           <div className="card">
@@ -125,29 +108,28 @@ export default function AboutMePage() {
               Education
             </h2>
 
-            <div style={{ marginBottom: 'var(--space-lg)' }}>
+            <div style={{ marginBottom: 'var(--space-lg)', paddingBottom: 'var(--space-md)', borderBottom: '1px solid var(--border-color)' }}>
               <div style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-main)' }}>
-                Bachelor of Technology (B.Tech / B.E.) &mdash; Computer Science &amp; Engineering
+                B.E. Computer Science &amp; Engineering
               </div>
-              <div style={{ fontSize: '0.8125rem', color: 'var(--text-light)', marginBottom: '0.25rem' }}>
-                Chandigarh University (CU) &bull; 2023 &ndash; Present (Expected 2027)
+              <div style={{ fontSize: '0.8125rem', color: 'var(--text-light)', marginTop: '0.15rem', marginBottom: '0.35rem' }}>
+                Chandigarh University &bull; 2025 &ndash; 2029
               </div>
-              <p style={{ fontSize: '0.875rem' }}>
-                Current CGPA: <strong>[CGPA Placeholder / 10.0]</strong><br />
-                Key Coursework: Computer Organization &amp; Architecture, Data Structures, Operating Systems, Digital Logic Design.
-              </p>
+              <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+                Specialization: <strong style={{ color: 'var(--text-main)' }}>Artificial Intelligence</strong>
+              </div>
             </div>
 
             <div>
               <div style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-main)' }}>
-                Higher Secondary Certificate (Grade XII)
+                12th (Higher Secondary)
               </div>
-              <div style={{ fontSize: '0.8125rem', color: 'var(--text-light)', marginBottom: '0.25rem' }}>
-                [Junior College / High School Placeholder] &bull; [Graduation Year]
+              <div style={{ fontSize: '0.8125rem', color: 'var(--text-light)', marginTop: '0.15rem', marginBottom: '0.35rem' }}>
+                Kendriya Vidyalaya Mankhurd
               </div>
-              <p style={{ fontSize: '0.875rem' }}>
-                Physics, Chemistry, Mathematics &amp; Computer Science &bull; Score: <strong>[Percentage / Grade Placeholder]</strong>
-              </p>
+              <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+                Passed out: <strong style={{ color: 'var(--text-main)' }}>2025</strong>
+              </div>
             </div>
           </div>
 
@@ -159,65 +141,57 @@ export default function AboutMePage() {
 
             <div style={{ marginBottom: 'var(--space-md)' }}>
               <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-light)', marginBottom: '0.4rem', fontWeight: 600 }}>
-                Systems &amp; Languages
+                Programming
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-                <span className="badge">C / C++ (Low-Level Systems)</span>
-                <span className="badge">Assembly (x86 / MIPS / RISC-V)</span>
                 <span className="badge">Python</span>
-                <span className="badge">JavaScript / React</span>
+                <span className="badge">Java</span>
+                <span className="badge">C++</span>
+                <span className="badge">SQL</span>
               </div>
             </div>
 
             <div style={{ marginBottom: 'var(--space-md)' }}>
               <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-light)', marginBottom: '0.4rem', fontWeight: 600 }}>
-                COA &amp; Hardware Tools
+                Web Development
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-                <span className="badge badge-primary">Logisim / Evolution</span>
-                <span className="badge badge-primary">MARS MIPS Simulator</span>
-                <span className="badge badge-primary">Cache Simulator (SMPCache)</span>
-                <span className="badge badge-primary">Verilog / VHDL (Introductory)</span>
+                <span className="badge">HTML</span>
+                <span className="badge">CSS</span>
+                <span className="badge">JavaScript</span>
+                <span className="badge">React</span>
+              </div>
+            </div>
+
+            <div style={{ marginBottom: 'var(--space-md)' }}>
+              <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-light)', marginBottom: '0.4rem', fontWeight: 600 }}>
+                Database
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                <span className="badge">MariaDB / MySQL</span>
+              </div>
+            </div>
+
+            <div style={{ marginBottom: 'var(--space-md)' }}>
+              <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-light)', marginBottom: '0.4rem', fontWeight: 600 }}>
+                Tools &amp; Platforms
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                <span className="badge">Git</span>
+                <span className="badge">GitHub</span>
+                <span className="badge">Microsoft Azure</span>
               </div>
             </div>
 
             <div>
               <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-light)', marginBottom: '0.4rem', fontWeight: 600 }}>
-                Frameworks &amp; Environment
+                AI &amp; Development
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                <span className="badge badge-primary">Artificial Intelligence</span>
                 <span className="badge badge-teal">FastAPI</span>
-                <span className="badge badge-teal">SQLite</span>
-                <span className="badge badge-teal">Git &amp; GitHub</span>
-                <span className="badge badge-teal">Linux / Bash CLI</span>
+                <span className="badge badge-teal">REST APIs</span>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Interests */}
-        <div className="card" style={{ marginTop: 'var(--space-xl)' }}>
-          <h2 style={{ fontSize: '1.25rem', marginBottom: 'var(--space-md)', borderBottom: '1px solid var(--border-color)', paddingBottom: 'var(--space-sm)' }}>
-            Areas of Academic Interest
-          </h2>
-          <div className="grid-3" style={{ marginTop: 'var(--space-md)' }}>
-            <div style={{ backgroundColor: 'var(--bg-subtle)', padding: 'var(--space-md)', borderRadius: 'var(--radius-sm)' }}>
-              <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>Memory Hierarchy &amp; Caching</h3>
-              <p style={{ fontSize: '0.8125rem' }}>
-                Miss rate reduction, set associative replacement policies (LRU, FIFO, LFU), multi-level cache coherence, and virtual memory translation.
-              </p>
-            </div>
-            <div style={{ backgroundColor: 'var(--bg-subtle)', padding: 'var(--space-md)', borderRadius: 'var(--radius-sm)' }}>
-              <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>Instruction Set Architecture (ISA)</h3>
-              <p style={{ fontSize: '0.8125rem' }}>
-                RISC-V pipeline hazard mitigation, data forwarding, branch prediction heuristics, and cycle-accurate performance estimation.
-              </p>
-            </div>
-            <div style={{ backgroundColor: 'var(--bg-subtle)', padding: 'var(--space-md)', borderRadius: 'var(--radius-sm)' }}>
-              <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>Arithmetic Logic Units (ALU)</h3>
-              <p style={{ fontSize: '0.8125rem' }}>
-                Combinational adder architectures (CLA, Ripple), Booth's multiplication algorithms, restoring division, and IEEE-754 floating-point units.
-              </p>
             </div>
           </div>
         </div>
