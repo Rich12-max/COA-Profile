@@ -1,186 +1,620 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
-import LoadingSpinner from '../components/LoadingSpinner';
-import ErrorAlert from '../components/ErrorAlert';
-import apiService from '../services/api';
 
 export default function Assignment1Page() {
-  const [assignment, setAssignment] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [activeQuestion, setActiveQuestion] = useState(null);
 
-  useEffect(() => {
-    apiService
-      .getAssignments()
-      .then((data) => {
-        if (data && data.length > 0) {
-          setAssignment(data[0]);
-        }
-      })
-      .catch((err) => {
-        setError(err.message || 'Failed to fetch assignment details from backend database.');
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  const pdfUrl = '/assignments/coa-assignment-1.pdf';
+
+  // Questions mapped to their actual page locations in the 4-page PDF
+  const questions = [
+    { num: '01', page: 1 },
+    { num: '02', page: 1 },
+    { num: '03', page: 2 },
+    { num: '04', page: 2 },
+    { num: '05', page: 2 },
+    { num: '06', page: 2 },
+    { num: '07', page: 3 },
+    { num: '08', page: 3 },
+    { num: '09', page: 3 },
+    { num: '10', page: 3 },
+    { num: '11', page: 3 },
+    { num: '12', page: 4 },
+  ];
+
+  const handleSelectQuestion = (q) => {
+    setActiveQuestion(q.num);
+    setCurrentPage(q.page);
+  };
+
+  const handleSelectPage = (pageNum) => {
+    setCurrentPage(pageNum);
+    // Find first question on this page if active question is on another page
+    const firstQ = questions.find((q) => q.page === pageNum);
+    if (firstQ && (!activeQuestion || questions.find((q) => q.num === activeQuestion)?.page !== pageNum)) {
+      setActiveQuestion(firstQ.num);
+    }
+  };
 
   return (
-    <div className="section">
-      <div className="container">
-        <Breadcrumb items={[{ label: 'Assignment 1', to: '/assignment-1' }]} />
+    <div className="section" style={{ paddingTop: 'calc(var(--header-height) + 1.5rem)', paddingBottom: 'var(--space-3xl)' }}>
+      <div className="container" style={{ maxWidth: '1120px' }}>
+        <Breadcrumb items={[{ label: 'COA Learning Hub', to: '/coa' }, { label: 'Assignment 01', to: '/assignment-1' }]} />
 
-        {loading && <LoadingSpinner message="Fetching verified coursework from SQLite database..." />}
-        <ErrorAlert message={error} onDismiss={() => setError(null)} />
+        {/* ── 1 & 2. HERO & INTRODUCTION ── */}
+        <header style={{ marginBottom: 'var(--space-2xl)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: 'var(--primary)',
+                backgroundColor: 'var(--primary-light)',
+                border: '1px solid var(--primary-border)',
+                padding: '0.2rem 0.65rem',
+                borderRadius: 'var(--radius-sm)'
+              }}
+            >
+              ACADEMIC WORK &bull; 01
+            </span>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                color: 'var(--text-light)',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase'
+              }}
+            >
+              ASSIGNMENT 01
+            </span>
+          </div>
 
-        {assignment && !loading && (
-          <div>
-            {/* Header Banner */}
-            <div className="card" style={{ marginBottom: 'var(--space-2xl)', borderLeft: '4px solid var(--primary)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
-                <div>
-                  <span className="badge badge-primary" style={{ marginBottom: 'var(--space-xs)' }}>
-                    Academic Coursework &bull; {assignment.course_code}
-                  </span>
-                  <h1 style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.4rem)', marginBottom: '0.35rem' }}>
-                    {assignment.title}
-                  </h1>
-                  <p style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>
-                    Course: {assignment.course_name}
-                  </p>
-                </div>
+          <h1
+            style={{
+              fontSize: 'clamp(2rem, 4vw, 2.85rem)',
+              fontWeight: 800,
+              color: 'var(--text-main)',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.15,
+              margin: '0.25rem 0 0.5rem 0'
+            }}
+          >
+            Computer Organisation &amp; Architecture
+          </h1>
 
-                <a
-                  href={assignment.github_url || '#'}
-                  className="btn btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                  </svg>
-                  View Code on GitHub
-                </a>
-              </div>
+          <div
+            style={{
+              fontSize: '1.15rem',
+              fontWeight: 600,
+              color: 'var(--primary)',
+              fontFamily: 'var(--font-sans)',
+              marginBottom: '0.75rem'
+            }}
+          >
+            Assignment &mdash; 12 Questions
+          </div>
 
-              <div style={{ display: 'flex', gap: 'var(--space-xl)', flexWrap: 'wrap', marginTop: 'var(--space-lg)', paddingTop: 'var(--space-md)', borderTop: '1px solid var(--border-color)', fontSize: '0.8125rem', color: 'var(--text-light)' }}>
-                <div>Student Name: <strong style={{ color: 'var(--text-main)' }}>{assignment.student_name}</strong></div>
-                <div>Student ID: <strong style={{ color: 'var(--text-main)' }}>{assignment.student_id}</strong></div>
-                <div>Faculty / Instructor: <strong style={{ color: 'var(--text-main)' }}>{assignment.instructor}</strong></div>
-                <div>Submission Date: <strong style={{ color: 'var(--text-main)' }}>{assignment.submission_date}</strong></div>
-              </div>
+          <p
+            style={{
+              fontSize: '0.975rem',
+              color: 'var(--text-muted)',
+              maxWidth: '720px',
+              lineHeight: 1.6,
+              marginBottom: '1.5rem'
+            }}
+          >
+            A collection of my coursework responses exploring computer architecture, processors, AI, programming, and computing concepts.
+          </p>
+
+          {/* Metadata banner */}
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '1.25rem 2rem',
+              padding: '1rem 1.25rem',
+              backgroundColor: 'var(--bg-subtle)',
+              border: '1px solid var(--border-color)',
+              borderRadius: 'var(--radius-md)',
+              fontSize: '0.8125rem',
+              fontFamily: 'var(--font-mono)',
+              color: 'var(--text-muted)'
+            }}
+          >
+            <div>
+              <span style={{ color: 'var(--text-light)', textTransform: 'uppercase', fontSize: '0.7rem', display: 'block' }}>Submitted by</span>
+              <strong style={{ color: 'var(--text-main)' }}>Richa Sharma</strong>
+            </div>
+            <div>
+              <span style={{ color: 'var(--text-light)', textTransform: 'uppercase', fontSize: '0.7rem', display: 'block' }}>UID</span>
+              <strong style={{ color: 'var(--text-main)' }}>25BAI10049</strong>
+            </div>
+            <div>
+              <span style={{ color: 'var(--text-light)', textTransform: 'uppercase', fontSize: '0.7rem', display: 'block' }}>Section</span>
+              <strong style={{ color: 'var(--text-main)' }}>25BAI-601</strong>
+            </div>
+            <div>
+              <span style={{ color: 'var(--text-light)', textTransform: 'uppercase', fontSize: '0.7rem', display: 'block' }}>Submitted to</span>
+              <strong style={{ color: 'var(--text-main)' }}>Dr. Ruchika Gupta</strong>
+            </div>
+            <div>
+              <span style={{ color: 'var(--text-light)', textTransform: 'uppercase', fontSize: '0.7rem', display: 'block' }}>Submission Date</span>
+              <strong style={{ color: 'var(--text-main)' }}>06 Aug, 2026</strong>
+            </div>
+          </div>
+        </header>
+
+        {/* ── 5. COMPACT ASSIGNMENT DETAILS CARD & ACTION CONTROLS ── */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '1.5rem',
+            alignItems: 'stretch',
+            marginBottom: '1.75rem'
+          }}
+        >
+          {/* Assignment Details Panel */}
+          <div
+            style={{
+              backgroundColor: 'var(--bg-surface)',
+              border: '1px solid var(--border-color)',
+              borderRadius: 'var(--radius-lg)',
+              padding: '1.35rem 1.5rem',
+              boxShadow: 'var(--shadow-xs)'
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '1rem',
+                borderBottom: '1px solid var(--border-color)',
+                paddingBottom: '0.65rem'
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  color: 'var(--primary)'
+                }}
+              >
+                ASSIGNMENT DETAILS
+              </span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.7rem',
+                  color: 'var(--text-light)'
+                }}
+              >
+                Official PDF Coursework
+              </span>
             </div>
 
-            {/* Structured Sections */}
-            <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: 'var(--space-xl)', alignItems: 'start' }}>
-              {/* Sidebar Outline */}
-              <aside className="card" style={{ position: 'sticky', top: 'calc(var(--header-height) + 1rem)' }}>
-                <h3 style={{ fontSize: '0.8125rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-light)', marginBottom: '0.75rem' }}>
-                  Document Outline
-                </h3>
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.875rem' }}>
-                  <li><a href="#problem-statement">1. Problem Statement</a></li>
-                  <li><a href="#objective">2. Objective</a></li>
-                  <li><a href="#algorithm">3. Algorithm</a></li>
-                  <li><a href="#explanation">4. Explanation</a></li>
-                  <li><a href="#implementation">5. Implementation</a></li>
-                  <li><a href="#output">6. Output</a></li>
-                  <li><a href="#conclusion">7. Conclusion</a></li>
-                </ul>
-              </aside>
-
-              {/* Main Content Area */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+                gap: '0.85rem 1.25rem',
+                fontSize: '0.85rem'
+              }}
+            >
               <div>
-                {/* 1. Problem Statement */}
-                <article id="problem-statement" className="card" style={{ marginBottom: 'var(--space-xl)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: 'var(--space-md)', paddingBottom: 'var(--space-xs)', borderBottom: '1px solid var(--border-color)' }}>
-                    <span className="badge badge-primary">01</span>
-                    <h2 style={{ fontSize: '1.25rem', margin: 0 }}>Problem Statement</h2>
-                  </div>
-                  <p style={{ color: 'var(--text-muted)', lineHeight: '1.7' }}>
-                    {assignment.problem_statement}
-                  </p>
-                </article>
-
-                {/* 2. Objective */}
-                <article id="objective" className="card" style={{ marginBottom: 'var(--space-xl)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: 'var(--space-md)', paddingBottom: 'var(--space-xs)', borderBottom: '1px solid var(--border-color)' }}>
-                    <span className="badge badge-primary">02</span>
-                    <h2 style={{ fontSize: '1.25rem', margin: 0 }}>Objective</h2>
-                  </div>
-                  <p style={{ color: 'var(--text-muted)', lineHeight: '1.7' }}>
-                    {assignment.objective}
-                  </p>
-                </article>
-
-                {/* 3. Algorithm */}
-                <article id="algorithm" className="card" style={{ marginBottom: 'var(--space-xl)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: 'var(--space-md)', paddingBottom: 'var(--space-xs)', borderBottom: '1px solid var(--border-color)' }}>
-                    <span className="badge badge-primary">03</span>
-                    <h2 style={{ fontSize: '1.25rem', margin: 0 }}>Algorithm</h2>
-                  </div>
-                  <div style={{ backgroundColor: 'var(--bg-subtle)', padding: 'var(--space-md)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', color: 'var(--text-main)', lineHeight: '1.7', fontFamily: 'var(--font-mono)', fontSize: '0.875rem' }}>
-                    {assignment.algorithm}
-                  </div>
-                </article>
-
-                {/* 4. Explanation */}
-                <article id="explanation" className="card" style={{ marginBottom: 'var(--space-xl)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: 'var(--space-md)', paddingBottom: 'var(--space-xs)', borderBottom: '1px solid var(--border-color)' }}>
-                    <span className="badge badge-primary">04</span>
-                    <h2 style={{ fontSize: '1.25rem', margin: 0 }}>Explanation &amp; Methodology</h2>
-                  </div>
-                  <p style={{ color: 'var(--text-muted)', lineHeight: '1.7' }}>
-                    {assignment.explanation}
-                  </p>
-                </article>
-
-                {/* 5. Implementation */}
-                <article id="implementation" className="card" style={{ marginBottom: 'var(--space-xl)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: 'var(--space-md)', paddingBottom: 'var(--space-xs)', borderBottom: '1px solid var(--border-color)' }}>
-                    <span className="badge badge-primary">05</span>
-                    <h2 style={{ fontSize: '1.25rem', margin: 0 }}>Implementation</h2>
-                  </div>
-                  <div className="code-block-wrapper">
-                    <div className="code-block-header">
-                      <span>cache_simulator.c</span>
-                      <span>C / C++ (C99 Standard)</span>
-                    </div>
-                    <pre className="code-block">
-                      <code>{assignment.implementation_code}</code>
-                    </pre>
-                  </div>
-                </article>
-
-                {/* 6. Output */}
-                <article id="output" className="card" style={{ marginBottom: 'var(--space-xl)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: 'var(--space-md)', paddingBottom: 'var(--space-xs)', borderBottom: '1px solid var(--border-color)' }}>
-                    <span className="badge badge-primary">06</span>
-                    <h2 style={{ fontSize: '1.25rem', margin: 0 }}>Output &amp; Verification</h2>
-                  </div>
-                  <div className="code-block-wrapper" style={{ backgroundColor: '#020617' }}>
-                    <div className="code-block-header" style={{ backgroundColor: '#0f172a' }}>
-                      <span>Terminal Benchmark Log</span>
-                      <span style={{ color: '#4ade80' }}>Exit Status: 0 OK</span>
-                    </div>
-                    <pre className="code-block" style={{ color: '#38bdf8' }}>
-                      <code>{assignment.output_trace}</code>
-                    </pre>
-                  </div>
-                </article>
-
-                {/* 7. Conclusion */}
-                <article id="conclusion" className="card">
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: 'var(--space-md)', paddingBottom: 'var(--space-xs)', borderBottom: '1px solid var(--border-color)' }}>
-                    <span className="badge badge-primary">07</span>
-                    <h2 style={{ fontSize: '1.25rem', margin: 0 }}>Conclusion</h2>
-                  </div>
-                  <p style={{ color: 'var(--text-muted)', lineHeight: '1.7' }}>
-                    {assignment.conclusion}
-                  </p>
-                </article>
+                <span style={{ color: 'var(--text-light)', fontSize: '0.75rem', display: 'block', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>Subject</span>
+                <span style={{ fontWeight: 600, color: 'var(--text-main)' }}>Computer Organisation &amp; Architecture</span>
+              </div>
+              <div>
+                <span style={{ color: 'var(--text-light)', fontSize: '0.75rem', display: 'block', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>Questions</span>
+                <span style={{ fontWeight: 700, color: 'var(--text-main)', fontFamily: 'var(--font-mono)' }}>12</span>
+              </div>
+              <div>
+                <span style={{ color: 'var(--text-light)', fontSize: '0.75rem', display: 'block', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>Pages</span>
+                <span style={{ fontWeight: 700, color: 'var(--text-main)', fontFamily: 'var(--font-mono)' }}>4</span>
+              </div>
+              <div>
+                <span style={{ color: 'var(--text-light)', fontSize: '0.75rem', display: 'block', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>Student</span>
+                <span style={{ fontWeight: 600, color: 'var(--text-main)' }}>Richa Sharma</span>
+              </div>
+              <div>
+                <span style={{ color: 'var(--text-light)', fontSize: '0.75rem', display: 'block', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>UID</span>
+                <span style={{ fontWeight: 600, color: 'var(--text-main)', fontFamily: 'var(--font-mono)' }}>25BAI10049</span>
+              </div>
+              <div>
+                <span style={{ color: 'var(--text-light)', fontSize: '0.75rem', display: 'block', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>Section</span>
+                <span style={{ fontWeight: 600, color: 'var(--text-main)', fontFamily: 'var(--font-mono)' }}>25BAI-601</span>
+              </div>
+              <div>
+                <span style={{ color: 'var(--text-light)', fontSize: '0.75rem', display: 'block', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>Faculty</span>
+                <span style={{ fontWeight: 600, color: 'var(--text-main)' }}>Dr. Ruchika Gupta</span>
+              </div>
+              <div>
+                <span style={{ color: 'var(--text-light)', fontSize: '0.75rem', display: 'block', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>Submitted</span>
+                <span style={{ fontWeight: 600, color: 'var(--text-main)', fontFamily: 'var(--font-mono)' }}>06 Aug, 2026</span>
               </div>
             </div>
           </div>
-        )}
+
+          {/* Action & Download Box */}
+          <div
+            style={{
+              backgroundColor: 'var(--bg-surface)',
+              border: '1px solid var(--border-color)',
+              borderRadius: 'var(--radius-lg)',
+              padding: '1.35rem 1.5rem',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              boxShadow: 'var(--shadow-xs)'
+            }}
+          >
+            <div>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  color: 'var(--text-light)',
+                  display: 'block',
+                  marginBottom: '0.4rem'
+                }}
+              >
+                DOCUMENT ACCESS
+              </span>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '0.35rem' }}>
+                Original Submitted Document
+              </h3>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: 1.55, margin: 0 }}>
+                View or download the exact, unaltered 4-page academic submission PDF exactly as submitted.
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap', marginTop: '1.25rem' }}>
+              <a
+                href={pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary"
+                style={{
+                  flex: '1 1 180px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  padding: '0.75rem 1.25rem',
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  textDecoration: 'none'
+                }}
+              >
+                <span>VIEW FULL ASSIGNMENT</span>
+                <span aria-hidden="true">&nearr;</span>
+              </a>
+
+              <a
+                href={pdfUrl}
+                download="Richa_Sharma_25BAI10049_COA_Assignment_1.pdf"
+                className="btn btn-outline"
+                style={{
+                  flex: '1 1 150px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  padding: '0.75rem 1.25rem',
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  textDecoration: 'none'
+                }}
+              >
+                <span>DOWNLOAD PDF</span>
+                <span aria-hidden="true">&darr;</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 6. QUESTION NAVIGATION STRIP ── */}
+        <section
+          style={{
+            marginBottom: '1.5rem',
+            backgroundColor: 'var(--bg-surface)',
+            border: '1px solid var(--border-color)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '1rem 1.25rem',
+            boxShadow: 'var(--shadow-xs)'
+          }}
+          aria-label="Question Navigation"
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--text-light)'
+              }}
+            >
+              QUESTION DIRECTORY (12 QUESTIONS) &bull; CLICK TO JUMP TO PAGE
+            </span>
+            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text-light)' }}>
+              Source of truth: Original PDF
+            </span>
+          </div>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(70px, 1fr))',
+              gap: '0.5rem'
+            }}
+          >
+            {questions.map((q) => {
+              const isSelected = activeQuestion === q.num || (!activeQuestion && currentPage === q.page);
+              return (
+                <button
+                  key={q.num}
+                  type="button"
+                  onClick={() => handleSelectQuestion(q)}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '0.45rem 0.35rem',
+                    borderRadius: 'var(--radius-sm)',
+                    border: isSelected ? '1.5px solid var(--primary)' : '1px solid var(--border-color)',
+                    backgroundColor: isSelected ? 'var(--primary-light)' : 'var(--bg-subtle)',
+                    color: isSelected ? 'var(--primary)' : 'var(--text-main)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                  title={`Question ${q.num} (Page ${q.page})`}
+                >
+                  <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '0.9rem' }}>
+                    {q.num}
+                  </span>
+                  <span style={{ fontSize: '0.65rem', color: isSelected ? 'var(--primary)' : 'var(--text-light)', fontFamily: 'var(--font-mono)' }}>
+                    P.{q.page}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ── 3 & 4. BEAUTIFUL PDF VIEWER CONTAINER ── */}
+        <section
+          style={{
+            backgroundColor: 'var(--bg-body)',
+            border: '1px solid var(--border-color)',
+            borderRadius: 'var(--radius-lg)',
+            boxShadow: 'var(--shadow-md)',
+            overflow: 'hidden',
+            marginBottom: 'var(--space-2xl)'
+          }}
+          aria-label="Assignment Document Viewer"
+        >
+          {/* Viewer Toolbar Header */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '0.85rem 1.25rem',
+              backgroundColor: 'var(--bg-surface)',
+              borderBottom: '1px solid var(--border-color)',
+              flexWrap: 'wrap',
+              gap: '0.75rem'
+            }}
+          >
+            {/* Page Jump Tabs */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  color: 'var(--text-light)',
+                  marginRight: '0.5rem'
+                }}
+              >
+                PAGES:
+              </span>
+              {[1, 2, 3, 4].map((pNum) => (
+                <button
+                  key={pNum}
+                  type="button"
+                  onClick={() => handleSelectPage(pNum)}
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.8125rem',
+                    fontWeight: currentPage === pNum ? 700 : 500,
+                    padding: '0.35rem 0.75rem',
+                    borderRadius: 'var(--radius-sm)',
+                    border: currentPage === pNum ? '1.5px solid var(--primary)' : '1px solid var(--border-color)',
+                    backgroundColor: currentPage === pNum ? 'var(--primary-light)' : 'var(--bg-subtle)',
+                    color: currentPage === pNum ? 'var(--primary)' : 'var(--text-main)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  Page {pNum} / 4
+                </button>
+              ))}
+            </div>
+
+            {/* Quick Next / Prev & External Viewer */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={() => handleSelectPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage <= 1}
+                style={{
+                  padding: '0.35rem 0.65rem',
+                  fontSize: '0.8125rem',
+                  fontFamily: 'var(--font-mono)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: 'var(--radius-sm)',
+                  backgroundColor: 'var(--bg-subtle)',
+                  color: 'var(--text-main)',
+                  cursor: currentPage <= 1 ? 'not-allowed' : 'pointer',
+                  opacity: currentPage <= 1 ? 0.45 : 1
+                }}
+              >
+                &larr; Prev
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleSelectPage(Math.min(4, currentPage + 1))}
+                disabled={currentPage >= 4}
+                style={{
+                  padding: '0.35rem 0.65rem',
+                  fontSize: '0.8125rem',
+                  fontFamily: 'var(--font-mono)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: 'var(--radius-sm)',
+                  backgroundColor: 'var(--bg-subtle)',
+                  color: 'var(--text-main)',
+                  cursor: currentPage >= 4 ? 'not-allowed' : 'pointer',
+                  opacity: currentPage >= 4 ? 0.45 : 1
+                }}
+              >
+                Next &rarr;
+              </button>
+
+              <a
+                href={pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  padding: '0.35rem 0.65rem',
+                  fontSize: '0.8125rem',
+                  fontFamily: 'var(--font-mono)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: 'var(--radius-sm)',
+                  backgroundColor: 'var(--bg-subtle)',
+                  color: 'var(--text-main)',
+                  textDecoration: 'none'
+                }}
+                title="Open in new browser tab"
+              >
+                Fullscreen &nearr;
+              </a>
+            </div>
+          </div>
+
+          {/* Native Browser PDF Viewer Container */}
+          <div
+            style={{
+              padding: '1rem',
+              backgroundColor: 'var(--bg-body)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <div
+              style={{
+                width: '100%',
+                borderRadius: 'var(--radius-md)',
+                overflow: 'hidden',
+                backgroundColor: '#ffffff',
+                border: '1px solid var(--border-color)',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
+              }}
+            >
+              <object
+                key={`pdf-page-${currentPage}`}
+                data={`${pdfUrl}#page=${currentPage}&view=FitH&toolbar=1`}
+                type="application/pdf"
+                width="100%"
+                style={{
+                  width: '100%',
+                  height: '920px',
+                  display: 'block',
+                  border: 'none'
+                }}
+                title="Computer Organisation & Architecture Assignment 01 - Richa Sharma"
+              >
+                <iframe
+                  src={`${pdfUrl}#page=${currentPage}&view=FitH&toolbar=1`}
+                  width="100%"
+                  height="920px"
+                  style={{ width: '100%', height: '920px', border: 'none', display: 'block' }}
+                  title="Computer Organisation & Architecture Assignment 01 - Richa Sharma"
+                >
+                  <div style={{ padding: '2rem', textAlign: 'center' }}>
+                    <p style={{ color: 'var(--text-muted)', marginBottom: '1rem' }}>
+                      Inline PDF preview is not supported directly by your browser.
+                    </p>
+                    <a
+                      href={pdfUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-primary"
+                      style={{ textDecoration: 'none' }}
+                    >
+                      Open Assignment PDF &nearr;
+                    </a>
+                  </div>
+                </iframe>
+              </object>
+            </div>
+          </div>
+        </section>
+
+        {/* ── 9. MINIMAL FOOTER ── */}
+        <footer
+          style={{
+            borderTop: '1px solid var(--border-color)',
+            paddingTop: '1.5rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '1rem',
+            fontSize: '0.875rem'
+          }}
+        >
+          <div style={{ color: 'var(--text-light)', fontFamily: 'var(--font-mono)' }}>
+            Computer Organisation &amp; Architecture &bull; Assignment 01
+          </div>
+
+          <Link
+            to="/coa"
+            className="btn btn-outline"
+            style={{
+              padding: '0.5rem 1.15rem',
+              fontSize: '0.8125rem',
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem'
+            }}
+          >
+            <span>Back to COA Learning Hub</span>
+            <span aria-hidden="true">&rarr;</span>
+          </Link>
+        </footer>
       </div>
     </div>
   );
