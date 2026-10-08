@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
 import { convertNumberSystem } from '../services/numberConverter';
 import { calculateCacheMapping } from '../services/cacheSimulator';
+import { simulateInstructionExecution, SAMPLE_EXPRESSIONS } from '../services/instructionSimulator';
 
 export default function CoaLearningPage() {
   const fromBaseId = useId();
@@ -80,6 +81,60 @@ export default function CoaLearningPage() {
     } catch (err) {
       setCacheError(err.message || 'Cache simulation parameter error.');
       setCacheResults(null);
+    }
+  };
+
+  // --- Instruction Cycle & Formats State (Ported from COA-SIMULATOR) ---
+  const [instExpression, setInstExpression] = useState('(A+B)*(C-D)/E');
+  const [instResult, setInstResult] = useState(() => {
+    try {
+      return simulateInstructionExecution('(A+B)*(C-D)/E');
+    } catch {
+      return null;
+    }
+  });
+  const [instError, setInstError] = useState(null);
+  const [copiedFormat, setCopiedFormat] = useState('');
+
+  const handleGenerateInstruction = (e) => {
+    if (e) e.preventDefault();
+    try {
+      setInstError(null);
+      const res = simulateInstructionExecution(instExpression);
+      setInstResult(res);
+    } catch (err) {
+      setInstError(err.message || 'Invalid arithmetic expression.');
+      setInstResult(null);
+    }
+  };
+
+  const handleClearInstruction = () => {
+    setInstExpression('');
+    setInstError(null);
+    setInstResult(null);
+    setCopiedFormat('');
+  };
+
+  const handleSampleInstruction = (sample) => {
+    setInstExpression(sample);
+    setInstError(null);
+    try {
+      const res = simulateInstructionExecution(sample);
+      setInstResult(res);
+    } catch (err) {
+      setInstError(err.message);
+      setInstResult(null);
+    }
+  };
+
+  const handleCopyInstructions = async (formatName, instructions) => {
+    try {
+      const text = instructions.map((ins, i) => `${i + 1}. ${ins.full}  // ${ins.comment}`).join('\n');
+      await navigator.clipboard.writeText(text);
+      setCopiedFormat(formatName);
+      setTimeout(() => setCopiedFormat(''), 1500);
+    } catch {
+      // ignore
     }
   };
 
@@ -297,10 +352,10 @@ export default function CoaLearningPage() {
           </button>
           <button
             type="button"
-            className={`coa-nav-btn ${activeTab === 'cpu' ? 'active' : ''}`}
-            onClick={() => scrollToSection('explore-cards', 'cpu')}
+            className={`coa-nav-btn ${activeTab === 'instruction-cycle' ? 'active' : ''}`}
+            onClick={() => scrollToSection('instruction-lab', 'instruction-cycle')}
           >
-            CPU Architecture
+            Instruction Cycle
           </button>
           <button
             type="button"
@@ -354,11 +409,11 @@ export default function CoaLearningPage() {
               </div>
               <button
                 type="button"
-                onClick={() => scrollToSection('coa-concepts', 'concepts')}
+                onClick={() => scrollToSection('instruction-lab', 'instruction-cycle')}
                 className="btn btn-outline"
                 style={{ width: '100%', fontSize: '0.85rem' }}
               >
-                Explore CPU &rarr;
+                Explore Instruction Cycle &rarr;
               </button>
             </div>
 
@@ -802,6 +857,275 @@ export default function CoaLearningPage() {
           )}
         </section>
 
+        {/* ── INSTRUCTION CYCLE & FORMATS LAB (FROM COA-SIMULATOR) ── */}
+        <section id="instruction-lab" className="coa-inst-panel" aria-labelledby="inst-lab-heading">
+          <div className="coa-lab-header">
+            <div className="coa-lab-eyebrow">PROCESSOR EXECUTION &bull; REAL ISA GENERATION</div>
+            <h2 id="inst-lab-heading" className="coa-lab-heading">INSTRUCTION CYCLE &amp; FORMATS LAB</h2>
+            <p className="coa-lab-desc">
+              Enter an arithmetic expression to validate it, convert it to postfix notation, and generate the complete machine instruction cycle across 3-Address, 2-Address, 1-Address (Accumulator), and 0-Address (Stack) architectures.
+            </p>
+          </div>
+
+          <form onSubmit={handleGenerateInstruction}>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label htmlFor="inst-input-expr" style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-light)', marginBottom: '0.5rem' }}>
+                ARITHMETIC EXPRESSION (A-Z, +, -, *, /, (, ))
+              </label>
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                <input
+                  id="inst-input-expr"
+                  type="text"
+                  value={instExpression}
+                  onChange={(e) => setInstExpression(e.target.value.toUpperCase())}
+                  placeholder="(A+B)*(C-D)/E"
+                  style={{
+                    flexGrow: 1,
+                    minWidth: '240px',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '1.05rem',
+                    padding: '0.75rem 1rem',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1.5px solid var(--border-color)',
+                    backgroundColor: 'var(--bg-subtle)',
+                    color: 'var(--text-main)'
+                  }}
+                />
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  style={{ padding: '0.75rem 1.75rem', fontWeight: 600 }}
+                >
+                  Generate Cycle &rarr;
+                </button>
+                <button
+                  type="button"
+                  onClick={handleClearInstruction}
+                  className="btn btn-outline"
+                  style={{ padding: '0.75rem 1.25rem', fontWeight: 600 }}
+                >
+                  Clear
+                </button>
+              </div>
+
+              {/* Sample Chips */}
+              <div className="coa-inst-sample-row">
+                <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text-light)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Examples:
+                </span>
+                {SAMPLE_EXPRESSIONS.map((sample) => (
+                  <button
+                    key={sample}
+                    type="button"
+                    className="coa-inst-sample-chip"
+                    onClick={() => handleSampleInstruction(sample)}
+                  >
+                    {sample}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </form>
+
+          {/* Validation Error Banner */}
+          {instError && (
+            <div style={{ padding: '0.85rem 1rem', backgroundColor: 'var(--accent-red-light)', color: 'var(--accent-red)', border: '1px solid var(--accent-red)', borderRadius: 'var(--radius-md)', marginTop: '1rem', marginBottom: '1.5rem', fontSize: '0.875rem', fontFamily: 'var(--font-mono)' }}>
+              &times; {instError}
+            </div>
+          )}
+
+          {/* Results Display */}
+          {instResult && (
+            <div>
+              {/* Postfix & Summary Billboard */}
+              <div className="coa-inst-summary-card">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-light)', fontWeight: 700 }}>
+                    CONVERTED POSTFIX NOTATION (REVERSE POLISH)
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 600 }}>
+                    Expression: {instResult.expression}
+                  </span>
+                </div>
+
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(1.4rem, 3vw, 2rem)', fontWeight: 700, color: 'var(--primary)', marginBottom: '0.75rem' }}>
+                  {instResult.postfix}
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', borderTop: '1px dashed var(--border-color)', paddingTop: '0.75rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)' }}>
+                  <div>Three-Address: <strong>{instResult.three.count} inst</strong></div>
+                  <div>Two-Address: <strong>{instResult.two.count} inst</strong></div>
+                  <div>One-Address (ACC): <strong>{instResult.one.count} inst</strong></div>
+                  <div>Zero-Address (Stack): <strong>{instResult.zero.count} inst</strong></div>
+                </div>
+              </div>
+
+              {/* 4 Instruction Formats Comparison Grid */}
+              <div className="coa-inst-formats-grid">
+                {/* 1. Three Address Code */}
+                <div className="coa-inst-format-card">
+                  <div className="coa-inst-format-header">
+                    <div>
+                      <div className="coa-inst-format-title">Three Address Code</div>
+                      <div style={{ fontSize: '0.72rem', color: 'var(--text-light)', fontFamily: 'var(--font-mono)' }}>
+                        General Register Architecture &bull; {instResult.three.count} Instructions
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      style={{ fontSize: '0.75rem', padding: '0.25rem 0.65rem' }}
+                      onClick={() => handleCopyInstructions('Three Address', instResult.three.instructions)}
+                    >
+                      {copiedFormat === 'Three Address' ? '✓ Copied' : 'Copy'}
+                    </button>
+                  </div>
+                  <div className="coa-inst-table-wrap">
+                    <table className="coa-inst-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: '35px' }}>#</th>
+                          <th>Instruction</th>
+                          <th>Micro-Operation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {instResult.three.instructions.map((ins, idx) => (
+                          <tr key={idx}>
+                            <td style={{ color: 'var(--text-light)' }}>{idx + 1}</td>
+                            <td><strong>{ins.full}</strong></td>
+                            <td style={{ color: 'var(--text-muted)' }}>{ins.comment}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* 2. Two Address Code */}
+                <div className="coa-inst-format-card">
+                  <div className="coa-inst-format-header">
+                    <div>
+                      <div className="coa-inst-format-title">Two Address Code</div>
+                      <div style={{ fontSize: '0.72rem', color: 'var(--text-light)', fontFamily: 'var(--font-mono)' }}>
+                        Register-Register / Destructive &bull; {instResult.two.count} Instructions
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      style={{ fontSize: '0.75rem', padding: '0.25rem 0.65rem' }}
+                      onClick={() => handleCopyInstructions('Two Address', instResult.two.instructions)}
+                    >
+                      {copiedFormat === 'Two Address' ? '✓ Copied' : 'Copy'}
+                    </button>
+                  </div>
+                  <div className="coa-inst-table-wrap">
+                    <table className="coa-inst-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: '35px' }}>#</th>
+                          <th>Instruction</th>
+                          <th>Micro-Operation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {instResult.two.instructions.map((ins, idx) => (
+                          <tr key={idx}>
+                            <td style={{ color: 'var(--text-light)' }}>{idx + 1}</td>
+                            <td><strong>{ins.full}</strong></td>
+                            <td style={{ color: 'var(--text-muted)' }}>{ins.comment}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* 3. One Address Code */}
+                <div className="coa-inst-format-card">
+                  <div className="coa-inst-format-header">
+                    <div>
+                      <div className="coa-inst-format-title">One Address Code</div>
+                      <div style={{ fontSize: '0.72rem', color: 'var(--text-light)', fontFamily: 'var(--font-mono)' }}>
+                        Accumulator (ACC) Based &bull; {instResult.one.count} Instructions
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      style={{ fontSize: '0.75rem', padding: '0.25rem 0.65rem' }}
+                      onClick={() => handleCopyInstructions('One Address', instResult.one.instructions)}
+                    >
+                      {copiedFormat === 'One Address' ? '✓ Copied' : 'Copy'}
+                    </button>
+                  </div>
+                  <div className="coa-inst-table-wrap">
+                    <table className="coa-inst-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: '35px' }}>#</th>
+                          <th>Instruction</th>
+                          <th>Micro-Operation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {instResult.one.instructions.map((ins, idx) => (
+                          <tr key={idx}>
+                            <td style={{ color: 'var(--text-light)' }}>{idx + 1}</td>
+                            <td><strong>{ins.full}</strong></td>
+                            <td style={{ color: 'var(--text-muted)' }}>{ins.comment}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* 4. Zero Address Code */}
+                <div className="coa-inst-format-card">
+                  <div className="coa-inst-format-header">
+                    <div>
+                      <div className="coa-inst-format-title">Zero Address Code</div>
+                      <div style={{ fontSize: '0.72rem', color: 'var(--text-light)', fontFamily: 'var(--font-mono)' }}>
+                        Stack-Organized (TOS) &bull; {instResult.zero.count} Instructions
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      style={{ fontSize: '0.75rem', padding: '0.25rem 0.65rem' }}
+                      onClick={() => handleCopyInstructions('Zero Address', instResult.zero.instructions)}
+                    >
+                      {copiedFormat === 'Zero Address' ? '✓ Copied' : 'Copy'}
+                    </button>
+                  </div>
+                  <div className="coa-inst-table-wrap">
+                    <table className="coa-inst-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: '35px' }}>#</th>
+                          <th>Instruction</th>
+                          <th>Micro-Operation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {instResult.zero.instructions.map((ins, idx) => (
+                          <tr key={idx}>
+                            <td style={{ color: 'var(--text-light)' }}>{idx + 1}</td>
+                            <td><strong>{ins.full}</strong></td>
+                            <td style={{ color: 'var(--text-muted)' }}>{ins.comment}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
+
         {/* ── 13. CACHE HIT vs CACHE MISS INTERACTIVE VISUAL ── */}
         <section className="coa-hit-miss-panel" aria-labelledby="hit-miss-heading">
           <div style={{ textAlign: 'center', marginBottom: 'var(--space-lg)' }}>
@@ -1007,7 +1331,7 @@ export default function CoaLearningPage() {
               { num: '01', title: 'Number Systems', desc: 'Binary radix, conversion steps & 2\'s complement arithmetic', targetId: 'number-lab', tab: 'number-systems' },
               { num: '02', title: 'Cache Mapping', desc: 'Tag/Set/Offset breakdown across 0-Way, 1-Way, 2-Way & 3-Way', targetId: 'cache-lab', tab: 'cache-mapping' },
               { num: '03', title: 'Memory Hierarchy', desc: 'Multi-tiered storage balancing access latency and hardware cost', targetId: 'hierarchy-section', tab: 'memory' },
-              { num: '04', title: 'CPU Organization', desc: 'ALU, control registers, and instruction execution cycle', targetId: 'explore-cards', tab: 'cpu' }
+              { num: '04', title: 'Instruction Cycle', desc: 'Arithmetic expression decoding across 3, 2, 1, and 0-address formats', targetId: 'instruction-lab', tab: 'instruction-cycle' }
             ].map((step, i) => (
               <div key={i} style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)', padding: '1.25rem', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--primary)', marginBottom: '0.5rem' }}>
