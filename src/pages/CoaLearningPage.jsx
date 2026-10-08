@@ -2,7 +2,6 @@ import React, { useState, useId } from 'react';
 import { Link } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
 import { convertNumberSystem } from '../services/numberConverter';
-import { calculateCacheMapping } from '../services/cacheSimulator';
 import { simulateInstructionExecution, SAMPLE_EXPRESSIONS } from '../services/instructionSimulator';
 
 export default function CoaLearningPage() {
@@ -39,48 +38,6 @@ export default function CoaLearningPage() {
     } catch (err) {
       setNumError(err.message || 'Invalid number format for selected radix.');
       setNumResult(null);
-    }
-  };
-
-  // --- Cache Mapping Lab State ---
-  const [cacheAddress, setCacheAddress] = useState('0x7FFF04A8');
-  const [cacheSize, setCacheSize] = useState(1024);
-  const [blockSize, setBlockSize] = useState(64);
-  const [cacheResults, setCacheResults] = useState(() => {
-    try {
-      return {
-        0: calculateCacheMapping({ ways: 0, cache_size_bytes: 1024, block_size_bytes: 64, address_bits: 32, memory_address: '0x7FFF04A8' }),
-        1: calculateCacheMapping({ ways: 1, cache_size_bytes: 1024, block_size_bytes: 64, address_bits: 32, memory_address: '0x7FFF04A8' }),
-        2: calculateCacheMapping({ ways: 2, cache_size_bytes: 1024, block_size_bytes: 64, address_bits: 32, memory_address: '0x7FFF04A8' }),
-        3: calculateCacheMapping({ ways: 3, cache_size_bytes: 1024, block_size_bytes: 64, address_bits: 32, memory_address: '0x7FFF04A8' })
-      };
-    } catch {
-      return null;
-    }
-  });
-  const [cacheError, setCacheError] = useState(null);
-
-  const getMemoryBlockNumber = (res) => {
-    if (!res) return '0';
-    const clean = res.test_address.replace(/^0x/i, '');
-    const addrVal = parseInt(clean, 16);
-    return isNaN(addrVal) ? '0' : Math.floor(addrVal / res.block_size_bytes);
-  };
-
-  const handleCalculateAllMappings = (e) => {
-    if (e) e.preventDefault();
-    try {
-      setCacheError(null);
-      const cSize = Number(cacheSize);
-      const bSize = Number(blockSize);
-      const res0 = calculateCacheMapping({ ways: 0, cache_size_bytes: cSize, block_size_bytes: bSize, address_bits: 32, memory_address: cacheAddress });
-      const res1 = calculateCacheMapping({ ways: 1, cache_size_bytes: cSize, block_size_bytes: bSize, address_bits: 32, memory_address: cacheAddress });
-      const res2 = calculateCacheMapping({ ways: 2, cache_size_bytes: cSize, block_size_bytes: bSize, address_bits: 32, memory_address: cacheAddress });
-      const res3 = calculateCacheMapping({ ways: 3, cache_size_bytes: cSize, block_size_bytes: bSize, address_bits: 32, memory_address: cacheAddress });
-      setCacheResults({ 0: res0, 1: res1, 2: res2, 3: res3 });
-    } catch (err) {
-      setCacheError(err.message || 'Cache simulation parameter error.');
-      setCacheResults(null);
     }
   };
 
@@ -338,10 +295,10 @@ export default function CoaLearningPage() {
           </button>
           <button
             type="button"
-            className={`coa-nav-btn ${activeTab === 'cache-mapping' ? 'active' : ''}`}
-            onClick={() => scrollToSection('cache-lab', 'cache-mapping')}
+            className={`coa-nav-btn ${activeTab === 'instruction-cycle' ? 'active' : ''}`}
+            onClick={() => scrollToSection('instruction-lab', 'instruction-cycle')}
           >
-            Cache Mapping
+            Instruction Cycle
           </button>
           <button
             type="button"
@@ -349,13 +306,6 @@ export default function CoaLearningPage() {
             onClick={() => scrollToSection('hierarchy-section', 'memory')}
           >
             Memory Hierarchy
-          </button>
-          <button
-            type="button"
-            className={`coa-nav-btn ${activeTab === 'instruction-cycle' ? 'active' : ''}`}
-            onClick={() => scrollToSection('instruction-lab', 'instruction-cycle')}
-          >
-            Instruction Cycle
           </button>
           <button
             type="button"
@@ -409,11 +359,11 @@ export default function CoaLearningPage() {
               </div>
               <button
                 type="button"
-                onClick={() => scrollToSection('instruction-lab', 'instruction-cycle')}
+                onClick={() => scrollToSection('coa-concepts', 'concepts')}
                 className="btn btn-outline"
                 style={{ width: '100%', fontSize: '0.85rem' }}
               >
-                Explore Instruction Cycle &rarr;
+                Explore Concepts &rarr;
               </button>
             </div>
 
@@ -473,26 +423,28 @@ export default function CoaLearningPage() {
               </button>
             </div>
 
-            {/* CARD 04 — Cache Mapping */}
+            {/* CARD 04 — Instruction Formats */}
             <div className="coa-arch-card">
               <div className="coa-arch-card-top">
                 <span className="coa-arch-card-badge">CARD 04</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-light)' }}>LINE PLACEMENT</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-light)' }}>MACHINE INSTRUCTIONS</span>
               </div>
-              <h3 className="coa-arch-card-title">Cache Mapping</h3>
+              <h3 className="coa-arch-card-title">Instruction Formats</h3>
               <p className="coa-arch-card-desc">
-                Visualize how memory blocks are mapped into cache sets across 0-Way, 1-Way, 2-Way, and 3-Way organizations.
+                Decode arithmetic expressions and evaluate machine cycles across 3, 2, 1, and 0-address processor formats.
               </p>
               <div className="coa-arch-visual-box">
-                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                  <span style={{ border: '1px dashed var(--border-color)', padding: '2px 6px', borderRadius: '3px' }}>Block 45</span>
-                  <span style={{ color: 'var(--primary)' }}>&rarr;</span>
-                  <span style={{ border: '1px solid var(--primary-border)', padding: '2px 6px', borderRadius: '3px', background: 'var(--primary-light)', color: 'var(--primary)' }}>Set 1 [Line 0]</span>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <span style={{ border: '1px dashed var(--border-color)', padding: '2px 6px', borderRadius: '3px' }}>3-Addr</span>
+                  <span>&rarr;</span>
+                  <span style={{ border: '1px solid var(--primary-border)', padding: '2px 6px', borderRadius: '3px', background: 'var(--primary-light)', color: 'var(--primary)' }}>Accumulator</span>
+                  <span>&rarr;</span>
+                  <span style={{ border: '1px dashed var(--border-color)', padding: '2px 6px', borderRadius: '3px' }}>Stack</span>
                 </div>
               </div>
               <button
                 type="button"
-                onClick={() => scrollToSection('cache-lab', 'cache-mapping')}
+                onClick={() => scrollToSection('instruction-lab', 'instruction-cycle')}
                 className="btn btn-outline"
                 style={{ width: '100%', fontSize: '0.85rem' }}
               >
@@ -661,203 +613,7 @@ export default function CoaLearningPage() {
           )}
         </section>
 
-        {/* ── 6. CACHE MAPPING SECTION (STREAMLINED 4-WAY COMPARISON) ── */}
-        <section id="cache-lab" className="coa-cache-lab-panel" aria-labelledby="cache-lab-heading">
-          <div className="coa-lab-header" style={{ marginBottom: '1.5rem' }}>
-            <h2 id="cache-lab-heading" className="coa-lab-heading" style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>
-              CACHE MAPPING
-            </h2>
-          </div>
-
-          <form onSubmit={handleCalculateAllMappings}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.25rem', marginBottom: '1.25rem' }}>
-              <div>
-                <label htmlFor="cache-input-addr" style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-light)', marginBottom: '0.4rem' }}>
-                  Memory Address
-                </label>
-                <input
-                  id="cache-input-addr"
-                  type="text"
-                  value={cacheAddress}
-                  onChange={(e) => setCacheAddress(e.target.value)}
-                  placeholder="0x7FFF04A8"
-                  style={{
-                    width: '100%',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.95rem',
-                    padding: '0.65rem 0.85rem',
-                    borderRadius: 'var(--radius-sm)',
-                    border: '1.5px solid var(--border-color)',
-                    backgroundColor: 'var(--bg-subtle)',
-                    color: 'var(--text-main)'
-                  }}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="cache-size-select" style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-light)', marginBottom: '0.4rem' }}>
-                  Cache Size
-                </label>
-                <select
-                  id="cache-size-select"
-                  value={cacheSize}
-                  onChange={(e) => setCacheSize(Number(e.target.value))}
-                  style={{
-                    width: '100%',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.95rem',
-                    padding: '0.65rem 0.85rem',
-                    borderRadius: 'var(--radius-sm)',
-                    border: '1.5px solid var(--border-color)',
-                    backgroundColor: 'var(--bg-subtle)',
-                    color: 'var(--text-main)'
-                  }}
-                >
-                  <option value={512}>512 Bytes</option>
-                  <option value={1024}>1024 Bytes (1 KB)</option>
-                  <option value={2048}>2048 Bytes (2 KB)</option>
-                  <option value={4096}>4096 Bytes (4 KB)</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="block-size-select" style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-light)', marginBottom: '0.4rem' }}>
-                  Block Size
-                </label>
-                <select
-                  id="block-size-select"
-                  value={blockSize}
-                  onChange={(e) => setBlockSize(Number(e.target.value))}
-                  style={{
-                    width: '100%',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.95rem',
-                    padding: '0.65rem 0.85rem',
-                    borderRadius: 'var(--radius-sm)',
-                    border: '1.5px solid var(--border-color)',
-                    backgroundColor: 'var(--bg-subtle)',
-                    color: 'var(--text-main)'
-                  }}
-                >
-                  <option value={16}>16 Bytes</option>
-                  <option value={32}>32 Bytes</option>
-                  <option value={64}>64 Bytes</option>
-                  <option value={128}>128 Bytes</option>
-                </select>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              className="btn btn-primary"
-              style={{ padding: '0.75rem 1.75rem', fontWeight: 600, marginBottom: '1.5rem' }}
-            >
-              Calculate Mapping &rarr;
-            </button>
-          </form>
-
-          {cacheError && (
-            <div style={{ padding: '0.85rem 1rem', backgroundColor: 'var(--accent-red-light)', color: 'var(--accent-red)', border: '1px solid var(--accent-red)', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', fontSize: '0.875rem', fontFamily: 'var(--font-mono)' }}>
-              &times; {cacheError}
-            </div>
-          )}
-
-          {cacheResults && cacheResults[0] && cacheResults[1] && cacheResults[2] && cacheResults[3] && (
-            <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: '0.75rem', textAlign: 'center' }}>
-                CACHE MAPPING RESULTS
-              </div>
-
-              <div className="coa-results-quad-grid">
-                {/* 0-WAY */}
-                <div className="coa-quad-card">
-                  <div className="coa-quad-header">
-                    <div className="coa-quad-badge">0-WAY</div>
-                    <div className="coa-quad-sub">Fully Associative</div>
-                  </div>
-                  <div className="coa-quad-body">
-                    <div className="coa-quad-row">
-                      <span className="coa-quad-label">Memory Block</span>
-                      <span className="coa-quad-val">{getMemoryBlockNumber(cacheResults[0])}</span>
-                    </div>
-                    <div className="coa-quad-row">
-                      <span className="coa-quad-label">Location / Placed At</span>
-                      <span className="coa-quad-val">Any available line in cache pool</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 1-WAY */}
-                <div className="coa-quad-card">
-                  <div className="coa-quad-header">
-                    <div className="coa-quad-badge">1-WAY</div>
-                    <div className="coa-quad-sub">Direct Mapping</div>
-                  </div>
-                  <div className="coa-quad-body">
-                    <div className="coa-quad-row">
-                      <span className="coa-quad-label">Memory Block</span>
-                      <span className="coa-quad-val">{getMemoryBlockNumber(cacheResults[1])}</span>
-                    </div>
-                    <div className="coa-quad-row">
-                      <span className="coa-quad-label">Set</span>
-                      <span className="coa-quad-val">Set {cacheResults[1].bit_breakdown.set_index_dec}</span>
-                    </div>
-                    <div className="coa-quad-row">
-                      <span className="coa-quad-label">Cache Line</span>
-                      <span className="coa-quad-val">Line {cacheResults[1].bit_breakdown.set_index_dec}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 2-WAY */}
-                <div className="coa-quad-card">
-                  <div className="coa-quad-header">
-                    <div className="coa-quad-badge">2-WAY</div>
-                    <div className="coa-quad-sub">2-Way Set Associative</div>
-                  </div>
-                  <div className="coa-quad-body">
-                    <div className="coa-quad-row">
-                      <span className="coa-quad-label">Memory Block</span>
-                      <span className="coa-quad-val">{getMemoryBlockNumber(cacheResults[2])}</span>
-                    </div>
-                    <div className="coa-quad-row">
-                      <span className="coa-quad-label">Set</span>
-                      <span className="coa-quad-val">Set {cacheResults[2].bit_breakdown.set_index_dec}</span>
-                    </div>
-                    <div className="coa-quad-row">
-                      <span className="coa-quad-label">Possible Line</span>
-                      <span className="coa-quad-val">Line 0 or Line 1 in Set {cacheResults[2].bit_breakdown.set_index_dec}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 3-WAY */}
-                <div className="coa-quad-card">
-                  <div className="coa-quad-header">
-                    <div className="coa-quad-badge">3-WAY</div>
-                    <div className="coa-quad-sub">3-Way Set Associative</div>
-                  </div>
-                  <div className="coa-quad-body">
-                    <div className="coa-quad-row">
-                      <span className="coa-quad-label">Memory Block</span>
-                      <span className="coa-quad-val">{getMemoryBlockNumber(cacheResults[3])}</span>
-                    </div>
-                    <div className="coa-quad-row">
-                      <span className="coa-quad-label">Set</span>
-                      <span className="coa-quad-val">Set {cacheResults[3].bit_breakdown.set_index_dec}</span>
-                    </div>
-                    <div className="coa-quad-row">
-                      <span className="coa-quad-label">Possible Line</span>
-                      <span className="coa-quad-val">Line 0, 1, or 2 in Set {cacheResults[3].bit_breakdown.set_index_dec}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </section>
-
-        {/* ── INSTRUCTION CYCLE & FORMATS LAB (FROM COA-SIMULATOR) ── */}
+        {/* ── 6. INSTRUCTION CYCLE & FORMATS LAB (FROM COA-SIMULATOR) ── */}
         <section id="instruction-lab" className="coa-inst-panel" aria-labelledby="inst-lab-heading">
           <div className="coa-lab-header">
             <div className="coa-lab-eyebrow">PROCESSOR EXECUTION &bull; REAL ISA GENERATION</div>
@@ -1329,9 +1085,9 @@ export default function CoaLearningPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '1rem' }}>
             {[
               { num: '01', title: 'Number Systems', desc: 'Binary radix, conversion steps & 2\'s complement arithmetic', targetId: 'number-lab', tab: 'number-systems' },
-              { num: '02', title: 'Cache Mapping', desc: 'Tag/Set/Offset breakdown across 0-Way, 1-Way, 2-Way & 3-Way', targetId: 'cache-lab', tab: 'cache-mapping' },
+              { num: '02', title: 'Instruction Cycle', desc: 'Arithmetic expression decoding across 3, 2, 1, and 0-address formats', targetId: 'instruction-lab', tab: 'instruction-cycle' },
               { num: '03', title: 'Memory Hierarchy', desc: 'Multi-tiered storage balancing access latency and hardware cost', targetId: 'hierarchy-section', tab: 'memory' },
-              { num: '04', title: 'Instruction Cycle', desc: 'Arithmetic expression decoding across 3, 2, 1, and 0-address formats', targetId: 'instruction-lab', tab: 'instruction-cycle' }
+              { num: '04', title: 'Concept Notes', desc: 'Key architectural concepts, pipelining, and performance principles', targetId: 'coa-concepts', tab: 'concepts' }
             ].map((step, i) => (
               <div key={i} style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)', padding: '1.25rem', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--primary)', marginBottom: '0.5rem' }}>
