@@ -7,63 +7,74 @@
 export const achievementsData = [
   {
     id: 1,
-    title: "Computer Architecture & Systems Mastery",
-    description: "Certification for verified mastery in Processor Datapath Design, Cache Locality, and Pipelined Hazard Mitigation.",
+    title: "Microsoft Certified: Azure Fundamentals",
+    description: "Official credential awarded by Microsoft validating foundational understanding of cloud architectural models, core Azure cloud services, security baselines, identity management, and governance. Issued under the authority of Satya Nadella (CEO, Microsoft).",
     category: "certificates",
-    category_label: "Technical Certification",
-    date: "2025 - Present",
-    meta_info: "Chandigarh University • CSE Department",
-    image_placeholder: "Technical Certification"
+    category_label: "Industry Certification",
+    date: "19 November 2025",
+    meta_info: "Microsoft & Certiport • Credential ID: cuSP-uSez",
+    image_url: "/assets/achievements/azure-fundamentals.png",
+    image_placeholder: "Microsoft Azure Fundamentals Certification",
+    badge: "Microsoft Certified",
+    verification_url: "https://verify.certiport.com"
   },
   {
     id: 2,
-    title: "Systems Coding & Architecture Challenge",
-    description: "Recognized for algorithmic efficiency and memory-conscious data structures implementation under strict hardware constraints.",
+    title: "3rd Position • Integrated Green Mobility Ideathon",
+    description: "Secured Third Position with team 'Innovation Crew' (UID: 25BAI10049) in the Integrated Green Mobility Ideathon focusing on Sustainable Vehicles Inspired by Indian Knowledge Systems (IKS), organized by Ignite Youth Club & Chandigarh University.",
     category: "competitions",
-    category_label: "Competition Award",
-    date: "2024",
-    meta_info: "Top Honor • Departmental Technical Symposium",
-    image_placeholder: "Systems Coding Trophy"
+    category_label: "Competition Award (3rd Position)",
+    date: "16 February 2026",
+    meta_info: "Chandigarh University • NAAC Grade A+ • AIT CSE",
+    image_url: "/assets/achievements/green-mobility-ideathon-3rd.png",
+    image_placeholder: "Bronze Medal Ideathon Achievement Certificate",
+    badge: "Bronze Award • 3rd Place"
   },
   {
     id: 3,
-    title: "Low-Power Embedded Architecture Prototype",
-    description: "Built a functional hardware-software prototype in 36 hours demonstrating distributed sensor processing with minimal instruction overhead.",
-    category: "hackathons",
-    category_label: "Hackathon Achievement",
-    date: "2024",
-    meta_info: "Hackathon Project • Hardware/Software Co-Design",
-    image_placeholder: "Hackathon Demonstration"
+    title: "Advance Credit Program: Programming in Python",
+    description: "Certificate of Accomplishment demonstrating outstanding dedication and exceptional performance in Programming in Python (Course: 25GPA132) under the Advance Credit Program, earning 1 official academic credit redeemed toward university degree requirements.",
+    category: "academic",
+    category_label: "Advance Credit Program",
+    date: "2025 - 2026",
+    meta_info: "Chandigarh University (NIRF #20, QS Asia) • 1 Academic Credit",
+    image_url: "/assets/achievements/python-advance-credit.png",
+    image_placeholder: "Python Advance Credit Program Certificate",
+    badge: "1 Academic Credit"
   },
   {
     id: 4,
-    title: "Academic Merit & Dean's Honor Recognition",
-    description: "Conferred for sustained academic excellence in foundational computer engineering and architectural theory courses.",
-    category: "academic",
-    category_label: "Academic Honor",
-    date: "2024 - 2025",
-    meta_info: "Chandigarh University • B.E. Computer Science & Engineering",
-    image_placeholder: "Merit Citation"
+    title: "Build Summit 2026: Innovating for Bharat",
+    description: "Certificate of Participation for active involvement with project 'Byte Built' during Build Summit 2026 celebrating Engineers' Day at Chandigarh University, showcasing collaborative technology, creativity, and engineering problem-solving.",
+    category: "hackathons",
+    category_label: "Hackathon & Summit",
+    date: "14 - 15 September 2026",
+    meta_info: "University Institute of Engineering (UIE), Chandigarh University",
+    image_url: "/assets/achievements/build-summit-2026.png",
+    image_placeholder: "Build Summit 2026 Participation Certificate",
+    badge: "Engineers' Day Summit"
   },
   {
     id: 5,
-    title: "COA Architecture Project Exhibition",
-    description: "Demonstrating interactive cache associative simulators and pipeline execution models to department faculty and peers.",
-    category: "events",
-    category_label: "Event Presentation",
-    date: "2025",
-    meta_info: "Annual Engineering Colloquium • Technical Presentation",
-    image_placeholder: "Poster Presentation"
+    title: "HERizon 2026 • IEEE India Council Collaboration",
+    description: "Certificate of Participation awarded to Richa Sharma (Team: Quad X) for actively participating in HERizon 2026, an initiative empowering women in engineering, organized by UIE Chandigarh University in collaboration with IEEE India Council and atthah.",
+    category: "hackathons",
+    category_label: "IEEE Tech & Innovation",
+    date: "27 - 28 March 2026",
+    meta_info: "IEEE India Council & UIE Chandigarh University",
+    image_url: "/assets/achievements/herizon-2026-ieee.png",
+    image_placeholder: "HERizon 2026 IEEE Certificate",
+    badge: "IEEE India Council"
   },
   {
     id: 6,
-    title: "Hardware Synthesis & FPGA Workshop",
-    description: "Hands-on workshop credential on digital logic synthesis, register-transfer level (RTL) verification, and FPGA prototyping.",
+    title: "Computer Architecture & Systems Mastery",
+    description: "Departmental citation for verified excellence in Processor Datapath Design, Cache Locality, and Pipelined Hazard Mitigation in Computer Organisation & Architecture.",
     category: "certificates",
-    category_label: "Workshop Credential",
-    date: "2024",
-    meta_info: "IEEE / ACM Student Chapter Workshop",
-    image_placeholder: "Workshop Credential"
+    category_label: "Technical Citation",
+    date: "Academic Year 2025 - 2026",
+    meta_info: "Chandigarh University • CSE Department",
+    image_placeholder: "Technical Certification"
   }
 ];
 

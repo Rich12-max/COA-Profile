@@ -76,32 +76,71 @@ export default function GalleryPage() {
                 {/* Thumbnail Container */}
                 <div
                   style={{
-                    height: '180px',
-                    backgroundColor: 'var(--bg-subtle)',
-                    border: '1px dashed var(--border-color)',
-                    borderRadius: 'var(--radius-sm)',
+                    height: '210px',
+                    backgroundColor: '#ffffff',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: 'var(--radius-md)',
                     marginBottom: 'var(--space-md)',
+                    overflow: 'hidden',
+                    position: 'relative',
                     display: 'flex',
-                    flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: 'var(--text-light)',
-                    gap: '0.5rem',
+                    boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.02)'
                   }}
                 >
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                    <polyline points="21 15 16 10 5 21"></polyline>
-                  </svg>
-                  <span className="badge" style={{ fontSize: '0.7rem' }}>
-                    Click for Lightbox Preview
-                  </span>
+                  {item.image_url ? (
+                    <img
+                      src={item.image_url}
+                      alt={item.title}
+                      loading="lazy"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'top center',
+                        transition: 'transform 0.35s ease'
+                      }}
+                    />
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'var(--text-light)', gap: '0.5rem' }}>
+                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                      </svg>
+                      <span className="badge" style={{ fontSize: '0.7rem' }}>
+                        Click for Lightbox Preview
+                      </span>
+                    </div>
+                  )}
+
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '8px',
+                      right: '8px',
+                      backgroundColor: 'rgba(15, 23, 42, 0.78)',
+                      color: '#ffffff',
+                      fontSize: '0.6875rem',
+                      fontFamily: 'var(--font-mono)',
+                      padding: '2px 8px',
+                      borderRadius: '4px',
+                      backdropFilter: 'blur(4px)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      letterSpacing: '0.04em'
+                    }}
+                  >
+                    <span>View Certificate</span>
+                    <span aria-hidden="true">&nearr;</span>
+                  </div>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xs)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xs)', gap: '0.5rem', flexWrap: 'wrap' }}>
                   <span className="badge badge-primary">{item.category_label || item.category}</span>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-light)' }}>{item.date}</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-light)', fontFamily: 'var(--font-mono)' }}>{item.date}</span>
                 </div>
 
                 <h3 style={{ fontSize: '1.1rem', marginBottom: 'var(--space-xs)', color: 'var(--text-main)' }}>
