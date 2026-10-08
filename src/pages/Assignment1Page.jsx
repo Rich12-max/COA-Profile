@@ -10,23 +10,63 @@ export default function Assignment1Page() {
 
   // The 12 topics exactly corresponding to the 12 questions across the 4 pages of the original PDF
   const topics = [
-    { num: '01', name: 'Raspberry Pi', page: 1 },
-    { num: '02', name: 'AI Summit', page: 1 },
-    { num: '03', name: 'Programming Languages', page: 2 },
-    { num: '04', name: 'NPTEL', page: 2 },
-    { num: '05', name: 'RAM & Word Size', page: 2 },
-    { num: '06', name: 'Stampeding Herd', page: 2 },
-    { num: '07', name: 'Turing Award', page: 3 },
-    { num: '08', name: 'Intel & AMD', page: 3 },
-    { num: '09', name: 'CPU / GPU / TPU', page: 3 },
-    { num: '10', name: 'The Imitation Game', page: 3 },
-    { num: '11', name: 'Yotta', page: 3 },
-    { num: '12', name: 'GPU vs CPU', page: 4 },
+    { num: '01', name: 'Raspberry Pi', tag: 'Single-Board SBC', page: 1 },
+    { num: '02', name: 'AI Summit', tag: 'Key Takeaways', page: 1 },
+    { num: '03', name: 'Programming Languages', tag: 'Language Choice', page: 2 },
+    { num: '04', name: 'NPTEL', tag: 'National MOOC', page: 2 },
+    { num: '05', name: 'RAM & Word Size', tag: 'Memory Addressing', page: 2 },
+    { num: '06', name: 'Stampeding Herd', tag: 'Concurrency Issue', page: 2 },
+    { num: '07', name: 'Turing Award', tag: 'ACM Laureates', page: 3 },
+    { num: '08', name: 'Intel & AMD', tag: 'Silicon Pioneers', page: 3 },
+    { num: '09', name: 'CPU / GPU / TPU', tag: 'Processor Triad', page: 3 },
+    { num: '10', name: 'The Imitation Game', tag: 'Turing & Enigma', page: 3 },
+    { num: '11', name: 'Yotta', tag: 'Septillion Scale', page: 3 },
+    { num: '12', name: 'GPU vs CPU', tag: 'SIMD Parallelism', page: 4 },
+  ];
+
+  // 4 overarching architectural themes of the assignment
+  const themes = [
+    {
+      icon: '💻',
+      tag: 'PROCESSOR CORE',
+      title: 'Microarchitecture & CPUs',
+      desc: 'Raspberry Pi single-board computers, address bus limits, word sizing, and latency.',
+      questions: 'Q1, Q5, Q12',
+      targetPage: 1
+    },
+    {
+      icon: '⚡',
+      tag: 'PARALLEL COMPUTE',
+      title: 'AI Accelerators & GPUs',
+      desc: 'AI Summit takeaways, TPU systolic arrays, and GPU high-throughput SIMD cores.',
+      questions: 'Q2, Q9, Q12',
+      targetPage: 1
+    },
+    {
+      icon: '🏛️',
+      tag: 'COMPUTING ROOTS',
+      title: 'Historical Pioneers & Silicon',
+      desc: 'Alan Turing, Turing Award achievements, and the foundations of Intel & AMD.',
+      questions: 'Q7, Q8, Q10',
+      targetPage: 3
+    },
+    {
+      icon: '🌐',
+      tag: 'SYSTEMS & SCALE',
+      title: 'Distributed Systems & Pedagogy',
+      desc: 'Thundering herd cache stampedes, Yottabyte scale metrics, and NPTEL education.',
+      questions: 'Q3, Q4, Q6, Q11',
+      targetPage: 2
+    }
   ];
 
   const handleSelectTopic = (t) => {
     setActiveTopic(t.num);
     setCurrentPage(t.page);
+  };
+
+  const handleSelectTheme = (thm) => {
+    setCurrentPage(thm.targetPage);
   };
 
   const handlePrevPage = () => {
@@ -46,7 +86,7 @@ export default function Assignment1Page() {
       <style>{`
         /* ==========================================================================
            ASSIGNMENT 01 EDITORIAL SHOWCASE
-           Minimal editorial portfolio × academic journal × soft technology
+           Minimal editorial portfolio × academic journal × cute subtle animations
            ========================================================================== */
 
         .assignment-editorial-page {
@@ -56,6 +96,7 @@ export default function Assignment1Page() {
           padding-top: calc(var(--header-height, 72px) + 2rem);
           padding-bottom: 5rem;
           position: relative;
+          overflow-x: hidden;
         }
 
         /* Subtle stationery grain texture overlay */
@@ -63,27 +104,45 @@ export default function Assignment1Page() {
           content: '';
           position: absolute;
           inset: 0;
-          background-image: radial-gradient(var(--border-color, #e5e0d8) 0.75px, transparent 0.75px);
-          background-size: 24px 24px;
+          background-image: radial-gradient(var(--border-color, #e5e0d8) 0.85px, transparent 0.85px);
+          background-size: 26px 26px;
           opacity: 0.35;
           pointer-events: none;
           z-index: 0;
         }
 
+        /* Cute subtle floating decorative sparkles in margins */
+        .assignment-decor-sparkle {
+          position: absolute;
+          pointer-events: none;
+          font-family: var(--font-mono, 'JetBrains Mono', monospace);
+          font-size: 0.875rem;
+          color: var(--primary, #2563eb);
+          opacity: 0.45;
+          animation: cuteFloat 6s ease-in-out infinite;
+          z-index: 1;
+        }
+
+        .assignment-sparkle-1 { top: 120px; left: 3%; animation-delay: 0s; font-size: 1.15rem; }
+        .assignment-sparkle-2 { top: 380px; right: 2.5%; animation-delay: 1.8s; color: var(--accent-lavender, #8b5cf6); }
+        .assignment-sparkle-3 { top: 720px; left: 2%; animation-delay: 3.2s; color: var(--accent-sage, #10b981); }
+        .assignment-sparkle-4 { top: 1100px; right: 3%; animation-delay: 2.4s; font-size: 1.25rem; }
+
         .assignment-editorial-inner {
           position: relative;
-          z-index: 1;
+          z-index: 2;
           max-width: 1080px;
           margin: 0 auto;
           padding: 0 1.5rem;
         }
 
-        /* ── 2 & 3. Header & Paper Label ─────────────────────────────────── */
+        /* ── Header & Stamp ──────────────────────────────────────────────── */
         .assignment-header {
           padding-bottom: 2.25rem;
-          margin-bottom: 2.25rem;
+          margin-bottom: 2rem;
           border-bottom: 1px solid var(--border-color, #e5e0d8);
           animation: assignmentFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+          position: relative;
         }
 
         .assignment-kicker-row {
@@ -110,13 +169,15 @@ export default function Assignment1Page() {
         .assignment-kicker-tag::before {
           content: '';
           display: inline-block;
-          width: 6px;
-          height: 6px;
+          width: 7px;
+          height: 7px;
           border-radius: 50%;
           background: var(--primary, #2563eb);
+          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+          animation: pulseDot 2.4s infinite ease-in-out;
         }
 
-        /* Floating tiny paper label */
+        /* Cute paper label */
         .assignment-paper-label {
           font-family: var(--font-mono, 'JetBrains Mono', monospace);
           font-size: 0.6875rem;
@@ -127,14 +188,21 @@ export default function Assignment1Page() {
           background: var(--primary-light, #eff6ff);
           border: 1px solid var(--primary-border, #bfdbfe);
           padding: 0.25rem 0.65rem;
-          border-radius: 4px;
-          display: inline-block;
+          border-radius: 6px;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          transition: transform 0.2s ease;
+        }
+
+        .assignment-paper-label:hover {
+          transform: translateY(-1px);
         }
 
         .assignment-title-wrap {
           display: flex;
           justify-content: space-between;
-          align-items: flex-end;
+          align-items: flex-start;
           flex-wrap: wrap;
           gap: 1.5rem;
           margin-bottom: 0.75rem;
@@ -157,6 +225,60 @@ export default function Assignment1Page() {
           color: var(--text-muted, #57534e);
           margin-top: 0.4rem;
           letter-spacing: -0.01em;
+        }
+
+        /* Cute academic seal / stamp in header */
+        .assignment-seal-box {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .assignment-seal {
+          width: 78px;
+          height: 78px;
+          border-radius: 50%;
+          border: 1px dashed var(--border-color, #e5e0d8);
+          background: var(--bg-surface, #ffffff);
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+          transition: transform 0.3s ease;
+        }
+
+        .assignment-seal:hover {
+          transform: scale(1.05) rotate(4deg);
+        }
+
+        .assignment-seal-inner {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          border: 1px solid var(--primary-border, #bfdbfe);
+          background: var(--primary-light, #eff6ff);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+        }
+
+        .assignment-seal-text-top {
+          font-family: var(--font-mono, 'JetBrains Mono', monospace);
+          font-size: 0.53125rem;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+          color: var(--primary, #2563eb);
+          line-height: 1.1;
+        }
+
+        .assignment-seal-text-bot {
+          font-family: var(--font-mono, 'JetBrains Mono', monospace);
+          font-size: 0.5rem;
+          color: var(--text-light, #78716c);
+          letter-spacing: 0.05em;
         }
 
         .assignment-header-aside {
@@ -185,13 +307,13 @@ export default function Assignment1Page() {
           margin-top: 0.75rem;
         }
 
-        /* ── 4. Assignment Identity Row ──────────────────────────────────── */
+        /* ── Assignment Identity Row ─────────────────────────────────────── */
         .assignment-identity-panel {
           background: var(--bg-surface, #ffffff);
           border: 1px solid var(--border-color, #e5e0d8);
           border-radius: var(--radius-md, 10px);
           padding: 1rem 1.35rem;
-          margin-bottom: 1rem;
+          margin-bottom: 1.5rem;
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
           gap: 1rem 1.5rem;
@@ -222,22 +344,158 @@ export default function Assignment1Page() {
           color: var(--text-main, #1e293b);
         }
 
-        /* ── 5. Intro Line ───────────────────────────────────────────────── */
+        /* ── Intro Line with Cute Ribbon ─────────────────────────────────── */
+        .assignment-intro-bar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 1rem;
+          margin-bottom: 2rem;
+          animation: assignmentFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+          animation-delay: 0.12s;
+        }
+
         .assignment-intro-line {
           font-family: var(--font-serif, 'Newsreader', Georgia, serif);
           font-style: italic;
           font-size: 1.05rem;
           color: var(--text-muted, #57534e);
-          margin-bottom: 2.5rem;
+          margin: 0;
           padding-left: 0.25rem;
-          animation: assignmentFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-          animation-delay: 0.14s;
         }
 
-        /* ── 6 & 7. Document Stage & Paper Stack Effect ──────────────────── */
+        .assignment-course-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          background: #ffffff;
+          border: 1px solid var(--border-color, #e5e0d8);
+          padding: 0.3rem 0.75rem;
+          border-radius: 9999px;
+          font-family: var(--font-mono, 'JetBrains Mono', monospace);
+          font-size: 0.71875rem;
+          color: var(--text-muted, #57534e);
+          box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+          transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .assignment-course-pill:hover {
+          transform: translateY(-2px);
+          border-color: var(--primary-border, #bfdbfe);
+        }
+
+        /* ── Cute Architectural Scope Cards (Fills the Page Gracefully) ───── */
+        .assignment-scope-section {
+          margin-bottom: 2.75rem;
+          animation: assignmentFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+          animation-delay: 0.16s;
+        }
+
+        .assignment-scope-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+          gap: 1rem;
+        }
+
+        .assignment-scope-card {
+          background: var(--bg-surface, #ffffff);
+          border: 1px solid var(--border-color, #e5e0d8);
+          border-radius: 10px;
+          padding: 1.15rem 1.25rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          text-align: left;
+          cursor: pointer;
+          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .assignment-scope-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: transparent;
+          transition: background 0.2s ease;
+        }
+
+        .assignment-scope-card:hover {
+          transform: translateY(-3px);
+          border-color: var(--primary-border, #bfdbfe);
+          box-shadow: 0 6px 16px rgba(15, 23, 42, 0.05);
+        }
+
+        .assignment-scope-card:hover::before {
+          background: var(--primary, #2563eb);
+        }
+
+        .assignment-scope-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.65rem;
+        }
+
+        .assignment-scope-icon {
+          font-size: 1.25rem;
+          display: inline-block;
+          transition: transform 0.2s ease;
+        }
+
+        .assignment-scope-card:hover .assignment-scope-icon {
+          transform: scale(1.15) rotate(4deg);
+        }
+
+        .assignment-scope-tag {
+          font-family: var(--font-mono, 'JetBrains Mono', monospace);
+          font-size: 0.625rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--text-light, #78716c);
+        }
+
+        .assignment-scope-title {
+          font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+          font-size: 0.9375rem;
+          font-weight: 700;
+          color: var(--text-main, #1e293b);
+          margin-bottom: 0.35rem;
+        }
+
+        .assignment-scope-desc {
+          font-size: 0.78125rem;
+          color: var(--text-muted, #57534e);
+          line-height: 1.45;
+          margin-bottom: 0.75rem;
+          flex-grow: 1;
+        }
+
+        .assignment-scope-footer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-top: 0.6rem;
+          border-top: 1px dashed var(--border-color, #e5e0d8);
+          font-family: var(--font-mono, 'JetBrains Mono', monospace);
+          font-size: 0.6875rem;
+          color: var(--text-light, #78716c);
+        }
+
+        .assignment-scope-link {
+          color: var(--primary, #2563eb);
+          font-weight: 600;
+        }
+
+        /* ── Document Stage & Paper Stack Effect ─────────────────────────── */
         .assignment-stage {
           position: relative;
-          margin: 0 auto 2.5rem auto;
+          margin: 0 auto 3rem auto;
           animation: assignmentFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
           animation-delay: 0.2s;
         }
@@ -254,7 +512,7 @@ export default function Assignment1Page() {
           letter-spacing: 0.12em;
           text-transform: uppercase;
           color: var(--text-light, #78716c);
-          opacity: 0.75;
+          opacity: 0.8;
         }
 
         .assignment-decor-right {
@@ -263,7 +521,7 @@ export default function Assignment1Page() {
           gap: 0.4rem;
         }
 
-        /* Multi-layered paper stack wrapper */
+        /* Multi-layered physical paper stack */
         .assignment-paper-stack {
           position: relative;
           background: #ffffff;
@@ -271,7 +529,7 @@ export default function Assignment1Page() {
           border-radius: 12px;
           box-shadow:
             0 1px 3px rgba(15, 23, 42, 0.04),
-            0 14px 28px -4px rgba(15, 23, 42, 0.07),
+            0 14px 32px -4px rgba(15, 23, 42, 0.07),
             0 4px 8px -2px rgba(15, 23, 42, 0.03);
           transition: box-shadow 0.3s ease;
         }
@@ -280,11 +538,11 @@ export default function Assignment1Page() {
         .assignment-paper-stack::before {
           content: '';
           position: absolute;
-          top: 6px;
-          left: 6px;
-          right: -6px;
-          bottom: -6px;
-          background: #fbf9f4;
+          top: 7px;
+          left: 7px;
+          right: -7px;
+          bottom: -7px;
+          background: #fcfaf5;
           border: 1px solid var(--border-color, #e5e0d8);
           border-radius: 12px;
           z-index: -1;
@@ -295,18 +553,18 @@ export default function Assignment1Page() {
         .assignment-paper-stack::after {
           content: '';
           position: absolute;
-          top: 12px;
-          left: 12px;
-          right: -12px;
-          bottom: -12px;
-          background: #f6f3eb;
+          top: 14px;
+          left: 14px;
+          right: -14px;
+          bottom: -14px;
+          background: #f7f4ec;
           border: 1px solid var(--border-color, #e5e0d8);
           border-radius: 12px;
           z-index: -2;
-          box-shadow: 0 8px 16px rgba(15, 23, 42, 0.02);
+          box-shadow: 0 8px 18px rgba(15, 23, 42, 0.02);
         }
 
-        /* ── 12 & 13. Page Indicator & Progress Line ─────────────────────── */
+        /* ── Page Indicator & Progress Line ──────────────────────────────── */
         .assignment-progress-header {
           display: flex;
           justify-content: space-between;
@@ -346,14 +604,13 @@ export default function Assignment1Page() {
           color: var(--accent-sage, #10b981);
           background: var(--accent-sage-light, #ecfdf5);
           border: 1px solid rgba(16, 185, 129, 0.25);
-          padding: 0.2rem 0.55rem;
-          border-radius: 4px;
+          padding: 0.2rem 0.6rem;
+          border-radius: 6px;
         }
 
-        /* Progress track line */
         .assignment-progress-track {
           width: 100%;
-          height: 2px;
+          height: 2.5px;
           background: var(--border-color, #e5e0d8);
           position: relative;
           overflow: hidden;
@@ -361,11 +618,11 @@ export default function Assignment1Page() {
 
         .assignment-progress-bar {
           height: 100%;
-          background: var(--primary, #2563eb);
+          background: linear-gradient(90deg, var(--primary, #2563eb), #3b82f6);
           transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* ── The PDF Viewer Object / IFrame ──────────────────────────────── */
+        /* ── PDF Stage ───────────────────────────────────────────────────── */
         .assignment-pdf-frame-wrapper {
           background: #ffffff;
           overflow: hidden;
@@ -379,7 +636,7 @@ export default function Assignment1Page() {
           border: none;
         }
 
-        /* ── 9. Floating Minimal Controls Toolbar ────────────────────────── */
+        /* ── Minimal Floating Controls Toolbar ───────────────────────────── */
         .assignment-controls-bar {
           display: flex;
           align-items: center;
@@ -403,16 +660,16 @@ export default function Assignment1Page() {
           font-family: var(--font-mono, 'JetBrains Mono', monospace);
           font-size: 0.78125rem;
           font-weight: 600;
-          padding: 0.4rem 0.85rem;
+          padding: 0.45rem 0.95rem;
           border-radius: 6px;
           border: 1px solid var(--border-color, #e5e0d8);
           background: var(--bg-subtle, #f5f2eb);
           color: var(--text-main, #1e293b);
           cursor: pointer;
-          transition: all 0.18s ease;
+          transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
           display: inline-flex;
           align-items: center;
-          gap: 0.35rem;
+          gap: 0.4rem;
           text-decoration: none;
         }
 
@@ -421,6 +678,7 @@ export default function Assignment1Page() {
           border-color: var(--primary-border, #bfdbfe);
           color: var(--primary, #2563eb);
           transform: translateY(-2px);
+          box-shadow: 0 3px 8px rgba(37, 99, 235, 0.08);
         }
 
         .assignment-ctrl-btn:disabled {
@@ -456,7 +714,7 @@ export default function Assignment1Page() {
           border-color: var(--primary-hover, #1d4ed8);
         }
 
-        /* ── 8. Bottom Decorative Stage Notes ────────────────────────────── */
+        /* ── Bottom Decorative Stage Notes ───────────────────────────────── */
         .assignment-stage-decor-bottom {
           display: flex;
           justify-content: space-between;
@@ -467,10 +725,10 @@ export default function Assignment1Page() {
           letter-spacing: 0.12em;
           text-transform: uppercase;
           color: var(--text-light, #78716c);
-          opacity: 0.7;
+          opacity: 0.75;
         }
 
-        /* ── 10 & 11. “Inside This Assignment” Topic Index ───────────────── */
+        /* ── “Inside This Assignment” Topic Index ────────────────────────── */
         .assignment-topics-section {
           margin-top: 3.5rem;
           padding-top: 2.5rem;
@@ -478,6 +736,11 @@ export default function Assignment1Page() {
         }
 
         .assignment-topics-head {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          flex-wrap: wrap;
+          gap: 1rem;
           margin-bottom: 1.5rem;
         }
 
@@ -497,19 +760,29 @@ export default function Assignment1Page() {
           font-size: 1.75rem;
           font-weight: 600;
           color: var(--text-main, #1e293b);
-          margin: 0 0 0.35rem 0;
+          margin: 0;
         }
 
         .assignment-topics-sub {
           font-size: 0.875rem;
           color: var(--text-muted, #57534e);
-          margin: 0;
+          margin: 0.25rem 0 0 0;
+        }
+
+        .assignment-topics-legend {
+          font-family: var(--font-mono, 'JetBrains Mono', monospace);
+          font-size: 0.71875rem;
+          color: var(--text-light, #78716c);
+          background: #ffffff;
+          border: 1px solid var(--border-color, #e5e0d8);
+          padding: 0.3rem 0.65rem;
+          border-radius: 6px;
         }
 
         .assignment-topics-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 0.65rem;
+          gap: 0.75rem;
         }
 
         .assignment-topic-card {
@@ -530,17 +803,18 @@ export default function Assignment1Page() {
           background: var(--primary-light, #eff6ff);
           border-color: var(--primary-border, #bfdbfe);
           transform: translateY(-2px);
-          box-shadow: 0 4px 10px rgba(37, 99, 235, 0.05);
+          box-shadow: 0 4px 12px rgba(37, 99, 235, 0.06);
         }
 
         .assignment-topic-card.active {
           border-color: var(--primary, #2563eb);
           background: var(--primary-light, #eff6ff);
+          box-shadow: 0 0 0 1px var(--primary, #2563eb);
         }
 
         .assignment-topic-left {
           display: flex;
-          align-items: baseline;
+          align-items: center;
           gap: 0.75rem;
         }
 
@@ -550,6 +824,7 @@ export default function Assignment1Page() {
           font-weight: 700;
           color: var(--text-light, #78716c);
           transition: color 0.2s ease;
+          width: 20px;
         }
 
         .assignment-topic-card:hover .assignment-topic-num,
@@ -557,11 +832,23 @@ export default function Assignment1Page() {
           color: var(--primary, #2563eb);
         }
 
+        .assignment-topic-details {
+          display: flex;
+          flex-direction: column;
+          gap: 0.15rem;
+        }
+
         .assignment-topic-name {
           font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
           font-size: 0.875rem;
           font-weight: 600;
           color: var(--text-main, #1e293b);
+        }
+
+        .assignment-topic-tag {
+          font-family: var(--font-mono, 'JetBrains Mono', monospace);
+          font-size: 0.65625rem;
+          color: var(--text-light, #78716c);
         }
 
         .assignment-topic-right {
@@ -583,7 +870,7 @@ export default function Assignment1Page() {
           color: var(--primary, #2563eb);
         }
 
-        /* ── 14. Minimal Closing Section ─────────────────────────────────── */
+        /* ── Minimal Closing Section ─────────────────────────────────────── */
         .assignment-closing {
           margin-top: 5rem;
           padding-top: 3rem;
@@ -629,7 +916,7 @@ export default function Assignment1Page() {
           box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
         }
 
-        /* Animations */
+        /* ── Cute Animations ─────────────────────────────────────────────── */
         @keyframes assignmentFadeUp {
           from {
             opacity: 0;
@@ -641,15 +928,38 @@ export default function Assignment1Page() {
           }
         }
 
+        @keyframes cuteFloat {
+          0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-8px) rotate(6deg);
+          }
+        }
+
+        @keyframes pulseDot {
+          0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+          50% {
+            transform: scale(1.25);
+            opacity: 0.75;
+          }
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .assignment-header,
           .assignment-identity-panel,
-          .assignment-intro-line,
-          .assignment-stage {
+          .assignment-intro-bar,
+          .assignment-scope-section,
+          .assignment-stage,
+          .assignment-decor-sparkle {
             animation: none !important;
           }
           .assignment-ctrl-btn:hover,
           .assignment-topic-card:hover,
+          .assignment-scope-card:hover,
           .assignment-back-hub-btn:hover {
             transform: none !important;
           }
@@ -666,6 +976,10 @@ export default function Assignment1Page() {
           }
           .assignment-header-aside {
             text-align: left;
+          }
+          .assignment-seal-box {
+            width: 100%;
+            justify-content: space-between;
           }
           .assignment-stage-decor,
           .assignment-stage-decor-bottom {
@@ -685,8 +999,17 @@ export default function Assignment1Page() {
             text-align: center;
             justify-content: center;
           }
+          .assignment-decor-sparkle {
+            display: none;
+          }
         }
       `}</style>
+
+      {/* Floating gentle aesthetic sparkles in margins */}
+      <div className="assignment-decor-sparkle assignment-sparkle-1" aria-hidden="true">✦</div>
+      <div className="assignment-decor-sparkle assignment-sparkle-2" aria-hidden="true">✧</div>
+      <div className="assignment-decor-sparkle assignment-sparkle-3" aria-hidden="true">✦</div>
+      <div className="assignment-decor-sparkle assignment-sparkle-4" aria-hidden="true">✧</div>
 
       <div className="assignment-editorial-inner">
         <Breadcrumb items={[{ label: 'COA Learning Hub', to: '/coa' }, { label: 'Assignment 01', to: '/assignment-1' }]} />
@@ -696,7 +1019,7 @@ export default function Assignment1Page() {
           <div className="assignment-kicker-row">
             <span className="assignment-kicker-tag">ACADEMIC WORK &bull; 01</span>
             <div className="assignment-paper-label">
-              COURSEWORK / 01
+              <span>✦ COURSEWORK / 01</span>
             </div>
           </div>
 
@@ -707,9 +1030,18 @@ export default function Assignment1Page() {
               <div className="assignment-quick-meta">12 Questions &bull; 4 Pages &bull; 06 August 2026</div>
             </div>
 
-            <div className="assignment-header-aside">
-              <div className="assignment-author-name">Richa Sharma</div>
-              <div className="assignment-author-id">25BAI10049</div>
+            <div className="assignment-seal-box">
+              <div className="assignment-seal" title="Chandigarh University · CSE · Verified Academic Coursework">
+                <div className="assignment-seal-inner">
+                  <span className="assignment-seal-text-top">COA &bull; 01</span>
+                  <span style={{ fontSize: '0.625rem', color: 'var(--primary)', lineHeight: 1 }}>✦</span>
+                  <span className="assignment-seal-text-bot">2026</span>
+                </div>
+              </div>
+              <div className="assignment-header-aside">
+                <div className="assignment-author-name">Richa Sharma</div>
+                <div className="assignment-author-id">25BAI10049</div>
+              </div>
             </div>
           </div>
         </header>
@@ -742,14 +1074,49 @@ export default function Assignment1Page() {
           </div>
         </section>
 
-        {/* ── 5. BEAUTIFUL INTRO LINE ── */}
-        <p className="assignment-intro-line">
-          A collection of my Computer Organisation &amp; Architecture coursework.
-        </p>
+        {/* ── 5. INTRO LINE & CUTE COURSEWORK PILL ── */}
+        <div className="assignment-intro-bar">
+          <p className="assignment-intro-line">
+            A collection of my Computer Organisation &amp; Architecture coursework.
+          </p>
+
+          <div className="assignment-course-pill">
+            <span style={{ color: 'var(--primary)' }}>✦</span>
+            <span>Chandigarh University &bull; B.E. CSE</span>
+          </div>
+        </div>
+
+        {/* ── CUTE ARCHITECTURAL THEMES & COURSEWORK SCOPE ── */}
+        <section className="assignment-scope-section" aria-label="Coursework Scope Overview">
+          <div className="assignment-scope-grid">
+            {themes.map((thm, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => handleSelectTheme(thm)}
+                className="assignment-scope-card"
+                title={`Click to preview ${thm.title} in document`}
+              >
+                <div>
+                  <div className="assignment-scope-top">
+                    <span className="assignment-scope-icon">{thm.icon}</span>
+                    <span className="assignment-scope-tag">{thm.tag}</span>
+                  </div>
+                  <div className="assignment-scope-title">{thm.title}</div>
+                  <div className="assignment-scope-desc">{thm.desc}</div>
+                </div>
+                <div className="assignment-scope-footer">
+                  <span>{thm.questions}</span>
+                  <span className="assignment-scope-link">Page 0{thm.targetPage} &rarr;</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </section>
 
         {/* ── 6 & 7. HERO PDF STAGE WITH PAPER STACK EFFECT ── */}
         <section className="assignment-stage" aria-label="Assignment Original PDF Document Stage">
-          {/* 8. Floating top decorative editorial details */}
+          {/* Floating top decorative editorial details */}
           <div className="assignment-stage-decor">
             <span>COA / 01 &bull; 2026</span>
             <span className="assignment-decor-right">
@@ -759,9 +1126,9 @@ export default function Assignment1Page() {
             </span>
           </div>
 
-          {/* Layered Paper Stack Container */}
+          {/* Multi-layered physical paper stack container */}
           <div className="assignment-paper-stack">
-            {/* 12 & 13. Page Indicator & Original Document Label */}
+            {/* Page Indicator & Original Document Label */}
             <div className="assignment-progress-header">
               <div className="assignment-page-tag">
                 <span>PAGE 0{currentPage}</span>
@@ -777,7 +1144,7 @@ export default function Assignment1Page() {
               </div>
             </div>
 
-            {/* Thin progress line */}
+            {/* Thin progress line with smooth width transition */}
             <div className="assignment-progress-track">
               <div
                 className="assignment-progress-bar"
@@ -816,7 +1183,7 @@ export default function Assignment1Page() {
               </object>
             </div>
 
-            {/* 9. Minimal Floating Controls Toolbar */}
+            {/* Minimal Floating Controls Toolbar */}
             <div className="assignment-controls-bar">
               {/* Previous / Page / Next */}
               <div className="assignment-nav-group">
@@ -873,9 +1240,9 @@ export default function Assignment1Page() {
             </div>
           </div>
 
-          {/* 8. Floating bottom decorative editorial details */}
+          {/* Bottom decorative editorial details */}
           <div className="assignment-stage-decor-bottom">
-            <span>12 QUESTIONS</span>
+            <span>12 QUESTIONS &bull; 4 VERIFIED PAGES</span>
             <span>ARCHITECTURE COURSEWORK</span>
           </div>
         </section>
@@ -883,11 +1250,17 @@ export default function Assignment1Page() {
         {/* ── 10 & 11. “INSIDE THIS ASSIGNMENT” TOPIC INDEX ── */}
         <section className="assignment-topics-section" aria-labelledby="topics-heading">
           <div className="assignment-topics-head">
-            <span className="assignment-topics-kicker">DOCUMENT DIRECTORY</span>
-            <h2 id="topics-heading" className="assignment-topics-title">Inside This Assignment</h2>
-            <p className="assignment-topics-sub">
-              A curated index of the 12 questions explored in the submission. Click any topic to navigate to its page.
-            </p>
+            <div>
+              <span className="assignment-topics-kicker">DOCUMENT DIRECTORY</span>
+              <h2 id="topics-heading" className="assignment-topics-title">Inside This Assignment</h2>
+              <p className="assignment-topics-sub">
+                A curated index of the 12 questions explored in the submission. Click any topic to navigate to its page.
+              </p>
+            </div>
+
+            <div className="assignment-topics-legend">
+              <span>✦ 12 Curriculum Inquiries</span>
+            </div>
           </div>
 
           <div className="assignment-topics-grid">
@@ -903,7 +1276,10 @@ export default function Assignment1Page() {
                 >
                   <div className="assignment-topic-left">
                     <span className="assignment-topic-num">{t.num}</span>
-                    <span className="assignment-topic-name">{t.name}</span>
+                    <div className="assignment-topic-details">
+                      <span className="assignment-topic-name">{t.name}</span>
+                      <span className="assignment-topic-tag">{t.tag}</span>
+                    </div>
                   </div>
                   <div className="assignment-topic-right">
                     <span>P. 0{t.page}</span>
