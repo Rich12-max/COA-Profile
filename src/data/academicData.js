@@ -13,10 +13,16 @@ export const achievementsData = [
     category_label: "Industry Certification",
     date: "19 November 2025",
     meta_info: "Microsoft & Certiport • Credential ID: cuSP-uSez",
+    issuer: "Microsoft & Certiport",
+    signatory: "Satya Nadella, CEO Microsoft",
+    credential_id: "cuSP-uSez",
     image_url: "/assets/achievements/azure-fundamentals.png",
     image_placeholder: "Microsoft Azure Fundamentals Certification",
     badge: "Microsoft Certified",
-    verification_url: "https://verify.certiport.com"
+    verification_url: "https://verify.certiport.com",
+    accent_color: "#0078d4",
+    accent_bg: "rgba(0, 120, 212, 0.08)",
+    highlight: "Global Cloud Architecture Validation"
   },
   {
     id: 2,
@@ -26,21 +32,31 @@ export const achievementsData = [
     category_label: "Competition Award (3rd Position)",
     date: "16 February 2026",
     meta_info: "Chandigarh University • NAAC Grade A+ • AIT CSE",
+    issuer: "Ignite Youth Club & Chandigarh University",
+    team: "Innovation Crew (UID: 25BAI10049)",
     image_url: "/assets/achievements/green-mobility-ideathon-3rd.png",
     image_placeholder: "Bronze Medal Ideathon Achievement Certificate",
-    badge: "Bronze Award • 3rd Place"
+    badge: "Bronze Award • 3rd Place",
+    accent_color: "#d97706",
+    accent_bg: "rgba(217, 119, 6, 0.08)",
+    highlight: "Podium Finish • Indian Knowledge Systems (IKS)"
   },
   {
     id: 3,
     title: "Advance Credit Program: Programming in Python",
     description: "Certificate of Accomplishment demonstrating outstanding dedication and exceptional performance in Programming in Python (Course: 25GPA132) under the Advance Credit Program, earning 1 official academic credit redeemed toward university degree requirements.",
     category: "academic",
-    category_label: "Advance Credit Program",
-    date: "2025 - 2026",
+    category_label: "University Academic Credit",
+    date: "Academic Session 2025 - 2026",
     meta_info: "Chandigarh University (NIRF #20, QS Asia) • 1 Academic Credit",
+    issuer: "Chandigarh University (NAAC A+)",
+    course: "25GPA132 • Programming in Python",
     image_url: "/assets/achievements/python-advance-credit.png",
     image_placeholder: "Python Advance Credit Program Certificate",
-    badge: "1 Academic Credit"
+    badge: "1 Academic Credit Earned",
+    accent_color: "#059669",
+    accent_bg: "rgba(5, 150, 105, 0.08)",
+    highlight: "Pre-College Credit • Python Specialization"
   },
   {
     id: 4,
@@ -50,9 +66,14 @@ export const achievementsData = [
     category_label: "Hackathon & Summit",
     date: "14 - 15 September 2026",
     meta_info: "University Institute of Engineering (UIE), Chandigarh University",
+    issuer: "UIE Chandigarh University",
+    team: "Project 'Byte Built'",
     image_url: "/assets/achievements/build-summit-2026.png",
     image_placeholder: "Build Summit 2026 Participation Certificate",
-    badge: "Engineers' Day Summit"
+    badge: "Engineers' Day Summit",
+    accent_color: "#4f46e5",
+    accent_bg: "rgba(79, 70, 229, 0.08)",
+    highlight: "Engineers' Day • Project Byte Built"
   },
   {
     id: 5,
@@ -62,19 +83,14 @@ export const achievementsData = [
     category_label: "IEEE Tech & Innovation",
     date: "27 - 28 March 2026",
     meta_info: "IEEE India Council & UIE Chandigarh University",
+    issuer: "IEEE India Council & UIE Chandigarh University",
+    team: "Team Quad X",
     image_url: "/assets/achievements/herizon-2026-ieee.png",
     image_placeholder: "HERizon 2026 IEEE Certificate",
-    badge: "IEEE India Council"
-  },
-  {
-    id: 6,
-    title: "Computer Architecture & Systems Mastery",
-    description: "Departmental citation for verified excellence in Processor Datapath Design, Cache Locality, and Pipelined Hazard Mitigation in Computer Organisation & Architecture.",
-    category: "certificates",
-    category_label: "Technical Citation",
-    date: "Academic Year 2025 - 2026",
-    meta_info: "Chandigarh University • CSE Department",
-    image_placeholder: "Technical Certification"
+    badge: "IEEE India Council",
+    accent_color: "#7c3aed",
+    accent_bg: "rgba(124, 58, 237, 0.08)",
+    highlight: "Women in Engineering • IEEE Collaboration"
   }
 ];
 
