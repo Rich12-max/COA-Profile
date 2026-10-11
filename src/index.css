@@ -1726,6 +1726,7 @@ p {
 .float-item-6 { top: 72%; right: 10%; animation: driftFloat2 12s ease-in-out infinite; }
 .float-item-7 { top: 28%; right: 28%; color: #8b5cf6; font-size: 0.75rem; animation: driftFloat1 9s ease-in-out infinite; }
 
+
 /* Bottom Scroll Indicator */
 .hero-scroll-indicator {
   position: relative;
@@ -5515,5 +5516,1745 @@ p {
   }
   .gallery-selector-strip {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   ABOUT ME REDESIGN — "YOU DON'T JUST READ ABOUT ME. YOU DISCOVER ME."
+   Creative Physical Discovery Interactive Design System
+   ========================================================================== */
+
+.about-page-container {
+  max-width: 1040px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Ambient glow accents */
+.about-ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.about-glow-1 {
+  top: 60px;
+  right: -40px;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(196, 181, 253, 0.25), transparent 70%);
+}
+
+.about-glow-2 {
+  top: 650px;
+  left: -50px;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, rgba(167, 243, 208, 0.22), transparent 70%);
+}
+
+.about-glow-3 {
+  top: 1400px;
+  right: -40px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(254, 205, 211, 0.22), transparent 70%);
+}
+
+/* Section Container & Header */
+.about-section-group {
+  margin-bottom: var(--space-3xl);
+  position: relative;
+  z-index: 1;
+}
+
+.about-section-header-clean {
+  margin-bottom: var(--space-xl);
+}
+
+.about-section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.about-section-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.about-section-subline {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+  line-height: 1.5;
+}
+
+
+/* ── 1. 🧰 MY TOOLBOX — REAL PHYSICAL INTERACTIVE TOOLBOX ───────────────── */
+.about-toolbox-pavilion {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.75rem, 3.5vw, 3rem);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  position: relative;
+  overflow: visible;
+  text-align: center;
+}
+
+/* Central Interactive Arena / Stage */
+.about-tb-hero-stage {
+  position: relative;
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 2.5rem;
+  margin-top: 1.5rem;
+  perspective: 1100px;
+  transform-style: preserve-3d;
+  user-select: none;
+}
+
+/* Floating Tool Halo / Emerging Badges */
+.about-tb-floating-halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.about-tb-floating-chip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 4px 11px 4px 7px;
+  border-radius: 9999px;
+  background: linear-gradient(145deg, #ffffff 0%, #f7f4ec 100%);
+  border: 1.5px solid var(--border-color);
+  box-shadow: 0 6px 18px -3px rgba(15, 23, 42, 0.1), 0 2px 5px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  cursor: pointer;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) translate3d(0, 48px, 0) scale(0.2) rotate(0deg);
+  transform-origin: center center;
+  transition: transform 0.92s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  z-index: 15;
+  white-space: nowrap;
+  will-change: transform, opacity;
+}
+
+/* Emerged State */
+.about-tb-hero-stage.is-open .about-tb-floating-chip {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) translate3d(var(--tx), var(--ty), 0) scale(1) rotate(var(--rot, 0deg));
+}
+
+/* Once open, gentle slow continuous floating / bobbing animation */
+.about-tb-hero-stage.is-open .about-tb-floating-chip.is-settled {
+  animation: tbFloatBob var(--float-dur, 4.8s) ease-in-out infinite alternate;
+  animation-delay: var(--float-delay, 0s);
+}
+
+@keyframes tbFloatBob {
+  0% {
+    transform: translate(-50%, -50%) translate3d(var(--tx), var(--ty), 0) scale(1) rotate(var(--rot, 0deg)) translateY(0px);
+  }
+  50% {
+    transform: translate(-50%, -50%) translate3d(var(--tx), var(--ty), 0) scale(1.015) rotate(calc(var(--rot, 0deg) + 1.2deg)) translateY(calc(var(--amp, 4px) * -0.5));
+  }
+  100% {
+    transform: translate(-50%, -50%) translate3d(var(--tx), var(--ty), 0) scale(1) rotate(calc(var(--rot, 0deg) - 1deg)) translateY(calc(var(--amp, 4px) * -1));
+  }
+}
+
+/* Individual Tool Hover State */
+.about-tb-floating-chip:hover,
+.about-tb-floating-chip:focus-visible {
+  animation-play-state: paused !important;
+  transform: translate(-50%, -50%) translate3d(var(--tx), var(--ty), 0) scale(1.16) rotate(0deg) !important;
+  z-index: 60 !important;
+  border-color: var(--tool-color, var(--primary));
+  box-shadow: 0 12px 28px -4px var(--tool-glow, rgba(15, 23, 42, 0.22)), 0 0 0 1.5px var(--tool-color, var(--primary)), inset 0 1px 0 #ffffff;
+  outline: none;
+}
+
+.about-tb-floating-chip:hover .about-tb-chip-icon,
+.about-tb-floating-chip:focus-visible .about-tb-chip-icon {
+  transform: scale(1.08);
+}
+
+.about-tb-chip-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-tb-chip-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.about-tb-chip-name {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text-main);
+  line-height: 1;
+  user-select: none;
+}
+
+/* Individual Tool Micro-Tooltip (shows Category) */
+.about-tb-chip-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(15, 23, 42, 0.94);
+  color: #ffffff;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.65625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 70;
+}
+
+.about-tb-chip-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px;
+  border-style: solid;
+  border-color: rgba(15, 23, 42, 0.94) transparent transparent transparent;
+}
+
+.about-tb-floating-chip:hover .about-tb-chip-tooltip,
+.about-tb-floating-chip:focus-visible .about-tb-chip-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.about-tb-chip-tooltip-name {
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.about-tb-chip-tooltip-cat {
+  color: rgba(226, 232, 240, 0.85);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── PHYSICAL TOOLBOX ASSEMBLY ────────────────────────────────────────── */
+.about-tb-assembly-wrapper {
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
+  outline: none;
+}
+
+.about-tb-chassis-stage {
+  position: relative;
+  width: 320px;
+  transform-style: preserve-3d;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* Arched Metallic Top Handle */
+.about-tb-handle-unit {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 32px;
+  z-index: 20;
+  transform-origin: bottom center;
+  transition: transform 0.88s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.about-tb-handle-bar {
+  width: 80px;
+  height: 20px;
+  margin: 0 auto;
+  border: 3.5px solid #aba08e;
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  background: linear-gradient(180deg, #ede7db 0%, #d8cfbe 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  position: relative;
+}
+
+.about-tb-handle-bracket {
+  position: absolute;
+  bottom: 0;
+  width: 10px;
+  height: 9px;
+  background: #c5bcaa;
+  border: 1px solid #aba08e;
+  border-radius: 2px 2px 0 0;
+}
+
+.about-tb-handle-bracket.bracket-left { left: 2px; }
+.about-tb-handle-bracket.bracket-right { right: 2px; }
+
+/* The Hinged Upper Lid */
+.about-tb-lid {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  background: linear-gradient(180deg, #faf7f1 0%, #ece4d5 100%);
+  border: 1.5px solid #d5ccbd;
+  border-bottom: 2px solid #b8ac99;
+  border-radius: 12px 12px 4px 4px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05), inset 0 1.5px 0 rgba(255, 255, 255, 0.95);
+  transform-origin: top center;
+  transition: transform 0.92s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.65s ease;
+  z-index: 12;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+}
+
+/* Corner metal reinforcements on lid */
+.about-tb-corner-bumper {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #ded6c7;
+  border: 1px solid #c4b9a6;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+.about-tb-corner-bumper.tl { top: 3px; left: 3px; }
+.about-tb-corner-bumper.tr { top: 3px; right: 3px; }
+.about-tb-corner-bumper.bl { bottom: 3px; left: 3px; }
+.about-tb-corner-bumper.br { bottom: 3px; right: 3px; }
+
+/* Lid Open State in 3D */
+.about-tb-hero-stage.is-open .about-tb-lid {
+  transform: perspective(600px) rotateX(-78deg) translateY(-28px);
+  background: linear-gradient(180deg, #fdfbf7 0%, #f4efe4 100%);
+  box-shadow: 0 -8px 24px rgba(37, 99, 235, 0.12), 0 -2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.about-tb-hero-stage.is-open .about-tb-handle-unit {
+  transform: translateX(-50%) rotateX(-75deg) translateY(-32px);
+}
+
+/* Front Latch Mechanism */
+.about-tb-latch-assembly {
+  position: absolute;
+  bottom: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 22px;
+  z-index: 14;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.4s ease;
+}
+
+.about-tb-latch-clasp {
+  width: 20px;
+  height: 14px;
+  background: linear-gradient(180deg, #e4be78 0%, #c49a4f 100%);
+  border: 1px solid #a87f39;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.45s ease;
+}
+
+.about-tb-latch-slot {
+  width: 8px;
+  height: 3px;
+  background: #755523;
+  border-radius: 1px;
+}
+
+.about-tb-hero-stage.is-open .about-tb-latch-clasp {
+  transform: rotateX(45deg) translateY(-4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Interior Cavity (Under lid, behind front wall) */
+.about-tb-interior-cavity {
+  position: absolute;
+  top: 14px;
+  left: 12px;
+  right: 12px;
+  height: 50px;
+  background: linear-gradient(180deg, #1e1b18 0%, #292524 100%);
+  border-radius: 6px;
+  border: 1px solid #44403c;
+  box-shadow: inset 0 8px 18px rgba(0, 0, 0, 0.7);
+  z-index: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-tb-interior-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 90%, rgba(245, 158, 11, 0.45) 0%, rgba(99, 102, 241, 0.35) 45%, transparent 75%);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+
+.about-tb-hero-stage.is-open .about-tb-interior-glow {
+  opacity: 1;
+}
+
+.about-tb-interior-tray-rim {
+  width: 90%;
+  height: 2px;
+  background: #44403c;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Lower Chassis / Main Toolbox Body */
+.about-tb-chassis {
+  position: relative;
+  width: 100%;
+  height: 110px;
+  margin-top: -3px;
+  background: linear-gradient(180deg, #f5efe4 0%, #e8e0d0 100%);
+  border: 1.5px solid #d5ccbd;
+  border-top: none;
+  border-radius: 4px 4px 14px 14px;
+  box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.14), 0 4px 12px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Catch plate on lower chassis */
+.about-tb-latch-catch {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 9px;
+  background: #cfa75d;
+  border: 1px solid #9e7734;
+  border-radius: 2px;
+}
+
+/* Engraved Brass Metal Nameplate */
+.about-tb-nameplate {
+  margin-top: 0.5rem;
+  padding: 5px 16px;
+  background: linear-gradient(180deg, #efe8da 0%, #ded5c3 100%);
+  border: 1px solid #bfb4a0;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 1px 3px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  position: relative;
+}
+
+.about-tb-nameplate::before,
+.about-tb-nameplate::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #9c917f;
+  box-shadow: inset 0 0.5px 1px rgba(0, 0, 0, 0.4);
+}
+.about-tb-nameplate::before { left: 5px; }
+.about-tb-nameplate::after { right: 5px; }
+
+.about-tb-nameplate-text {
+  font-family: var(--font-mono);
+  font-size: 0.71875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #4a4237;
+  text-transform: uppercase;
+}
+
+.about-tb-nameplate-sub {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  color: #786d5e;
+  text-transform: uppercase;
+}
+
+/* Skid Rails / Feet */
+.about-tb-chassis-feet {
+  position: absolute;
+  bottom: -4px;
+  left: 18px;
+  right: 18px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.about-tb-foot {
+  width: 36px;
+  height: 4px;
+  background: #3b352f;
+  border-radius: 0 0 3px 3px;
+}
+
+/* Interactive Status Pill Under Toolbox */
+.about-tb-status-cue {
+  margin-top: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  padding: 0.35rem 0.95rem;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s ease;
+}
+
+.about-tb-status-indicator {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-light);
+  transition: background-color 0.25s ease;
+}
+
+.about-tb-hero-stage.is-open .about-tb-status-indicator {
+  background: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+.about-tb-close-action-row {
+  margin-top: 0.85rem;
+}
+
+.about-tb-pack-away-btn {
+  background: transparent;
+  border: 1px dashed var(--border-color);
+  border-radius: 9999px;
+  padding: 0.3rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.71875rem;
+  color: var(--text-light);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.about-tb-pack-away-btn:hover {
+  border-color: #cbd5e1;
+  color: var(--text-main);
+  background: var(--bg-subtle);
+}
+
+/* Mobile & Touch Layout */
+@media (max-width: 860px) {
+  .about-tb-hero-stage {
+    min-height: 510px;
+  }
+
+  .about-tb-chassis-stage {
+    width: 270px;
+  }
+
+  .about-tb-floating-chip {
+    padding: 3px 9px 3px 6px;
+    gap: 0.35rem;
+  }
+
+  .about-tb-chip-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .about-tb-chip-name {
+    font-size: 0.6875rem;
+  }
+
+  /* Scale radial distance down on smaller screens */
+  .about-tb-hero-stage.is-open .about-tb-floating-chip {
+    transform: translate(-50%, -50%) translate3d(calc(var(--tx) * 0.76), calc(var(--ty) * 0.82), 0) scale(0.96) rotate(var(--rot, 0deg));
+  }
+
+  @keyframes tbFloatBob {
+    0% {
+      transform: translate(-50%, -50%) translate3d(calc(var(--tx) * 0.76), calc(var(--ty) * 0.82), 0) scale(0.96) rotate(var(--rot, 0deg)) translateY(0px);
+    }
+    100% {
+      transform: translate(-50%, -50%) translate3d(calc(var(--tx) * 0.76), calc(var(--ty) * 0.82), 0) scale(0.96) rotate(var(--rot, 0deg)) translateY(calc(var(--amp, 4px) * -1));
+    }
+  }
+
+  .about-tb-floating-chip:hover,
+  .about-tb-floating-chip:focus-visible {
+    transform: translate(-50%, -50%) translate3d(calc(var(--tx) * 0.76), calc(var(--ty) * 0.82), 0) scale(1.12) rotate(0deg) !important;
+  }
+}
+
+@media (max-width: 540px) {
+  .about-tb-hero-stage {
+    min-height: 460px;
+  }
+
+  .about-tb-chassis-stage {
+    width: 240px;
+  }
+
+  .about-tb-floating-chip {
+    padding: 2.5px 7px 2.5px 5px;
+    gap: 0.3rem;
+  }
+
+  .about-tb-chip-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .about-tb-chip-name {
+    font-size: 0.625rem;
+  }
+
+  .about-tb-hero-stage.is-open .about-tb-floating-chip {
+    transform: translate(-50%, -50%) translate3d(calc(var(--tx) * 0.54), calc(var(--ty) * 0.70), 0) scale(0.88) rotate(var(--rot, 0deg));
+  }
+
+  @keyframes tbFloatBob {
+    0% {
+      transform: translate(-50%, -50%) translate3d(calc(var(--tx) * 0.54), calc(var(--ty) * 0.70), 0) scale(0.88) rotate(var(--rot, 0deg)) translateY(0px);
+    }
+    100% {
+      transform: translate(-50%, -50%) translate3d(calc(var(--tx) * 0.54), calc(var(--ty) * 0.70), 0) scale(0.88) rotate(var(--rot, 0deg)) translateY(calc(var(--amp, 3px) * -1));
+    }
+  }
+
+  .about-tb-floating-chip:hover,
+  .about-tb-floating-chip:focus-visible {
+    transform: translate(-50%, -50%) translate3d(calc(var(--tx) * 0.54), calc(var(--ty) * 0.70), 0) scale(1.05) rotate(0deg) !important;
+  }
+}
+
+/* Reduced Motion Fallback */
+@media (prefers-reduced-motion: reduce) {
+  .about-tb-floating-chip,
+  .about-tb-lid,
+  .about-tb-handle-unit,
+  .about-tb-latch-clasp,
+  .about-tb-chassis-stage {
+    animation: none !important;
+    transition: opacity 0.3s ease !important;
+  }
+
+  .about-tb-hero-stage.is-open .about-tb-floating-chip {
+    animation: none !important;
+  }
+}
+
+/* ── 2. 🧠 HOW MY BRAIN WORKS — THOUGHT EXPANSION ─────────────────────── */
+.about-brain-interactive-pavilion {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.75rem, 3.5vw, 3rem);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  position: relative;
+  text-align: center;
+}
+
+.about-brain-thought-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+/* Central Brain Hub Button */
+.about-brain-center-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  position: relative;
+  z-index: 3;
+  transition: transform 0.3s ease;
+}
+
+.about-brain-center-btn:hover {
+  transform: scale(1.05);
+}
+
+.about-brain-glyph-box {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-subtle) 100%);
+  border: 1.5px solid var(--border-color);
+  box-shadow: 0 8px 24px -4px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.about-brain-center-btn:hover .about-brain-glyph-box,
+.about-brain-glyph-box.is-active {
+  border-color: var(--accent-lavender);
+  box-shadow: 0 0 28px rgba(139, 92, 246, 0.3), inset 0 0 12px rgba(139, 92, 246, 0.15);
+}
+
+.about-brain-radial-wave {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1px dashed rgba(139, 92, 246, 0.3);
+  pointer-events: none;
+  animation: brainWavePulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes brainWavePulse {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 0.2; }
+  100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+.about-brain-callout-text {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-top: 0.65rem;
+}
+
+/* Radiating Loop Track */
+.about-brain-loop-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1.75rem;
+  padding: 1.25rem 0;
+  border-top: 1px dashed var(--border-color);
+  border-bottom: 1px dashed var(--border-color);
+  width: 100%;
+}
+
+.about-brain-node-btn {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-color);
+  border-radius: 9999px;
+  padding: 0.5rem 1.15rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.about-brain-node-btn:hover {
+  border-color: var(--accent-lavender);
+  color: var(--text-main);
+  background: var(--bg-subtle);
+  transform: translateY(-2px);
+}
+
+.about-brain-node-btn.active {
+  background: var(--accent-lavender);
+  color: #ffffff;
+  border-color: var(--accent-lavender);
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3);
+  transform: translateY(-2px);
+}
+
+.about-brain-arrow-symbol {
+  color: var(--text-light);
+  font-size: 1rem;
+  user-select: none;
+}
+
+/* Dossier for Active Thought */
+.about-brain-stage-dossier {
+  background: linear-gradient(135deg, var(--bg-subtle) 0%, rgba(245, 243, 255, 0.6) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.about-brain-stage-title-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-brain-step-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-lavender);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.about-brain-step-name {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.about-brain-stage-quote {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--text-main);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 520px;
+}
+
+/* ── 3. 🎒 BACKPACK — REVEAL MY INTERESTS ────────────────────────────── */
+.about-backpack-pavilion {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.75rem, 3.5vw, 3rem);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  position: relative;
+  text-align: center;
+}
+
+.about-backpack-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+/* The Backpack Object */
+.about-backpack-bag-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  position: relative;
+  z-index: 3;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-backpack-bag-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+.about-backpack-bag-art {
+  width: 240px;
+  background: linear-gradient(180deg, #f7f3ec 0%, #ede6db 100%);
+  border: 1.5px solid #d8cfc0;
+  border-radius: 20px 20px 14px 14px;
+  padding: 1.25rem;
+  box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  transition: all 0.35s ease;
+}
+
+.about-backpack-bag-art.is-open {
+  border-color: var(--primary);
+  box-shadow: 0 14px 32px -4px rgba(37, 99, 235, 0.16), 0 0 0 1px var(--primary-border);
+}
+
+.about-backpack-strap {
+  width: 60px;
+  height: 12px;
+  border: 2px solid #b5ab99;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  margin-top: -22px;
+  margin-bottom: 8px;
+  background: #f7f3ec;
+}
+
+.about-backpack-zipper-line {
+  width: 100%;
+  height: 2px;
+  background: #c5bba8;
+  margin-bottom: 0.85rem;
+  position: relative;
+}
+
+.about-backpack-pull-tab {
+  width: 14px;
+  height: 14px;
+  background: #d4a373;
+  border-radius: 50%;
+  border: 1px solid #b58351;
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: transform 0.3s ease;
+}
+
+.about-backpack-bag-art.is-open .about-backpack-pull-tab {
+  transform: translateX(30px);
+}
+
+.about-backpack-label-pill {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #4a4238;
+  background: #e4dbcb;
+  border: 1px solid #c4b9a6;
+  padding: 3px 12px;
+  border-radius: 4px;
+}
+
+.about-backpack-click-cue {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-top: 0.65rem;
+}
+
+/* Emerged Artifacts Container */
+.about-backpack-emerged-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-backpack-emerged-row.is-closed {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(30px) scale(0.9);
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+.about-backpack-emerged-row.is-open {
+  max-height: 400px;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.about-backpack-artifact-btn {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-backpack-artifact-btn:hover {
+  border-color: var(--primary);
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.12);
+}
+
+.about-backpack-artifact-btn.active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.18);
+  transform: translateY(-3px);
+}
+
+.about-backpack-artifact-emoji {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.about-backpack-artifact-info {
+  text-align: left;
+}
+
+.about-backpack-artifact-name {
+  font-family: var(--font-mono);
+  font-size: 0.78125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-main);
+  text-transform: uppercase;
+  display: block;
+}
+
+.about-backpack-artifact-sub {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  display: block;
+}
+
+/* Backpack Detail Reading Plaque */
+.about-backpack-discovery-plaque {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: left;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.about-backpack-plaque-emoji {
+  font-size: 2.75rem;
+  flex-shrink: 0;
+}
+
+.about-backpack-plaque-text h4 {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-main);
+  margin-bottom: 0.35rem;
+}
+
+.about-backpack-plaque-text p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── 4. 🧭 PERSONAL COMPASS — DYNAMIC NEEDLE ──────────────────────────── */
+.about-compass-pavilion {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.75rem, 3.5vw, 3rem);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.about-compass-dial-stage {
+  position: relative;
+  width: 290px;
+  height: 290px;
+  margin: 0 auto;
+  border: 1.5px dashed var(--border-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, #ffffff 40%, var(--bg-subtle) 100%);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.02);
+}
+
+.about-compass-inner-ring {
+  position: absolute;
+  inset: 26px;
+  border: 1px solid rgba(229, 224, 216, 0.85);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Rotating Needle Mechanism */
+.about-compass-needle-pivot {
+  position: absolute;
+  width: 8px;
+  height: 170px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 2;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.about-compass-needle-north {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 36px solid var(--primary);
+  filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.3));
+}
+
+.about-compass-needle-south {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 36px solid #cbd5e1;
+}
+
+.about-compass-me-hub {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+  z-index: 3;
+  letter-spacing: 0.05em;
+  user-select: none;
+}
+
+.about-compass-dir-btn {
+  position: absolute;
+  padding: 6px 15px;
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-color);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  z-index: 4;
+}
+
+.about-compass-dir-btn:hover,
+.about-compass-dir-btn.active {
+  background: var(--text-main);
+  color: #ffffff;
+  border-color: var(--text-main);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+}
+
+.about-compass-dir-btn.north { top: -14px; left: 50%; transform: translateX(-50%); }
+.about-compass-dir-btn.north:hover, .about-compass-dir-btn.north.active { transform: translateX(-50%) scale(1.08); }
+
+.about-compass-dir-btn.south { bottom: -14px; left: 50%; transform: translateX(-50%); }
+.about-compass-dir-btn.south:hover, .about-compass-dir-btn.south.active { transform: translateX(-50%) scale(1.08); }
+
+.about-compass-dir-btn.west { left: -14px; top: 50%; transform: translateY(-50%); }
+.about-compass-dir-btn.west:hover, .about-compass-dir-btn.west.active { transform: translateY(-50%) scale(1.08); }
+
+.about-compass-dir-btn.east { right: -14px; top: 50%; transform: translateY(-50%); }
+.about-compass-dir-btn.east:hover, .about-compass-dir-btn.east.active { transform: translateY(-50%) scale(1.08); }
+
+.about-compass-reading-dossier {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-compass-reading-dir-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--primary);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.about-compass-reading-title {
+  font-family: var(--font-serif);
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.65rem;
+}
+
+.about-compass-reading-desc {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── 5. YOU'VE SEEN MY RESUME ────────────────────────────────────────── */
+.about-resume-identity-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.75rem, 3.5vw, 3rem);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+.about-resume-words-showcase {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 1.75rem;
+}
+
+.about-resume-word-tile {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.25rem;
+  background: var(--bg-surface);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.about-resume-word-tile:hover,
+.about-resume-word-tile.active {
+  border-color: var(--primary);
+  background: linear-gradient(180deg, #ffffff 0%, var(--bg-subtle) 100%);
+  box-shadow: 0 12px 28px -6px rgba(37, 99, 235, 0.12);
+  transform: translateY(-4px);
+}
+
+.about-resume-word-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 3.8vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-main);
+  line-height: 1;
+  margin-bottom: 0.85rem;
+  transition: color 0.2s ease;
+}
+
+.about-resume-word-tile.active .about-resume-word-heading,
+.about-resume-word-tile:hover .about-resume-word-heading {
+  color: var(--primary);
+}
+
+.about-resume-word-reflection {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── 6. THINGS I'M CURIOUS ABOUT ─────────────────────────────────────── */
+.about-curious-questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.about-curious-question-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.about-curious-question-card:hover {
+  transform: translateX(6px);
+  border-color: var(--primary-border);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.07);
+}
+
+.about-curious-num {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.about-curious-prompt {
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+  color: var(--text-main);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* ── 7. CURRENTLY BECOMING ───────────────────────────────────────────── */
+.about-becoming-narrative-card {
+  background: linear-gradient(135deg, #ffffff 0%, var(--bg-subtle) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: clamp(2rem, 4vw, 3.5rem);
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.about-becoming-sequence-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+}
+
+.about-becoming-token {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.55rem 1.25rem;
+  border-radius: 9999px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.about-becoming-token:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+
+.about-becoming-token.highlight-learn {
+  background: var(--primary-light);
+  border-color: var(--primary-border);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.about-becoming-connector-arrow {
+  color: var(--text-light);
+  font-size: 0.875rem;
+  user-select: none;
+}
+
+.about-becoming-philosophical-line {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--text-muted);
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── 8. A FEW THINGS ABOUT ME ────────────────────────────────────────── */
+.about-few-things-ledger {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.about-few-things-entry {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem 2.25rem;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s ease, padding-left 0.2s ease;
+}
+
+.about-few-things-entry:last-child {
+  border-bottom: none;
+}
+
+.about-few-things-entry:hover {
+  background-color: var(--bg-subtle);
+  padding-left: 2.65rem;
+}
+
+.about-few-things-counter {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.about-few-things-statement {
+  font-size: 1.05rem;
+  color: var(--text-main);
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ── 9. MY JOURNEY SO FAR ─────────────────────────────────────────────── */
+.about-journey-chronicle-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.about-journey-vertical-path {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 2rem;
+  margin-left: 0.5rem;
+  border-left: 2px dashed var(--border-color);
+  gap: 2rem;
+}
+
+.about-journey-milestone-node {
+  position: relative;
+}
+
+.about-journey-pin-dot {
+  position: absolute;
+  left: -2rem;
+  top: 4px;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  border: 2.5px solid var(--primary);
+}
+
+.about-journey-milestone-year {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+
+.about-journey-milestone-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.about-journey-milestone-desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ── 10. ONE MOMENT I'M PROUD OF ──────────────────────────────────────── */
+.about-proud-moment-card {
+  background: linear-gradient(135deg, #ffffff 0%, rgba(254, 243, 199, 0.4) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.75rem, 3.5vw, 3rem);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.about-proud-moment-num-stat {
+  font-family: var(--font-mono);
+  font-size: clamp(3.75rem, 6.5vw, 5.5rem);
+  font-weight: 800;
+  color: var(--accent-amber);
+  line-height: 1;
+  opacity: 0.9;
+  user-select: none;
+}
+
+.about-proud-moment-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-proud-moment-header-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-amber);
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.about-proud-moment-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.25;
+  margin-bottom: 0.25rem;
+}
+
+.about-proud-moment-venue {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ── 11. BEYOND CODE ──────────────────────────────────────────────────── */
+.about-beyond-code-pavilion {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.75rem, 3.5vw, 3rem);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+.about-beyond-code-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.about-beyond-code-item {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.85rem 2.25rem;
+  background: var(--bg-surface);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.about-beyond-code-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary-border);
+  box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.08);
+}
+
+.about-beyond-code-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+  transition: color 0.2s ease;
+}
+
+.about-beyond-code-item:hover .about-beyond-code-headline {
+  color: var(--primary);
+}
+
+.about-beyond-code-subsentence {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── 12. FINAL SECTION ────────────────────────────────────────────────── */
+.about-final-closing-stage {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-xl);
+  background: linear-gradient(180deg, transparent 0%, var(--bg-subtle) 100%);
+  border-radius: var(--radius-xl);
+  border: 1px dashed var(--border-color);
+  margin-bottom: var(--space-3xl);
+}
+
+.about-final-triplet-text {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 4.5vw, 3.5rem);
+  font-weight: 500;
+  font-style: italic;
+  color: var(--text-main);
+  line-height: 1.25;
+  margin-bottom: var(--space-md);
+}
+
+.about-final-call-to-build {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-xl);
+}
+
+.about-final-socials-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.about-final-social-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-main);
+  padding: 0.5rem 1.15rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.about-final-social-pill:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+}
+
+/* ── 13. Responsive Media Queries ─────────────────────────────────────── */
+@media (max-width: 960px) {
+  .about-tools-cluster-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-compass-pavilion {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 680px) {
+  .about-tools-cluster-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-toolbox-chest {
+    width: 250px;
+  }
+
+  .about-resume-words-showcase,
+  .about-beyond-code-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-proud-moment-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .about-brain-loop-track {
+    justify-content: center;
+  }
+
+  .about-backpack-artifact-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-toolbox-chest.is-open .about-toolbox-lid,
+  .about-tools-emerged-area,
+  .about-interactive-tool-chip,
+  .about-brain-radial-wave,
+  .about-brain-node-btn,
+  .about-backpack-artifact-btn,
+  .about-compass-needle-pivot,
+  .about-compass-dir-btn,
+  .about-resume-word-tile,
+  .about-beyond-code-item {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
   }
 }

@@ -1,0 +1,1346 @@
+/* ==========================================================================
+   INTERACTIVE 3D MUSEUM EXPERIENCE — GALLERY & ACHIEVEMENTS
+   A curated architectural digital museum for Richa Sharma's credentials
+   ========================================================================== */
+
+:root {
+  --museum-ivory: #faf8f5;
+  --museum-cream: #f5f0e8;
+  --museum-wall: #f8f5ef;
+  --museum-wall-shadow: #e9e3d8;
+  --museum-stone: #ede6dc;
+  --museum-charcoal: #1c2229;
+  --museum-gold: #bfa15f;
+  --museum-gold-hover: #a88a48;
+  --museum-gold-light: #f9f6ee;
+  --museum-brass: #9b7e3e;
+  --museum-lavender: #8b85a3;
+  --museum-lavender-subtle: #f3f1f7;
+  --museum-dusty-blue: #54728c;
+  --museum-dusty-blue-subtle: #edf3f7;
+  --museum-wood-frame: #231d17;
+  --museum-mat: #fdfcf9;
+  --museum-terrazzo: #e8e3d8;
+  --museum-border: #e6dfd3;
+}
+
+/* Base Museum Container */
+.museum-experience-wrapper {
+  background-color: var(--museum-ivory);
+  color: var(--museum-charcoal);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: clip;
+  font-family: var(--font-sans);
+}
+
+/* Ambient Architectural Lighting & Atmosphere */
+.museum-ambient-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.museum-ambient-light-top {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1400px;
+  height: 600px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 250, 240, 0.95) 0%, rgba(245, 240, 230, 0.6) 45%, transparent 80%);
+  filter: blur(40px);
+}
+
+.museum-ambient-dust {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(1.5px 1.5px at 15% 25%, rgba(191, 161, 95, 0.35) 100%, transparent),
+    radial-gradient(2px 2px at 45% 65%, rgba(139, 133, 163, 0.3) 100%, transparent),
+    radial-gradient(1px 1px at 75% 35%, rgba(84, 114, 140, 0.35) 100%, transparent),
+    radial-gradient(2px 2px at 85% 80%, rgba(191, 161, 95, 0.25) 100%, transparent),
+    radial-gradient(1.5px 1.5px at 30% 90%, rgba(139, 133, 163, 0.2) 100%, transparent);
+  background-size: 800px 700px;
+  opacity: 0.7;
+  animation: museumDustFloat 40s linear infinite;
+}
+
+@keyframes museumDustFloat {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-30px) scale(1.02); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+/* ==========================================================================
+   MUSEUM HEAD-UP DISPLAY (HUD) & INTERACTIVE NAVIGATION WALKWAY
+   ========================================================================== */
+
+.museum-hud-bar {
+  position: sticky;
+  top: 72px;
+  z-index: 40;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(250, 248, 245, 0.88);
+  border-top: 1px solid rgba(230, 223, 211, 0.5);
+  border-bottom: 1px solid rgba(230, 223, 211, 0.8);
+  padding: 0.65rem 1.25rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px -5px rgba(28, 34, 41, 0.05);
+  transition: all 0.25s ease;
+}
+
+.museum-hud-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.museum-hud-telemetry {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.museum-compass-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 1px solid var(--museum-border);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--museum-charcoal);
+  letter-spacing: 0.04em;
+}
+
+.museum-compass-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--museum-gold);
+  animation: compassPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes compassPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.4; }
+}
+
+.museum-depth-meter {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.museum-depth-meter strong {
+  color: var(--museum-gold);
+}
+
+.museum-hud-rooms-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  overflow-x: auto;
+  padding: 2px 0;
+  max-width: 100%;
+}
+
+.museum-nav-link-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 0.28rem 0.65rem;
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.museum-nav-link-btn:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: var(--museum-border);
+  color: var(--museum-charcoal);
+}
+
+.museum-nav-link-btn.active {
+  background: var(--museum-charcoal);
+  color: #ffffff;
+  border-color: var(--museum-charcoal);
+  box-shadow: 0 2px 8px rgba(28, 34, 41, 0.15);
+}
+
+.museum-hud-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.museum-tool-btn {
+  background: #ffffff;
+  border: 1px solid var(--museum-border);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.museum-tool-btn:hover {
+  background: var(--museum-gold-light);
+  color: var(--museum-charcoal);
+  border-color: var(--museum-gold);
+}
+
+.museum-tool-btn.active {
+  background: var(--museum-gold-light);
+  border-color: var(--museum-gold);
+  color: var(--museum-brass);
+}
+
+/* ==========================================================================
+   1. GRAND ENTRANCE FOYER
+   ========================================================================== */
+
+.museum-foyer-section {
+  position: relative;
+  padding: 2rem 0 3.5rem;
+  text-align: center;
+}
+
+.museum-foyer-arch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.35rem 1rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(245, 240, 230, 0.85));
+  border: 1px solid var(--museum-border);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--museum-brass);
+  box-shadow: 0 2px 8px rgba(28, 34, 41, 0.04);
+  margin-bottom: 1.25rem;
+}
+
+.museum-foyer-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.35rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--museum-charcoal);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.museum-foyer-title span {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--museum-dusty-blue);
+}
+
+.museum-foyer-curator-statement {
+  max-width: 720px;
+  margin: 0 auto 2.25rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+}
+
+/* Museum Visitor Register / Provenance Metrics Pedestals */
+.museum-pedestals-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  max-width: 1080px;
+  margin: 0 auto 2.5rem;
+}
+
+.museum-pedestal-card {
+  background: linear-gradient(180deg, #ffffff 0%, #faf6f0 100%);
+  border: 1px solid var(--museum-border);
+  border-radius: var(--radius-md);
+  padding: 1.35rem 1.25rem;
+  text-align: left;
+  box-shadow: 0 6px 18px -4px rgba(28, 34, 41, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.museum-pedestal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -6px rgba(28, 34, 41, 0.09);
+  border-color: var(--museum-gold);
+}
+
+.museum-pedestal-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--museum-gold), transparent);
+  opacity: 0.6;
+}
+
+.museum-pedestal-num {
+  font-family: var(--font-serif);
+  font-size: 2.15rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--museum-charcoal);
+  margin-bottom: 0.35rem;
+}
+
+.museum-pedestal-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.museum-pedestal-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--museum-charcoal);
+  margin-bottom: 0.2rem;
+}
+
+.museum-pedestal-sub {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   2. THE GRAND 3D ROTUNDA (CURSOR-CONTROLLED PERSPECTIVE STAGE)
+   ========================================================================== */
+
+.museum-rotunda-section {
+  position: relative;
+  padding: 1.5rem 0 4.5rem;
+}
+
+.museum-rotunda-header {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.museum-rotunda-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--museum-brass);
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.museum-rotunda-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+  font-weight: 700;
+  color: var(--museum-charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.museum-rotunda-guidance {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* The 3D Viewing Theatre / Chamber */
+.museum-3d-theatre {
+  position: relative;
+  background: radial-gradient(circle at 50% 30%, #ffffff 0%, #f6f1e8 65%, #eae3d5 100%);
+  border: 1px solid var(--museum-border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 
+    0 25px 60px -15px rgba(28, 34, 41, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Architectural Crown Molding (Ceiling & Floor) */
+.museum-theatre-ceiling {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: linear-gradient(180deg, rgba(220, 212, 198, 0.7) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+}
+
+/* Moving Spotlight Beam on Wall */
+.museum-spotlight-beam {
+  position: absolute;
+  pointer-events: none;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.65) 0%, rgba(255, 250, 240, 0.35) 40%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
+/* Viewport Perspective Stage */
+.museum-perspective-stage {
+  perspective: 1200px;
+  perspective-origin: 50% 45%;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 1.5rem 0 3rem;
+}
+
+/* The spatial wall holding frames */
+.museum-spatial-wall {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 1.8vw, 1.75rem);
+  transform-style: preserve-3d;
+  width: 100%;
+  max-width: 1140px;
+  position: relative;
+  z-index: 2;
+  will-change: transform;
+}
+
+/* Individual 3D Artwork Frame */
+.museum-3d-frame-wrapper {
+  flex: 1;
+  max-width: 230px;
+  min-width: 175px;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter, box-shadow;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+}
+
+.museum-3d-frame-card {
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+  padding: 10px 10px 12px;
+  border: 1px solid rgba(220, 212, 198, 0.9);
+  box-shadow: 
+    0 12px 28px -6px rgba(28, 34, 41, 0.14),
+    0 2px 6px rgba(28, 34, 41, 0.06),
+    0 0 0 4px #faf7f2 inset;
+  position: relative;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+  transform-style: preserve-3d;
+}
+
+.museum-3d-frame-card.is-active-focus {
+  border-color: var(--museum-gold);
+  box-shadow: 
+    0 25px 50px -10px rgba(28, 34, 41, 0.25),
+    0 4px 12px rgba(28, 34, 41, 0.1),
+    0 0 0 4px #ffffff inset,
+    0 0 20px rgba(191, 161, 95, 0.22);
+}
+
+/* Frame Bevel & Mat Board */
+.museum-frame-mat {
+  background: var(--museum-mat);
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(210, 200, 185, 0.6);
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.museum-frame-img-box {
+  width: 100%;
+  height: 180px;
+  background: #ffffff;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.museum-frame-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.museum-frame-zoom-cue {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 34, 41, 0.65);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  gap: 0.35rem;
+}
+
+.museum-3d-frame-card:hover .museum-frame-zoom-cue,
+.museum-3d-frame-card:focus .museum-frame-zoom-cue {
+  opacity: 1;
+}
+
+/* Museum Brass Plaquette / Label */
+.museum-brass-placard {
+  margin-top: 10px;
+  background: linear-gradient(180deg, #fbf7ee 0%, #f0e6d2 100%);
+  border: 1px solid #d9cbaf;
+  border-radius: 4px;
+  padding: 6px 8px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  position: relative;
+}
+
+.museum-placard-number {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--museum-brass);
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.museum-placard-title {
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--museum-charcoal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25;
+}
+
+.museum-placard-meta {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+/* Floor Reflection & Parquet Terrazzo Base */
+.museum-floor-plane {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: linear-gradient(180deg, rgba(235, 227, 215, 0.2) 0%, rgba(220, 210, 195, 0.75) 100%);
+  border-top: 1px solid rgba(210, 200, 185, 0.6);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.museum-floor-reflection-glow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 40px;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
+  filter: blur(8px);
+}
+
+/* Rotunda Interactive Controls Footer */
+.museum-theatre-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--museum-border);
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: relative;
+  z-index: 3;
+}
+
+.museum-rotunda-legend {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.museum-rotunda-key-badge {
+  background: #ffffff;
+  border: 1px solid var(--museum-border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-weight: 600;
+  color: var(--museum-charcoal);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.museum-rotunda-selectors {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.museum-rotunda-chip {
+  background: #ffffff;
+  border: 1px solid var(--museum-border);
+  border-radius: 9999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.museum-rotunda-chip:hover {
+  border-color: var(--museum-gold);
+  color: var(--museum-charcoal);
+}
+
+.museum-rotunda-chip.active {
+  background: var(--museum-gold-light);
+  border-color: var(--museum-gold);
+  color: var(--museum-brass);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   3. CURATED EXHIBITION WINGS (WALKING DEEPER THROUGH THE MUSEUM)
+   ========================================================================== */
+
+.museum-curated-exhibitions {
+  position: relative;
+  padding: 3rem 0;
+}
+
+.museum-exhibition-wing {
+  position: relative;
+  margin-bottom: 4rem;
+  scroll-margin-top: 140px;
+}
+
+/* Room Header / Archway */
+.museum-wing-archway {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--museum-border);
+  padding-bottom: 0.85rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.museum-wing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--museum-brass);
+}
+
+.museum-wing-badge strong {
+  background: var(--museum-gold-light);
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid rgba(191, 161, 95, 0.25);
+}
+
+.museum-wing-curator-note {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-light);
+}
+
+/* Alcove Presentation Stage */
+.museum-alcove-stage {
+  background: linear-gradient(180deg, #ffffff 0%, #faf6ef 100%);
+  border: 1px solid var(--museum-border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 
+    0 15px 35px -10px rgba(28, 34, 41, 0.07),
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Directional Wall Downlight */
+.museum-alcove-downlight {
+  position: absolute;
+  top: 0;
+  left: 30%;
+  width: 40%;
+  height: 120px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 250, 235, 0.85) 0%, transparent 80%);
+  pointer-events: none;
+}
+
+.museum-alcove-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 2.25rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Framed Artwork Display */
+.museum-alcove-frame-case {
+  background: #ffffff;
+  border: 1px solid rgba(220, 212, 198, 0.9);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: 
+    0 16px 36px -8px rgba(28, 34, 41, 0.12),
+    0 2px 6px rgba(28, 34, 41, 0.04),
+    0 0 0 5px #faf6f0 inset;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.museum-alcove-frame-case:hover {
+  transform: translateY(-4px) scale(1.012);
+  box-shadow: 
+    0 24px 48px -10px rgba(28, 34, 41, 0.16),
+    0 4px 12px rgba(28, 34, 41, 0.06);
+}
+
+.museum-frame-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.museum-frame-corner.tl { top: 6px; left: 6px; border-top: 2px solid var(--museum-gold); border-left: 2px solid var(--museum-gold); }
+.museum-frame-corner.tr { top: 6px; right: 6px; border-top: 2px solid var(--museum-gold); border-right: 2px solid var(--museum-gold); }
+.museum-frame-corner.bl { bottom: 6px; left: 6px; border-bottom: 2px solid var(--museum-gold); border-left: 2px solid var(--museum-gold); }
+.museum-frame-corner.br { bottom: 6px; right: 6px; border-bottom: 2px solid var(--museum-gold); border-right: 2px solid var(--museum-gold); }
+
+.museum-alcove-mat {
+  background: var(--museum-mat);
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(215, 205, 190, 0.5);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.museum-alcove-img-wrapper {
+  background: #ffffff;
+  border-radius: 2px;
+  overflow: hidden;
+  max-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.museum-alcove-img {
+  width: 100%;
+  height: auto;
+  max-height: 380px;
+  object-fit: contain;
+  display: block;
+}
+
+.museum-alcove-zoom-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(28, 34, 41, 0.88);
+  color: #ffffff;
+  backdrop-filter: blur(6px);
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  letter-spacing: 0.03em;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.museum-alcove-frame-case:hover .museum-alcove-zoom-badge {
+  background: var(--museum-gold);
+  color: var(--museum-charcoal);
+  font-weight: 600;
+  transform: translateY(-2px);
+}
+
+/* Dossier & Curatorial Analysis */
+.museum-alcove-dossier {
+  display: flex;
+  flex-direction: column;
+}
+
+.museum-dossier-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.museum-dossier-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 700;
+  color: var(--museum-charcoal);
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.museum-dossier-highlight {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--museum-charcoal);
+  background: var(--museum-gold-light);
+  border: 1px solid rgba(191, 161, 95, 0.35);
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  width: fit-content;
+}
+
+.museum-dossier-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.15rem;
+  font-size: 0.82rem;
+}
+
+.museum-dossier-table tr {
+  border-bottom: 1px solid var(--museum-border);
+}
+
+.museum-dossier-table tr:last-child {
+  border-bottom: none;
+}
+
+.museum-dossier-table td {
+  padding: 0.45rem 0;
+  vertical-align: top;
+}
+
+.museum-dossier-table td:first-child {
+  color: var(--text-light);
+  font-family: var(--font-mono);
+  width: 36%;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.museum-dossier-table td:last-child {
+  color: var(--museum-charcoal);
+  font-weight: 500;
+}
+
+.museum-dossier-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1.35rem;
+}
+
+.museum-dossier-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Wing III Multi-Artwork Salon (Side by Side) */
+.museum-salon-dual-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+  margin-top: 1rem;
+}
+
+.museum-dual-card {
+  background: #ffffff;
+  border: 1px solid var(--museum-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 24px -4px rgba(28, 34, 41, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.museum-dual-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--museum-gold);
+  box-shadow: 0 16px 32px -6px rgba(28, 34, 41, 0.1);
+}
+
+.museum-dual-img-box {
+  height: 200px;
+  background: #ffffff;
+  border: 1px solid rgba(220, 212, 198, 0.6);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.museum-dual-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.museum-dual-card:hover .museum-dual-img {
+  transform: scale(1.025);
+}
+
+/* ==========================================================================
+   4. THE CURATOR'S PROVENANCE VAULT & COMPLETE ARCHIVE WALL
+   ========================================================================== */
+
+.museum-vault-section {
+  position: relative;
+  padding: 3rem 0 5rem;
+  border-top: 1px solid var(--museum-border);
+}
+
+.museum-vault-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.museum-vault-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--museum-brass);
+  margin-bottom: 0.35rem;
+}
+
+.museum-vault-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  color: var(--museum-charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.museum-vault-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Filter Bar */
+.museum-filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2.25rem;
+}
+
+.museum-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border: 1px solid var(--museum-border);
+  background: #ffffff;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.museum-filter-btn:hover {
+  background: var(--museum-gold-light);
+  color: var(--museum-charcoal);
+  border-color: var(--museum-gold);
+}
+
+.museum-filter-btn.active {
+  background: var(--museum-charcoal);
+  color: #ffffff;
+  border-color: var(--museum-charcoal);
+  box-shadow: 0 2px 8px rgba(28, 34, 41, 0.15);
+}
+
+.museum-filter-count {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.08);
+  font-weight: 600;
+}
+
+.museum-filter-btn.active .museum-filter-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+/* Vault Archive Grid */
+.museum-vault-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.75rem;
+  margin-bottom: 3.5rem;
+}
+
+.museum-vault-card {
+  background: #ffffff;
+  border: 1px solid var(--museum-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  box-shadow: 0 4px 14px -2px rgba(28, 34, 41, 0.04);
+  position: relative;
+}
+
+.museum-vault-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--museum-gold);
+  box-shadow: 0 16px 32px -6px rgba(28, 34, 41, 0.1);
+}
+
+.museum-vault-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.museum-vault-index {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--museum-brass);
+  text-transform: uppercase;
+}
+
+.museum-vault-stage-jump {
+  background: transparent;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--museum-dusty-blue);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.museum-vault-stage-jump:hover {
+  background: var(--museum-dusty-blue-subtle);
+  color: var(--museum-charcoal);
+}
+
+.museum-vault-preview {
+  height: 200px;
+  background-color: #ffffff;
+  border: 1px solid rgba(220, 212, 198, 0.7);
+  border-radius: var(--radius-sm);
+  margin-bottom: 1rem;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.02);
+}
+
+.museum-vault-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.35s ease;
+}
+
+.museum-vault-card:hover .museum-vault-img {
+  transform: scale(1.03);
+}
+
+.museum-vault-view-tag {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background-color: rgba(28, 34, 41, 0.85);
+  color: #ffffff;
+  font-size: 0.6875rem;
+  font-family: var(--font-mono);
+  padding: 3px 9px;
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  letter-spacing: 0.03em;
+  transition: background 0.2s ease;
+}
+
+.museum-vault-preview:hover .museum-vault-view-tag {
+  background-color: var(--museum-gold);
+  color: var(--museum-charcoal);
+  font-weight: 600;
+}
+
+.museum-vault-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.museum-vault-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--museum-charcoal);
+  line-height: 1.35;
+  margin-bottom: 0.35rem;
+}
+
+.museum-vault-issuer {
+  font-size: 0.8125rem;
+  color: var(--text-light);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.museum-vault-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+  margin-top: auto;
+}
+
+.museum-vault-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Institutional Guarantee Banner */
+.museum-guarantee-banner {
+  background: linear-gradient(135deg, #ffffff 0%, #faf6ef 100%);
+  border: 1px solid var(--museum-border);
+  border-radius: var(--radius-lg);
+  padding: 1.85rem 2.25rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.75rem;
+  box-shadow: 0 8px 24px -4px rgba(28, 34, 41, 0.05);
+}
+
+.museum-guarantee-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background-color: var(--museum-gold-light);
+  border: 1px solid rgba(191, 161, 95, 0.35);
+  color: var(--museum-brass);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.museum-guarantee-text h4 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--museum-charcoal);
+  margin-bottom: 0.35rem;
+}
+
+.museum-guarantee-text p {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* ==========================================================================
+   5. RESPONSIVE DESIGN & ACCESSIBILITY (PREFERS-REDUCED-MOTION)
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .museum-pedestals-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .museum-alcove-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+  .museum-spatial-wall {
+    flex-wrap: wrap;
+  }
+  .museum-3d-frame-wrapper {
+    max-width: 280px;
+    min-width: 220px;
+  }
+  .museum-guarantee-banner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1.25rem;
+  }
+  .museum-guarantee-icon-wrap {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .museum-hud-bar {
+    top: 60px;
+    padding: 0.5rem 1rem;
+  }
+  .museum-salon-dual-grid {
+    grid-template-columns: 1fr;
+  }
+  .museum-pedestals-row {
+    grid-template-columns: 1fr;
+  }
+  .museum-perspective-stage {
+    min-height: auto;
+    perspective: none;
+  }
+  .museum-spatial-wall {
+    transform: none !important;
+  }
+  .museum-3d-frame-wrapper {
+    transform: none !important;
+    max-width: 100%;
+    width: 100%;
+  }
+  .museum-spotlight-beam {
+    display: none;
+  }
+  .museum-floor-plane {
+    display: none;
+  }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .museum-ambient-dust {
+    animation: none;
+  }
+  .museum-perspective-stage {
+    perspective: none;
+  }
+  .museum-spatial-wall,
+  .museum-3d-frame-wrapper {
+    transform: none !important;
+    transition: none !important;
+  }
+  .museum-spotlight-beam {
+    display: none;
+  }
+}
